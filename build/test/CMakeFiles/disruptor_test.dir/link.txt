@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -g -Wall -g  -rdynamic CMakeFiles/disruptor_test.dir/main.cc.o CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o  -o ../../bin/disruptor_test -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -Wl,-Bstatic -lgtest -Wl,-Bdynamic -lpthread 

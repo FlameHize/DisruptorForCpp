@@ -1,0 +1,3 @@
+run_buffer_test 0 0
+---
+run_buffer_test

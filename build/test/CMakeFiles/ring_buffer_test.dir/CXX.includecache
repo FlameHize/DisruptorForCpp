@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/ring_buffer.h
+array
+-
+utils.h
+-
+
+../include/utils.h
+
+/home/zgx/project/DisruptorForCpp/test/ring_buffer_test.cc
+gtest/gtest.h
+-
+ring_buffer.h
+/home/zgx/project/DisruptorForCpp/test/ring_buffer.h
+

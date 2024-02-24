@@ -1,0 +1,19 @@
+Start testing: Feb 23 20:38 CST
+----------------------------------------------------------
+Unable to find executable: run_buffer_test
+1/1 Testing: run_buffer_test
+1/1 Test: run_buffer_test
+Command: ""
+Directory: /home/zgx/project/DisruptorForCpp/build/test
+"run_buffer_test" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"run_buffer_test" end time: Feb 23 20:38 CST
+"run_buffer_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Feb 23 20:38 CST
