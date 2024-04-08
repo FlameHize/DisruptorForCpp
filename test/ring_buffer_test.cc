@@ -37,21 +37,17 @@ class RingBufferTest : public testing::Test
 public:
     static constexpr int kTestRingBufferSize = 8;
     
-    RingBufferTest() : ring_buffer(initArray()) {}
-
-    std::array<int,kTestRingBufferSize> initArray() {
-        std::array<int,kTestRingBufferSize> temp;
+    RingBufferTest() : ring_buffer(kTestRingBufferSize) {
         for(size_t i = 0; i < kTestRingBufferSize; ++i) {
-            temp[i] = index(i);
+            ring_buffer[i] = index(i);
         }
-        return temp;
     }
 
     size_t index(const size_t index) { 
         return index + 1;
     }
 
-    RingBuffer<int,kTestRingBufferSize> ring_buffer;
+    RingBuffer<int> ring_buffer;
 };
 
 TEST_F(RingBufferTest,RingBufferIndexCalculate)

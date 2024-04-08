@@ -6,3 +6,5 @@
 /home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/rebuild_cache.dir
 /home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir
 /home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/edit_cache.dir
+/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/rebuild_cache.dir
+/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/edit_cache.dir

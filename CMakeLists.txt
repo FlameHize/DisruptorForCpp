@@ -12,3 +12,7 @@ include_directories(${PROJECT_SOURCE_DIR}/test)
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(benchmark)
+
+#target_link_directories 为特定的目标添加连接的目录
+#target_include_directories 为特定的目标添加头文件路径(用于工程项目内搜索)

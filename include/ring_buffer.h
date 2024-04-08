@@ -34,18 +34,22 @@ constexpr size_t kDefaultRingBufferSize = 1024;
 
 /**
  * @brief RingBuffer implemented with a fixed array
- * @param <T> event type
- * @param <N> size of the ring buffer
+ * @param T EventType
  */
-template <typename T, size_t N = kDefaultRingBufferSize>
+template <typename T>
 class RingBuffer
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(RingBuffer);
-    static_assert(((N > 0) && ((N & (~N + 1)) == N)),
-                    "RingBuffer's size must be a positive power of 2");
-
 public:
-    explicit RingBuffer(const std::array<T, N> &events) : _events(events) {}
+    explicit RingBuffer(int64_t size) : _size(size), _events(new T[size]) {
+        // assert(((size > 0) && ((size & (~size + 1)) == size)),
+        //             "RingBuffer's size must be a positive power of 2");
+    }
+
+    ~RingBuffer() {
+        delete []_events;
+        _events = nullptr;
+    }
 
     /**
      * @brief Get the event for a given sequence in the RingBuffer
@@ -53,15 +57,16 @@ public:
      * @return event referenced at the specified sequence position
      */
     T& operator[](const int64_t& sequence) { 
-        return _events[sequence & (N - 1)]; 
+        return _events[sequence & (_size - 1)]; 
     }
 
     const T& operator[](const int64_t& sequence) const { 
-        return _events[sequence & (N - 1)]; 
+        return _events[sequence & (_size - 1)]; 
     }
 
 private:
-    std::array<T, N> _events;
+    int64_t _size;
+    T* _events;
 };
 
 }

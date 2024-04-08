@@ -125,6 +125,33 @@ disruptor_test/fast:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/build
 .PHONY : disruptor_test/fast
 
+claim_strategy_test.o: claim_strategy_test.cc.o
+
+.PHONY : claim_strategy_test.o
+
+# target to build an object file
+claim_strategy_test.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o
+.PHONY : claim_strategy_test.cc.o
+
+claim_strategy_test.i: claim_strategy_test.cc.i
+
+.PHONY : claim_strategy_test.i
+
+# target to preprocess a source file
+claim_strategy_test.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.i
+.PHONY : claim_strategy_test.cc.i
+
+claim_strategy_test.s: claim_strategy_test.cc.s
+
+.PHONY : claim_strategy_test.s
+
+# target to generate assembly for a file
+claim_strategy_test.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.s
+.PHONY : claim_strategy_test.cc.s
+
 main.o: main.cc.o
 
 .PHONY : main.o
@@ -179,6 +206,114 @@ ring_buffer_test.cc.s:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.s
 .PHONY : ring_buffer_test.cc.s
 
+sequence_barrier_test.o: sequence_barrier_test.cc.o
+
+.PHONY : sequence_barrier_test.o
+
+# target to build an object file
+sequence_barrier_test.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o
+.PHONY : sequence_barrier_test.cc.o
+
+sequence_barrier_test.i: sequence_barrier_test.cc.i
+
+.PHONY : sequence_barrier_test.i
+
+# target to preprocess a source file
+sequence_barrier_test.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.i
+.PHONY : sequence_barrier_test.cc.i
+
+sequence_barrier_test.s: sequence_barrier_test.cc.s
+
+.PHONY : sequence_barrier_test.s
+
+# target to generate assembly for a file
+sequence_barrier_test.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.s
+.PHONY : sequence_barrier_test.cc.s
+
+sequence_test.o: sequence_test.cc.o
+
+.PHONY : sequence_test.o
+
+# target to build an object file
+sequence_test.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o
+.PHONY : sequence_test.cc.o
+
+sequence_test.i: sequence_test.cc.i
+
+.PHONY : sequence_test.i
+
+# target to preprocess a source file
+sequence_test.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_test.cc.i
+.PHONY : sequence_test.cc.i
+
+sequence_test.s: sequence_test.cc.s
+
+.PHONY : sequence_test.s
+
+# target to generate assembly for a file
+sequence_test.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_test.cc.s
+.PHONY : sequence_test.cc.s
+
+sequencer_test.o: sequencer_test.cc.o
+
+.PHONY : sequencer_test.o
+
+# target to build an object file
+sequencer_test.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o
+.PHONY : sequencer_test.cc.o
+
+sequencer_test.i: sequencer_test.cc.i
+
+.PHONY : sequencer_test.i
+
+# target to preprocess a source file
+sequencer_test.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.i
+.PHONY : sequencer_test.cc.i
+
+sequencer_test.s: sequencer_test.cc.s
+
+.PHONY : sequencer_test.s
+
+# target to generate assembly for a file
+sequencer_test.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.s
+.PHONY : sequencer_test.cc.s
+
+wait_strategy_test.o: wait_strategy_test.cc.o
+
+.PHONY : wait_strategy_test.o
+
+# target to build an object file
+wait_strategy_test.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.o
+.PHONY : wait_strategy_test.cc.o
+
+wait_strategy_test.i: wait_strategy_test.cc.i
+
+.PHONY : wait_strategy_test.i
+
+# target to preprocess a source file
+wait_strategy_test.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.i
+.PHONY : wait_strategy_test.cc.i
+
+wait_strategy_test.s: wait_strategy_test.cc.s
+
+.PHONY : wait_strategy_test.s
+
+# target to generate assembly for a file
+wait_strategy_test.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.s
+.PHONY : wait_strategy_test.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -188,12 +323,27 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... disruptor_test"
 	@echo "... edit_cache"
+	@echo "... claim_strategy_test.o"
+	@echo "... claim_strategy_test.i"
+	@echo "... claim_strategy_test.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... ring_buffer_test.o"
 	@echo "... ring_buffer_test.i"
 	@echo "... ring_buffer_test.s"
+	@echo "... sequence_barrier_test.o"
+	@echo "... sequence_barrier_test.i"
+	@echo "... sequence_barrier_test.s"
+	@echo "... sequence_test.o"
+	@echo "... sequence_test.i"
+	@echo "... sequence_test.s"
+	@echo "... sequencer_test.o"
+	@echo "... sequencer_test.i"
+	@echo "... sequencer_test.s"
+	@echo "... wait_strategy_test.o"
+	@echo "... wait_strategy_test.i"
+	@echo "... wait_strategy_test.s"
 .PHONY : help
 
 
