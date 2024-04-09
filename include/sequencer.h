@@ -38,16 +38,19 @@ namespace disruptor {
  *      int64_t sequence = Next();
  *      Sequencer[sequence].value = user_setting_value;
  *      Publish();
- * @todo 不从模板暴露过多参数 仅暴露T Sequencer参数 N C W
 */
-template<typename T,size_t N = kDefaultRingBufferSize,
-         typename C = kDefaultClaimStrategy,typename W = kDefaultWaitStrategy>
+template<typename T>
 class Sequencer
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(Sequencer);
 public:
     // Construct a Sequencer with the selected strategies
-    explicit Sequencer() : _ring_buffer(N) {}
+    explicit Sequencer(int64_t buffer_size = kDefaultRingBufferSize,
+                       ClaimStrategyOption claim_option = kSingleThreadClaimStrategy,
+                       WaitStrategyOption wait_option = kBusySpinStrategy) 
+        : _ring_buffer(buffer_size),
+          _claim_strategy(CreateClaimStrategy(claim_option,buffer_size)),
+          _wait_strategy(CreateWaitStrategy(wait_option)) {}
 
     // Set the sequences(consumers) that will gate publishers to prevent
     // the ring buffer wrapping
@@ -61,18 +64,18 @@ public:
     }
 
     // Create a barrier that gates on the cursor and a list of Sequences
-    ConsumerBarrier<W>* NewBarrier(const std::vector<Sequence*>& dependents) {
-        return new ConsumerBarrier<W>(_cursor,dependents);
+    ConsumerBarrier* NewBarrier(const std::vector<Sequence*>& dependents) {
+        return new ConsumerBarrier(_cursor,dependents,_wait_strategy);
     }
 
     bool HasAvailableCapacity() {
-        return _claim_strategy.HasAvailableCapacity(_gating_sequences);
+        return _claim_strategy->HasAvailableCapacity(_gating_sequences);
     }
 
     // Claim the next batch of sequence number for publishing
     // return the next available sequence
     int64_t Next(size_t delta = 1) {
-        return _claim_strategy.IncrementAndGet(_gating_sequences,delta);
+        return _claim_strategy->IncrementAndGet(_gating_sequences,delta);
     }
 
     /// @brief Used for producer to publish events
@@ -80,23 +83,23 @@ public:
     /// @param delta num of events to be published
     void Publish(const int64_t& sequence,size_t delta = 1) {
         // guard for mutli producer publish at the same time
-        _claim_strategy.SynchronizePublishing(sequence,_cursor,delta);
+        _claim_strategy->SynchronizePublishing(sequence,_cursor,delta);
         // update cursor and signal comsumers
         _cursor.IncrementAndGet(delta);
         // notify the consumers to obtain new event
-        _wait_strategy.SignalAllWhenBlocking();
+        _wait_strategy->SignalAllWhenBlocking();
     }
 
-    // Get value
-    T& operator[](const int64_t& sequence) {
+    // Get value use operator[]
+    T* operator[](const int64_t& sequence) {
         return _ring_buffer[sequence];
     }
 
 private:
     RingBuffer<T> _ring_buffer;
     Sequence _cursor;
-    C _claim_strategy;
-    W _wait_strategy;
+    ClaimStrategy* _claim_strategy;
+    WaitStrategy* _wait_strategy;
 
     /**
      * @note

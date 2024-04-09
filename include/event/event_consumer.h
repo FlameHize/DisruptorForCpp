@@ -31,13 +31,13 @@
 
 namespace disruptor {
 
-template<typename T,typename W>
+template<typename T>
 class EventConsumer : public EventProcessor<T>
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(EventConsumer);
 public:
     explicit EventConsumer(Sequencer<T>* sequencer,
-                           ConsumerBarrier<W>* consumer_barrier,
+                           ConsumerBarrier* consumer_barrier,
                            EventHandler<T>* event_handler)
         : _running(false),
           _sequencer(sequencer),
@@ -56,12 +56,11 @@ public:
         _consumer_barrier->SetAlerted(false);
         _event_handler->OnStart();
         
-        // T* event = nullptr;
         int64_t next_sequence = _sequence.IncrementAndGet(1L);
         while(true) {
             int64_t available_sequence = _consumer_barrier->WaitFor(next_sequence);
             while(next_sequence <= available_sequence) {
-                T& event = _sequencer[next_sequence];
+                T* event = (*_sequencer)[next_sequence];
                 _event_handler->OnEvent(next_sequence,event);
                 ++next_sequence;
             }
@@ -86,7 +85,7 @@ private:
     std::atomic<bool> _running;
     Sequence _sequence;
     Sequencer<T>* _sequencer;
-    ConsumerBarrier<W>* _consumer_barrier;
+    ConsumerBarrier* _consumer_barrier;
     EventHandler<T>* _event_handler;
 };
 

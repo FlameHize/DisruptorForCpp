@@ -37,7 +37,7 @@ namespace test {
 class SequencerTest : public testing::Test
 {
 public:
-    SequencerTest() : sequencer() {
+    SequencerTest() : sequencer(RING_BUFFER_SIZE,kSingleThreadClaimStrategy,kBusySpinStrategy) {
             std::vector<Sequence*> sequences;
             sequences.push_back(&gating_sequence);
             sequencer.SetGatingSequences(sequences);
@@ -50,9 +50,7 @@ public:
         }
     }
 
-    std::array<int64_t,RING_BUFFER_SIZE> events;
-    Sequencer<int64_t,RING_BUFFER_SIZE,
-        SingleThreadStrategy<RING_BUFFER_SIZE>,kDefaultWaitStrategy> sequencer;
+    Sequencer<int64_t> sequencer;
     Sequence gating_sequence;
 };
 
@@ -65,8 +63,8 @@ TEST_F(SequencerTest,UseOperatorGetSequencerValue)
 {
     int64_t sequence = sequencer.Next();
     sequencer.Publish(sequence);
-    sequencer[sequence] = kInitialCursorValue;
-    EXPECT_EQ(sequencer[sequence],kInitialCursorValue);
+    *sequencer[sequence] = kInitialCursorValue;
+    EXPECT_EQ(*sequencer[sequence],kInitialCursorValue);
 }
 
 TEST_F(SequencerTest,GetFirstPublishSequence)
@@ -98,7 +96,7 @@ TEST_F(SequencerTest,PublishSequenceBatch)
 TEST_F(SequencerTest,WaitOnSequence)
 {
     std::vector<Sequence*> dependents;
-    ConsumerBarrier<kDefaultWaitStrategy>* barrier = sequencer.NewBarrier(dependents);
+    ConsumerBarrier* barrier = sequencer.NewBarrier(dependents);
     const int64_t sequence = sequencer.Next();
     sequencer.Publish(sequence);
     EXPECT_EQ(barrier->WaitFor(sequence),sequence);
@@ -108,7 +106,7 @@ TEST_F(SequencerTest,WaitOnBatchSequence)
 {
     // Batch read
     std::vector<Sequence*> dependents;
-    ConsumerBarrier<kDefaultWaitStrategy>* barrier = sequencer.NewBarrier(dependents);
+    ConsumerBarrier* barrier = sequencer.NewBarrier(dependents);
     sequencer.Publish(sequencer.Next());
     sequencer.Publish(sequencer.Next());
     const int64_t sequence = sequencer.Next();
@@ -119,7 +117,7 @@ TEST_F(SequencerTest,WaitOnBatchSequence)
 TEST_F(SequencerTest,SignalWaitingSequencesWhenPublish)
 {
     std::vector<Sequence*> dependents;
-    ConsumerBarrier<kDefaultWaitStrategy>* barrier = sequencer.NewBarrier(dependents);
+    ConsumerBarrier* barrier = sequencer.NewBarrier(dependents);
 
     std::atomic<bool> waiting(true);
     std::atomic<bool> completed(false);

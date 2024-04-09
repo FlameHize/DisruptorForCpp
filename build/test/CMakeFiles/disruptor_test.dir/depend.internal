@@ -7,18 +7,18 @@ test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o
  ../include/sequence.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/test/claim_strategy_test.cc
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o
+ ../include/consumer_barrier.h
+ ../include/sequence.h
+ ../include/utils.h
+ ../include/wait_strategy.h
+ /home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc
 test/CMakeFiles/disruptor_test.dir/main.cc.o
  /home/zgx/project/DisruptorForCpp/test/main.cc
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o
  ../include/ring_buffer.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/test/ring_buffer_test.cc
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o
- ../include/consumer_barrier.h
- ../include/sequence.h
- ../include/utils.h
- ../include/wait_strategy.h
- /home/zgx/project/DisruptorForCpp/test/sequence_barrier_test.cc
 test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o
  ../include/sequence.h
  ../include/utils.h

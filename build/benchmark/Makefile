@@ -110,6 +110,48 @@ depend:
 	cd /home/zgx/project/DisruptorForCpp/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule
+.PHONY : benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule
+
+# Convenience name for target.
+one_publisher_to_one_consumer: benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule
+
+.PHONY : one_publisher_to_one_consumer
+
+# fast build rule for target.
+one_publisher_to_one_consumer/fast:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build
+.PHONY : one_publisher_to_one_consumer/fast
+
+one_publisher_to_one_consumer.o: one_publisher_to_one_consumer.cc.o
+
+.PHONY : one_publisher_to_one_consumer.o
+
+# target to build an object file
+one_publisher_to_one_consumer.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o
+.PHONY : one_publisher_to_one_consumer.cc.o
+
+one_publisher_to_one_consumer.i: one_publisher_to_one_consumer.cc.i
+
+.PHONY : one_publisher_to_one_consumer.i
+
+# target to preprocess a source file
+one_publisher_to_one_consumer.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.i
+.PHONY : one_publisher_to_one_consumer.cc.i
+
+one_publisher_to_one_consumer.s: one_publisher_to_one_consumer.cc.s
+
+.PHONY : one_publisher_to_one_consumer.s
+
+# target to generate assembly for a file
+one_publisher_to_one_consumer.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.s
+.PHONY : one_publisher_to_one_consumer.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -117,7 +159,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
+	@echo "... one_publisher_to_one_consumer"
 	@echo "... edit_cache"
+	@echo "... one_publisher_to_one_consumer.o"
+	@echo "... one_publisher_to_one_consumer.i"
+	@echo "... one_publisher_to_one_consumer.s"
 .PHONY : help
 
 

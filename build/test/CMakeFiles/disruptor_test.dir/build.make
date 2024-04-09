@@ -81,9 +81,33 @@ test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o.provides: test/CMake
 test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o.provides.build: test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o
 
 
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: test/CMakeFiles/disruptor_test.dir/flags.make
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../test/consumer_barrier_test.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o"
+	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o -c /home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc
+
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.i"
+	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc > CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.i
+
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.s"
+	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc -o CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.s
+
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.requires:
+
+.PHONY : test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.requires
+
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.provides: test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.requires
+	$(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.provides.build
+.PHONY : test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.provides
+
+test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.provides.build: test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o
+
+
 test/CMakeFiles/disruptor_test.dir/main.cc.o: test/CMakeFiles/disruptor_test.dir/flags.make
 test/CMakeFiles/disruptor_test.dir/main.cc.o: ../test/main.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object test/CMakeFiles/disruptor_test.dir/main.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object test/CMakeFiles/disruptor_test.dir/main.cc.o"
 	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor_test.dir/main.cc.o -c /home/zgx/project/DisruptorForCpp/test/main.cc
 
 test/CMakeFiles/disruptor_test.dir/main.cc.i: cmake_force
@@ -107,7 +131,7 @@ test/CMakeFiles/disruptor_test.dir/main.cc.o.provides.build: test/CMakeFiles/dis
 
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: test/CMakeFiles/disruptor_test.dir/flags.make
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../test/ring_buffer_test.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o"
 	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o -c /home/zgx/project/DisruptorForCpp/test/ring_buffer_test.cc
 
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.i: cmake_force
@@ -127,30 +151,6 @@ test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o.provides: test/CMakeFil
 .PHONY : test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o.provides
 
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o.provides.build: test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o
-
-
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: test/CMakeFiles/disruptor_test.dir/flags.make
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../test/sequence_barrier_test.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o"
-	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o -c /home/zgx/project/DisruptorForCpp/test/sequence_barrier_test.cc
-
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.i"
-	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/test/sequence_barrier_test.cc > CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.i
-
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.s"
-	cd /home/zgx/project/DisruptorForCpp/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/test/sequence_barrier_test.cc -o CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.s
-
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.requires:
-
-.PHONY : test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.requires
-
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.provides: test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.requires
-	$(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.provides.build
-.PHONY : test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.provides
-
-test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.provides.build: test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o
 
 
 test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o: test/CMakeFiles/disruptor_test.dir/flags.make
@@ -228,9 +228,9 @@ test/CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.o.provides.build: test/
 # Object files for target disruptor_test
 disruptor_test_OBJECTS = \
 "CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o" \
+"CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o" \
 "CMakeFiles/disruptor_test.dir/main.cc.o" \
 "CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o" \
-"CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o" \
 "CMakeFiles/disruptor_test.dir/sequence_test.cc.o" \
 "CMakeFiles/disruptor_test.dir/sequencer_test.cc.o" \
 "CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.o"
@@ -239,9 +239,9 @@ disruptor_test_OBJECTS = \
 disruptor_test_EXTERNAL_OBJECTS =
 
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o
+../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/main.cc.o
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o
-../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.o
@@ -258,9 +258,9 @@ test/CMakeFiles/disruptor_test.dir/build: ../bin/disruptor_test
 .PHONY : test/CMakeFiles/disruptor_test.dir/build
 
 test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o.requires
+test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o.requires
 test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/main.cc.o.requires
 test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o.requires
-test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o.requires
 test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o.requires
 test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o.requires
 test/CMakeFiles/disruptor_test.dir/requires: test/CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.o.requires

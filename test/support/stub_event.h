@@ -29,7 +29,7 @@
 #include "event/event_interface.h"
 
 namespace disruptor {
-namespace benchmark {
+namespace test {
 
 class StubEvent {
 public:
@@ -47,17 +47,10 @@ private:
     int64_t _value;
 };
 
-class StubEventFactory : public EventFactory<StubEvent> {
-public:
-    virtual StubEvent* NewInstance(const int64_t& size) const override {
-        return new StubEvent[size];
-    }
-};
-
 class StubEventHandler : public EventHandler<StubEvent> {
 public:
-    virtual void OnEvent(const int64_t& sequence,StubEvent& event) override {
-        const int64_t sequence = event.GetValue();
+    virtual void OnEvent(const int64_t& sequence,StubEvent* event) override {
+        int64_t seq = event->GetValue();
     }
     virtual void OnStart() override {
         // empty temp
@@ -70,8 +63,8 @@ public:
 
 class StubEventTranslator : public EventTranslator<StubEvent> {
 public:
-    virtual StubEvent& TranslateTo(const int64_t& sequence,StubEvent& event) override {
-        event.SetValue(sequence);
+    virtual StubEvent* TranslateTo(const int64_t& sequence,StubEvent* event) override {
+        event->SetValue(sequence);
         return event;
     }
 };

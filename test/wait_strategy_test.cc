@@ -33,7 +33,6 @@
 namespace disruptor {
 namespace test {
 
-template<typename Strategy>
 class WaitStrategyTest : public testing::Test
 {
 public:
@@ -48,7 +47,7 @@ public:
     Sequence sequence_3;
     std::vector<Sequence*> dependents;
     std::atomic<bool> alerted;
-    Strategy strategy;
+    WaitStrategy* strategy;
 
     std::vector<Sequence*> AllDependents() {
         std::vector<Sequence*> result;
@@ -59,7 +58,12 @@ public:
     }
 };
 
-using BusySpinStrategyTest = WaitStrategyTest<BusySpinStrategy>;
+class BusySpinStrategyTest : public WaitStrategyTest
+{
+    virtual void SetUp() {
+        strategy = CreateWaitStrategy(kBusySpinStrategy);
+    }
+};
 
 TEST_F(BusySpinStrategyTest,WaitForCursor)
 {
@@ -68,7 +72,7 @@ TEST_F(BusySpinStrategyTest,WaitForCursor)
     std::thread waiter([this,&return_value](){
         // init first cursor sequence is -1
         // run thread,expect return_value is kInitialCursorValue
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
     });
 
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
@@ -87,15 +91,15 @@ TEST_F(BusySpinStrategyTest,WaitForTimeout)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
                                             std::chrono::microseconds(1L)));
     });
     waiter.join();
     EXPECT_EQ(return_value.load(),kTimeoutSignal);
 
     std::thread waiter2([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
-                                            std::chrono::seconds(1L)));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
+                                            std::chrono::microseconds(1000000L)));
     });
 
     cursor.IncrementAndGet(1L);
@@ -108,7 +112,7 @@ TEST_F(BusySpinStrategyTest,WaitForDependents)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,
                                             AllDependents(),alerted));
     });
 
@@ -131,7 +135,7 @@ TEST_F(BusySpinStrategyTest,WaitForDependentsWithAlert)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,
                                             AllDependents(),alerted));
     });
 
@@ -149,19 +153,24 @@ TEST_F(BusySpinStrategyTest,WaitForDependentsWithAlert)
     EXPECT_EQ(return_value.load(),kAlertedSignal);
 }
 
-using YieldingStrategyTest = WaitStrategyTest<YieldingStrategy<>>;
+class YieldingStrategyTest : public WaitStrategyTest
+{
+    virtual void SetUp() {
+        strategy = CreateWaitStrategy(kYieldingStrategy);
+    }
+};
 
 TEST_F(YieldingStrategyTest,WaitForCursor)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
     });
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
     std::thread([this](){
         cursor.IncrementAndGet(1L);
-        strategy.SignalAllWhenBlocking();
+        strategy->SignalAllWhenBlocking();
     }).join();
     waiter.join();
     EXPECT_EQ(return_value.load(),kFirstSequenceValue);
@@ -171,18 +180,18 @@ TEST_F(YieldingStrategyTest,WaitForTimeout)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
                                            std::chrono::microseconds(1L)));
     });
     waiter.join();
     EXPECT_EQ(return_value.load(),kTimeoutSignal);
 
     std::thread waiter2([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
-                                           std::chrono::seconds(1L)));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
+                                           std::chrono::microseconds(1000000L)));
     });
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
     waiter2.join();
     EXPECT_EQ(return_value.load(),kFirstSequenceValue);
 }   
@@ -191,11 +200,11 @@ TEST_F(YieldingStrategyTest,WaitForDependents)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
     });
 
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
 
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
@@ -214,11 +223,11 @@ TEST_F(YieldingStrategyTest,WaitForDependentsWithAlert)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
     });
 
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
 
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
@@ -233,19 +242,24 @@ TEST_F(YieldingStrategyTest,WaitForDependentsWithAlert)
     EXPECT_EQ(return_value.load(),kAlertedSignal);
 }
 
-using SleepingStrategyTest = WaitStrategyTest<SleepingStrategy<>>;
+class SleepingStrategyTest : public WaitStrategyTest
+{
+    virtual void SetUp() {
+        strategy = CreateWaitStrategy(kSleepingStrategy);
+    }
+};
 
 TEST_F(SleepingStrategyTest,WaitForCursor)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
     });
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
     std::thread([this](){
         cursor.IncrementAndGet(1L);
-        strategy.SignalAllWhenBlocking();
+        strategy->SignalAllWhenBlocking();
     }).join();
     waiter.join();
     EXPECT_EQ(return_value.load(),kFirstSequenceValue);
@@ -255,18 +269,18 @@ TEST_F(SleepingStrategyTest,WaitForTimeout)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
                                            std::chrono::microseconds(1L)));
     });
     waiter.join();
     EXPECT_EQ(return_value.load(),kTimeoutSignal);
 
     std::thread waiter2([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
-                                           std::chrono::seconds(1L)));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted,
+                                           std::chrono::microseconds(1000000L)));
     });
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
     waiter2.join();
     EXPECT_EQ(return_value.load(),kFirstSequenceValue);
 }   
@@ -275,11 +289,11 @@ TEST_F(SleepingStrategyTest,WaitForDependents)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
     });
 
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
 
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
@@ -298,11 +312,11 @@ TEST_F(SleepingStrategyTest,WaitForDependentsWithAlert)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,AllDependents(),alerted));
     });
 
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
 
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
@@ -317,18 +331,23 @@ TEST_F(SleepingStrategyTest,WaitForDependentsWithAlert)
     EXPECT_EQ(return_value.load(),kAlertedSignal);
 }
 
-using BlockingStrategyTest = WaitStrategyTest<BlockingStrategy>;
+class BlockingStrategyTest : public WaitStrategyTest
+{
+    virtual void SetUp() {
+        strategy = CreateWaitStrategy(kBlockingStrategy);
+    }
+};
 
 TEST_F(BlockingStrategyTest,WaitForCursor)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,dependents,alerted));
     });
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
     std::thread([this](){
         cursor.IncrementAndGet(1L);
-        strategy.SignalAllWhenBlocking();
+        strategy->SignalAllWhenBlocking();
     }).join();
     waiter.join();
     EXPECT_EQ(return_value.load(),kFirstSequenceValue);
@@ -338,17 +357,17 @@ TEST_F(BlockingStrategyTest,WaitForTimeout)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,
         dependents,alerted,std::chrono::microseconds(1L)));
     });
     waiter.join();
     EXPECT_EQ(return_value.load(),kTimeoutSignal);
     std::thread waiter2([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,
         dependents,alerted,std::chrono::seconds(1L)));
     });
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
     waiter2.join();
     EXPECT_EQ(return_value.load(),kFirstSequenceValue);
 }
@@ -357,11 +376,11 @@ TEST_F(BlockingStrategyTest,WaitForDependents)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,
         AllDependents(),alerted));
     });
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
     sequence_1.IncrementAndGet(1L);
@@ -379,11 +398,11 @@ TEST_F(BlockingStrategyTest,WaitForDependentsWithAlert)
 {
     std::atomic<int64_t> return_value(kInitialCursorValue);
     std::thread waiter([this,&return_value](){
-        return_value.store(strategy.WaitFor(kFirstSequenceValue,cursor,
+        return_value.store(strategy->WaitFor(kFirstSequenceValue,cursor,
         AllDependents(),alerted));
     });
     cursor.IncrementAndGet(1L);
-    strategy.SignalAllWhenBlocking();
+    strategy->SignalAllWhenBlocking();
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
     sequence_1.IncrementAndGet(1L);

@@ -136,6 +136,19 @@ disruptor_test/fast:
 	$(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/build
 .PHONY : disruptor_test/fast
 
+#=============================================================================
+# Target rules for targets named one_publisher_to_one_consumer
+
+# Build rule for target.
+one_publisher_to_one_consumer: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 one_publisher_to_one_consumer
+.PHONY : one_publisher_to_one_consumer
+
+# fast build rule for target.
+one_publisher_to_one_consumer/fast:
+	$(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build
+.PHONY : one_publisher_to_one_consumer/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -146,6 +159,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... disruptor"
 	@echo "... disruptor_test"
+	@echo "... one_publisher_to_one_consumer"
 .PHONY : help
 
 

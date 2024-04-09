@@ -31,10 +31,17 @@
 #include "ring_buffer.h"
 
 namespace disruptor {
+// Claim Startegy Option
+enum ClaimStrategyOption
+{
+    kSingleThreadClaimStrategy,
+    kMultiThreadClaimStrategy
+};
 
 // Interface of ClaimStrategy
 class ClaimStrategy
 {
+public:
     /**
      * @brief Wait for the given sequence to be available for consumption
      * @param dependents  dependents sequences to wait on (mostly consumers).
@@ -42,7 +49,7 @@ class ClaimStrategy
      * @return last claimed sequence
     */
     virtual int64_t IncrementAndGet(const std::vector<Sequence*>& dependents,
-                                    size_t delta) = 0;
+                                    size_t delta = 1) = 0;
 
     /**
      * @brief Determine if there is enough space in the circular buffer
@@ -61,27 +68,27 @@ class ClaimStrategy
                                const size_t& delta) = 0;
 };
 
-template<size_t N>
-class SingleThreadStrategy;
-using kDefaultClaimStrategy = SingleThreadStrategy<kDefaultRingBufferSize>;
+// used internally
+// inline function allow multi define in file
+static inline ClaimStrategy* CreateClaimStrategy(ClaimStrategyOption option,int64_t buffer_size);
 
 // Apply to a single publisher thread
 // Optimised strategy can be used when there is a single publisher thread.
-template<size_t N = kDefaultRingBufferSize>
 class SingleThreadStrategy : public ClaimStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(SingleThreadStrategy);
 public:
-    SingleThreadStrategy() :
+    SingleThreadStrategy(int64_t buffer_size = kDefaultRingBufferSize) :
+        _buffer_size(buffer_size),
         _last_claimed_sequence(kInitialCursorValue),
         _last_consumer_sequence(kInitialCursorValue) {}
     
     virtual int64_t IncrementAndGet(const std::vector<Sequence*>& dependents,
-                                    size_t delta = 1) override {
+                                    size_t delta) override {
         _last_claimed_sequence += delta;
         // Prevent ring buffer wrap
         // Waiting for consumers to complete their consumption until circle diff
-        const int64_t wrap_point = _last_claimed_sequence - N;
+        const int64_t wrap_point = _last_claimed_sequence - _buffer_size;
         if(_last_consumer_sequence < wrap_point) {
             // The dependents in this place means consumers? 
             while(GetMinimumSequence(dependents) < wrap_point) {
@@ -92,7 +99,7 @@ public:
     }
 
     virtual bool HasAvailableCapacity(const std::vector<Sequence*>& dependents) override {
-        const int64_t wrap_point = _last_claimed_sequence - N + 1L;
+        const int64_t wrap_point = _last_claimed_sequence - _buffer_size + 1L;
         if(_last_consumer_sequence < wrap_point) {
             // Update once comsumer's sequence if the consumer's 
             // sequence is already lower than wrap_point,it means
@@ -112,25 +119,26 @@ public:
 private:
     // we do not need to use atomic values since this function is called
     // by a single publisher thread
+    int64_t _buffer_size;
     int64_t _last_claimed_sequence;
     int64_t _last_consumer_sequence;
 };
 
 // Apply to multi publisher thread
 // Optimised strategy can be used when there is a single publisher thread.
-template<size_t N = kDefaultRingBufferSize>
 class MultiThreadStrategy : public ClaimStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(MultiThreadStrategy);
 public:
-    MultiThreadStrategy() {}
+    MultiThreadStrategy(int64_t buffer_size = kDefaultRingBufferSize) 
+        : _buffer_size(buffer_size) {}
 
     // May be used for mulit producers at the same time 
     virtual int64_t IncrementAndGet(const std::vector<Sequence*>& dependents,
-                                    size_t delta = 1) override {
+                                    size_t delta) override {
         // CAS operation race condition
         const int64_t next_sequence = _last_claimed_sequence.IncrementAndGet(delta);
-        const int64_t wrap_point = next_sequence - N;
+        const int64_t wrap_point = next_sequence - _buffer_size;
         if(_last_consumer_sequence.GetSequence() < wrap_point) {
             while(GetMinimumSequence(dependents) < wrap_point) {
                 std::this_thread::yield();
@@ -140,7 +148,7 @@ public:
     }
 
     virtual bool HasAvailableCapacity(const std::vector<Sequence*>& dependents) override {
-        const int64_t wrap_point = _last_claimed_sequence.GetSequence() -N + 1L;
+        const int64_t wrap_point = _last_claimed_sequence.GetSequence() - _buffer_size + 1L;
         if(_last_consumer_sequence.GetSequence() < wrap_point) {
             const int64_t min_sequence = GetMinimumSequence(dependents);
             _last_consumer_sequence.SetSequence(min_sequence);
@@ -163,9 +171,25 @@ public:
         }
     }
 private:
+    int64_t _buffer_size;
     Sequence _last_claimed_sequence;
     Sequence _last_consumer_sequence;
 };
+
+static inline ClaimStrategy* CreateClaimStrategy(ClaimStrategyOption option,int64_t buffer_size) {
+    ClaimStrategy* strategy = nullptr;
+    switch (option) {
+    case kSingleThreadClaimStrategy:
+        strategy = new SingleThreadStrategy(buffer_size);
+        break;
+    case kMultiThreadClaimStrategy:
+        strategy = new MultiThreadStrategy(buffer_size);
+        break;
+    default:
+        break;
+    }
+    return strategy;
+}
 
 } // end namespace disruptor
 

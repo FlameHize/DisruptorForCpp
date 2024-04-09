@@ -38,25 +38,27 @@ namespace disruptor {
  * @brief Used for consumer to wait for the target sequence
  * @example int64_t available_sequence = ConsumerBarrier.WaitFor(next_sequence);
 */
-template<typename W = kDefaultWaitStrategy>
 class ConsumerBarrier
 {
 public:
     explicit ConsumerBarrier(const Sequence& cursor,
-                             const std::vector<Sequence*>& dependents)
-    : _cursor(cursor),_dependents(dependents),_alerted(false) {}
+                             const std::vector<Sequence*>& dependents,
+                             WaitStrategy* wait_strategy)
+        : _cursor(cursor),
+          _dependents(dependents),
+          _wait_strategy(wait_strategy),
+          _alerted(false) {}
 
     /**
      * @brief Return the maximum accessible serial number of RingBuffer
     */
     inline int64_t WaitFor(const int64_t& sequence) {
-        return _wait_strategy.WaitFor(sequence,_cursor,_dependents,_alerted);
+        return _wait_strategy->WaitFor(sequence,_cursor,_dependents,_alerted);
     }
 
-    template<typename Rep,typename Period>
     inline int64_t WaitFor(const int64_t& sequence,
-                           const std::chrono::duration<Rep,Period>& timeout) {
-        return _wait_strategy.WaitFor(sequence,_cursor,_dependents,_alerted,timeout);
+                           const std::chrono::microseconds& timeout) {
+        return _wait_strategy->WaitFor(sequence,_cursor,_dependents,_alerted,timeout);
     }
 
     inline int64_t GetSequence() {
@@ -75,10 +77,10 @@ private:
     const Sequence& _cursor;
     // current consumer(which use this barrier) dependents's condition
     std::vector<Sequence*> _dependents;
+    // strategy decide how it will wait for this available sequence
+    WaitStrategy* _wait_strategy;
     // alerted
     std::atomic<bool> _alerted;
-    // strategy decide how it will wait for this available sequence
-    W _wait_strategy;
 };
 
 } // end namespace disruptor

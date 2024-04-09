@@ -42,7 +42,7 @@ class EventHandler
 {
 public:
     // Called when a publisher has published an event
-    virtual void OnEvent(const int64_t& sequence, T& event) = 0;
+    virtual void OnEvent(const int64_t& sequence, T* event) = 0;
 
     // Called once on thread start before the first event
     virtual void OnStart() = 0;
@@ -56,7 +56,7 @@ class EventTranslator
 {
 public:
     // Translate a data representation into fields set in given event
-    virtual T& TranslateTo(const int64_t& sequence, T& event) = 0;
+    virtual T* TranslateTo(const int64_t& sequence, T* event) = 0;
 };
 
 template<typename T>

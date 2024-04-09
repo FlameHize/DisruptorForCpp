@@ -43,7 +43,8 @@ public:
     // and finally publish the event
     void PublishEvent(EventTranslator<T>* translator) {
         int64_t sequence = _sequencer->Next();
-        translator->TranslateTo(sequence,_sequencer[sequence]);
+        T* event = (*_sequencer)[sequence];
+        translator->TranslateTo(sequence,event);
         _sequencer->Publish(sequence);
     }
 

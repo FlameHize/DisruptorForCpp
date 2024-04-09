@@ -35,14 +35,14 @@ namespace test {
 class ConsumerBarrierTest : public testing::Test
 {
 public:
-    ConsumerBarrierTest() : barrier(cursor,dependents) {}
+    ConsumerBarrierTest() : barrier(new ConsumerBarrier(cursor,dependents,CreateWaitStrategy(kBusySpinStrategy))) {}
 
     Sequence cursor;
     Sequence sequence_1;
     Sequence sequence_2;
     Sequence sequence_3;
     std::vector<Sequence*> dependents;
-    ConsumerBarrier<> barrier;
+    ConsumerBarrier* barrier;
 
     std::vector<Sequence*> AllDependents() {
         std::vector<Sequence*> result;
@@ -55,9 +55,9 @@ public:
 
 TEST_F(ConsumerBarrierTest,BasicSetAndGet) 
 {
-    EXPECT_EQ(barrier.Alerted(),false);
-    barrier.SetAlerted(true);
-    EXPECT_EQ(barrier.Alerted(),true);
+    EXPECT_EQ(barrier->Alerted(),false);
+    barrier->SetAlerted(true);
+    EXPECT_EQ(barrier->Alerted(),true);
 }
 
 TEST_F(ConsumerBarrierTest,WaitForCursor)
@@ -67,7 +67,7 @@ TEST_F(ConsumerBarrierTest,WaitForCursor)
 
     // mock for consumer to wait the sequence on another thread
     std::thread waiter([this,&return_value](){
-        return_value.store(barrier.WaitFor(kFirstSequenceValue));
+        return_value.store(barrier->WaitFor(kFirstSequenceValue));
     });
     EXPECT_EQ(return_value.load(),kInitialCursorValue);
 
@@ -80,8 +80,8 @@ TEST_F(ConsumerBarrierTest,WaitForCursor)
     EXPECT_EQ(return_value.load(),kFirstSequenceValue);
 
     std::thread waiter2([this,&return_value](){
-        return_value.store(barrier.WaitFor(kFirstSequenceValue + 1L,
-                                           std::chrono::seconds(5)));
+        return_value.store(barrier->WaitFor(kFirstSequenceValue + 1L,
+                                           std::chrono::microseconds(5000000)));
     });
     std::thread ([this](){
         cursor.IncrementAndGet(1L);

@@ -56,12 +56,8 @@ public:
      * @param sequence sequence for the event(increase from zero)
      * @return event referenced at the specified sequence position
      */
-    T& operator[](const int64_t& sequence) { 
-        return _events[sequence & (_size - 1)]; 
-    }
-
-    const T& operator[](const int64_t& sequence) const { 
-        return _events[sequence & (_size - 1)]; 
+    T* operator[](const int64_t& sequence) { 
+        return &_events[sequence & (_size - 1)]; 
     }
 
 private:

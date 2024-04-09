@@ -35,7 +35,6 @@
 namespace disruptor {
 namespace test {
 
-template<typename Strategy>
 class ClaimStrategyTest: public testing::Test
 {
 public:
@@ -44,7 +43,7 @@ public:
     Sequence sequence_2;
     Sequence sequence_3;
     std::vector<Sequence*> empty_dependents;
-    Strategy strategy;
+    ClaimStrategy* strategy;
 
     std::vector<Sequence*> OneDependents() {
         std::vector<Sequence*> result;
@@ -61,43 +60,53 @@ public:
     }
 };
 
-using SingleClaimStrategyTest = ClaimStrategyTest<SingleThreadStrategy<RING_BUFFER_SIZE>>;
+class SingleClaimStrategyTest : public ClaimStrategyTest
+{
+    virtual void SetUp() override {
+        strategy = CreateClaimStrategy(kSingleThreadClaimStrategy,RING_BUFFER_SIZE);
+    }
+};
 
 TEST_F(SingleClaimStrategyTest,SingleIncrementAndGet)
 {
-    int64_t return_value = strategy.IncrementAndGet(empty_dependents);
+    int64_t return_value = strategy->IncrementAndGet(empty_dependents);
     EXPECT_EQ(return_value,kFirstSequenceValue);
 
     int64_t delta = 100L;
-    return_value = strategy.IncrementAndGet(empty_dependents,delta);
+    return_value = strategy->IncrementAndGet(empty_dependents,delta);
     EXPECT_EQ(return_value,kFirstSequenceValue + delta);
 }
 
 TEST_F(SingleClaimStrategyTest,SingleHasAvailableCapacity)
 {
     auto one_dependents = OneDependents();
-    int64_t return_value = strategy.IncrementAndGet(one_dependents,RING_BUFFER_SIZE);
+    int64_t return_value = strategy->IncrementAndGet(one_dependents,RING_BUFFER_SIZE);
     EXPECT_EQ(return_value,kInitialCursorValue + RING_BUFFER_SIZE);
-    EXPECT_EQ(strategy.HasAvailableCapacity(one_dependents),false);
+    EXPECT_EQ(strategy->HasAvailableCapacity(one_dependents),false);
 
     // advance once latest consumers
     sequence_1.IncrementAndGet(1L);
-    EXPECT_EQ(strategy.HasAvailableCapacity(one_dependents),true);
+    EXPECT_EQ(strategy->HasAvailableCapacity(one_dependents),true);
 
     // only one slot free
-    EXPECT_EQ(strategy.IncrementAndGet(one_dependents),return_value + 1L);
-    EXPECT_EQ(strategy.HasAvailableCapacity(one_dependents),false);
+    EXPECT_EQ(strategy->IncrementAndGet(one_dependents),return_value + 1L);
+    EXPECT_EQ(strategy->HasAvailableCapacity(one_dependents),false);
 
     // dependents(consumers) keeps up
     sequence_1.IncrementAndGet(RING_BUFFER_SIZE); 
-    EXPECT_EQ(strategy.HasAvailableCapacity(one_dependents),true);
+    EXPECT_EQ(strategy->HasAvailableCapacity(one_dependents),true);
 
     // all equals
-    EXPECT_EQ(strategy.IncrementAndGet(one_dependents,RING_BUFFER_SIZE),
+    EXPECT_EQ(strategy->IncrementAndGet(one_dependents,RING_BUFFER_SIZE),
                 sequence_1.IncrementAndGet(RING_BUFFER_SIZE));
 }
 
-using MultiClaimStrategyTest = ClaimStrategyTest<MultiThreadStrategy<RING_BUFFER_SIZE>>;
+class MultiClaimStrategyTest : public ClaimStrategyTest
+{
+    virtual void SetUp() override {
+        strategy = CreateClaimStrategy(kMultiThreadClaimStrategy,RING_BUFFER_SIZE);
+    }
+};
 
 TEST_F(MultiClaimStrategyTest,MultiIncrementAndGet)
 {
@@ -109,13 +118,13 @@ TEST_F(MultiClaimStrategyTest,MultiIncrementAndGet)
     std::thread publisher_1([this,&return_value_1,&wait_1](){
         while(wait_1) {
         };
-        return_value_1 = strategy.IncrementAndGet(empty_dependents);
+        return_value_1 = strategy->IncrementAndGet(empty_dependents);
     });
 
     std::thread publisher_2([this,&return_value_2,&wait_2](){
         while(wait_2) {
         };
-        return_value_2 = strategy.IncrementAndGet(empty_dependents);
+        return_value_2 = strategy->IncrementAndGet(empty_dependents);
     });
 
     // return_value_1 to be kInitialCursorValue + 1L
@@ -133,17 +142,17 @@ TEST_F(MultiClaimStrategyTest,MultiIncrementAndGet)
 TEST_F(MultiClaimStrategyTest,MultiHasAvailableCapacity)
 {
     auto one_dependents = OneDependents();
-    int64_t return_value = strategy.IncrementAndGet(one_dependents,RING_BUFFER_SIZE);
+    int64_t return_value = strategy->IncrementAndGet(one_dependents,RING_BUFFER_SIZE);
     EXPECT_EQ(return_value,kInitialCursorValue + RING_BUFFER_SIZE);
-    EXPECT_EQ(strategy.HasAvailableCapacity(one_dependents),false);
+    EXPECT_EQ(strategy->HasAvailableCapacity(one_dependents),false);
 
     sequence_1.IncrementAndGet(1L);
-    EXPECT_EQ(strategy.HasAvailableCapacity(one_dependents),true);
-    EXPECT_EQ(strategy.IncrementAndGet(one_dependents),return_value + 1L);
+    EXPECT_EQ(strategy->HasAvailableCapacity(one_dependents),true);
+    EXPECT_EQ(strategy->IncrementAndGet(one_dependents),return_value + 1L);
 
     // After this,publish.sequence == consumer.sequence
     sequence_1.IncrementAndGet(RING_BUFFER_SIZE);
-    EXPECT_EQ(strategy.IncrementAndGet(one_dependents,RING_BUFFER_SIZE),
+    EXPECT_EQ(strategy->IncrementAndGet(one_dependents,RING_BUFFER_SIZE),
                     sequence_1.IncrementAndGet(RING_BUFFER_SIZE));
 }
 
@@ -167,12 +176,12 @@ TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
         while(wait_1) {
         };
         // claimed_1 to be kFirstSequenceValue
-        claimed_1.SetSequence(strategy.IncrementAndGet(empty_dependents));
+        claimed_1.SetSequence(strategy->IncrementAndGet(empty_dependents));
         wait_1.store(true);
         while(wait_1){
         };
         // kFirstSequenceValue is the maxium sequence to be published
-        strategy.SynchronizePublishing(kFirstSequenceValue,cursor,1);
+        strategy->SynchronizePublishing(kFirstSequenceValue,cursor,1);
         running_1.store(false);
     });
 
@@ -180,12 +189,12 @@ TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
         while(wait_2) {
         };
         // claimed_2 to be kFirstSequenceValue + 1L
-        claimed_2.SetSequence(strategy.IncrementAndGet(empty_dependents));
+        claimed_2.SetSequence(strategy->IncrementAndGet(empty_dependents));
         wait_2.store(true);
         while(wait_2){
         };
         // kFirstSequenceValue + 1L is the maxium sequence to be published
-        strategy.SynchronizePublishing(kFirstSequenceValue + 1L,cursor,1);
+        strategy->SynchronizePublishing(kFirstSequenceValue + 1L,cursor,1);
         running_2.store(false);
     });
 
@@ -193,12 +202,12 @@ TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
         while(wait_3) {
         };
         // claimed_3 to be kFirstSequenceValue + 2L
-        claimed_3.SetSequence(strategy.IncrementAndGet(empty_dependents));
+        claimed_3.SetSequence(strategy->IncrementAndGet(empty_dependents));
         wait_3.store(true);
         while(wait_3){
         };
         // kFirstSequenceValue + 2L is the maxium sequence to be published
-        strategy.SynchronizePublishing(kFirstSequenceValue + 2L,cursor,1);
+        strategy->SynchronizePublishing(kFirstSequenceValue + 2L,cursor,1);
         running_3.store(false);
     });
 

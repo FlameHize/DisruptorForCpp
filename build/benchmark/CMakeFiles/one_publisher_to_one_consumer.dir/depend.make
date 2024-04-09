@@ -11,6 +11,6 @@ benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_cons
 benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o: ../include/sequencer.h
 benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o: ../include/utils.h
 benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o: ../include/wait_strategy.h
+benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o: ../test/support/stub_event.h
 benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o: ../benchmark/one_publisher_to_one_consumer.cc
-benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o: ../benchmark/support/stub_event.h
 

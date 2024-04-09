@@ -39,6 +39,69 @@
 
 namespace disruptor {
 
+// Strategy options which are available to those waiting on a ringbuffer
+enum WaitStrategyOption {
+    // This strategy uses a condition variable inside a lock to block the
+    // event procesor which saves CPU resource at the expense of lock
+    // contention.
+    kBlockingStrategy,
+    // This strategy uses a progressive back off strategy by first spinning,
+    // then yielding, then sleeping for 1ms period. This is a good strategy
+    // for burst traffic then quiet periods when latency is not critical.
+    kSleepingStrategy,
+    // This strategy calls Thread.yield() in a loop as a waiting strategy
+    // which reduces contention at the expense of CPU resource.
+    kYieldingStrategy,
+    // This strategy call spins in a loop as a waiting strategy which is
+    // lowest and most consistent latency but ties up a CPU.
+    kBusySpinStrategy
+};
+
+class WaitStrategy
+{
+public:
+    /**
+     * @brief Wait for the given sequence to be available for consumer
+     * @param sequence to wait for
+     * @param cursor sequencer's cursor
+     * @param dependents Dependent consumers queue ex: app dependents log and database
+     * @param alerted indicator of consumer alert
+     * @return kAltertedSignal if the barrier signaled an alert, otherwise return 
+     * the greatest available sequence which may be greater than request
+    */
+    virtual int64_t WaitFor(const int64_t& sequence,
+                    const Sequence& cursor,
+                    const std::vector<Sequence*>& dependents,
+                    const std::atomic<bool>& alarted) = 0;
+
+    /**
+     * @brief Wait for the given sequence to be available for consumption 
+     * with a specified timeout.
+     * @param sequence to wait for
+     * @param cursor sequencer's cursor
+     * @param dependents all wait's consumer's sequence queue
+     * @param alerted indicator of consumer alert
+     * @param timeout indicator of consumer wait time unit:us
+     * @return kAltertedSignal if the barrier signaled an alert,
+     * kTimeoutSignal if the the requested timeout was reached while
+     * waiting, otherwise return the greatest available sequence which
+     * may be greater than requested
+    */
+    virtual int64_t WaitFor(const int64_t& sequence,
+                    const Sequence& cursor,
+                    const std::vector<Sequence*>& dependents,
+                    const std::atomic<bool>& alerted,
+                    const std::chrono::microseconds& timeout) = 0;
+
+    /**
+     * @brief Signal the strategy that the cursor as advanced. Some strategy depends
+     * on this behaviour to unblock.
+    */
+    virtual void SignalAllWhenBlocking() = 0;
+};
+
+static inline WaitStrategy* CreateWaitStrategy(WaitStrategyOption option);
+
 // Busy Spin strategy that uses a busy spin loop waiting on a barrier.
 // This strategy will use CPU resource to avoid syscalls which can introduce
 // latency jitter. It is strongly recommended to pin threads on isolated
@@ -47,14 +110,12 @@ class BusySpinStrategy;
 
 // Yielding strategy that uses a thread::yield() for waiting on a barrier.
 // This strategy is a good compromise between performance and CPU resource.
-template <int64_t S>
 class YieldingStrategy;
 
 // Sleeping strategy uses a progressive back off strategy by first spinning for
 // S/2 loops, then yielding for S/2 loops, and finally sleeping for
 // duration<D,DV> until ready to advance. This is a good strategy for burst
 // traffic then quiet periods when latency is not critical.
-template <int64_t S,typename D,int DV>
 class SleepingStrategy;
 
 // Blocking strategy that waits for the sequencer's cursor to advance on the
@@ -89,25 +150,16 @@ static inline std::function<int64_t()> buildMinSequenceFunction(
 /**
  * @brief Strategy employed for a consumer to wait on the sequencer's cursor
 */
-class BusySpinStrategy
+class BusySpinStrategy : public WaitStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(BusySpinStrategy);
 public:
     explicit BusySpinStrategy() {}
 
-    /**
-     * @brief Wait for the given sequence to be available for consumer
-     * @param sequence to wait for
-     * @param cursor sequencer's cursor
-     * @param dependents Dependent consumers queue ex: app dependents log and database
-     * @param alerted indicator of consumer alert
-     * @return kAltertedSignal if the barrier signaled an alert, otherwise return 
-     * the greatest available sequence which may be greater than request
-    */
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
-                    const std::atomic<bool>& alarted) {
+                    const std::atomic<bool>& alarted) override {
         int64_t available_sequence = kInitialCursorValue;
         // If there is no dependents(consumers) min_sequence() is cursor.sequence
         // otherwise min_sequence() is minumum dependents's sequence
@@ -120,25 +172,11 @@ public:
         return available_sequence;
     }
 
-    /**
-     * @brief Wait for the given sequence to be available for consumption 
-     * with a specified timeout.
-     * @param sequence to wait for
-     * @param cursor sequencer's cursor
-     * @param dependents all wait's consumer's sequence queue
-     * @param alerted indicator of consumer alert
-     * @param timeout indicator of consumer wait time
-     * @return kAltertedSignal if the barrier signaled an alert,
-     * kTimeoutSignal if the the requested timeout was reached while
-     * waiting, otherwise return the greatest available sequence which
-     * may be greater than requested
-    */
-    template<class R,class P>
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
                     const std::atomic<bool>& alerted,
-                    const std::chrono::duration<R,P>& timeout) {
+                    const std::chrono::microseconds& timeout) override {
         int64_t available_value = kInitialCursorValue;
 
         const auto start = std::chrono::system_clock::now();
@@ -156,24 +194,22 @@ public:
         return available_value;
     }
 
-    // Signal the strategy that the cursor as advanced. Some strategy depends
-    // on this behaviour to unblock.
-    virtual void SignalAllWhenBlocking() {}
+    virtual void SignalAllWhenBlocking() override {}
 };
 
-template<int64_t S = kDefaultRetryLoops>
-class YieldingStrategy
+class YieldingStrategy : public WaitStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(YieldingStrategy);
 public:
-    explicit YieldingStrategy() {}
+    explicit YieldingStrategy(int64_t retry_loop = kDefaultRetryLoops) 
+        : _retry_loop(retry_loop) {}
 
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
-                    const std::atomic<bool>& alerted) {
+                    const std::atomic<bool>& alerted) override {
         int64_t available_sequence = kInitialCursorValue;
-        int64_t counter = S;
+        int64_t counter = _retry_loop;
         const auto min_sequence = buildMinSequenceFunction(cursor,dependents);
         while((available_sequence = min_sequence()) < sequence) {
             if(alerted.load()) {
@@ -184,14 +220,13 @@ public:
         return available_sequence;
     }
 
-    template<typename R,typename P>
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
                     const std::atomic<bool>& alerted,
-                    const std::chrono::duration<R,P>& timeout) {
+                    const std::chrono::microseconds& timeout) override {
         int64_t available_sequence = kInitialCursorValue;
-        int64_t counter = S;
+        int64_t counter = _retry_loop;
 
         const auto start = std::chrono::system_clock::now();
         const auto stop = start + timeout;
@@ -209,7 +244,7 @@ public:
         return available_sequence;
     }
 
-    virtual void SignalAllWhenBlocking() {}
+    virtual void SignalAllWhenBlocking() override {}
 
 private:
     int64_t ApplyWaitMethod(int64_t counter) {
@@ -221,22 +256,25 @@ private:
         std::this_thread::yield();
         return counter;
     }
+
+    int64_t _retry_loop;
 };
 
-template<int64_t S = kDefaultRetryLoops,typename D = kDefaultDuration,
-         int DV = kDefaultDurationValue>
-class SleepingStrategy
+class SleepingStrategy : public WaitStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(SleepingStrategy);
 public:
-    explicit SleepingStrategy() {}
+    explicit SleepingStrategy(int64_t retry_loop = kDefaultRetryLoops,
+                              int64_t duration_value = kDefaultDurationValue) 
+                : _retry_loop(retry_loop),
+                  _duration_value(duration_value) {}
 
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
-                    const std::atomic<bool>& alerted) {
+                    const std::atomic<bool>& alerted) override {
         int64_t available_sequence = kInitialCursorValue;
-        int64_t counter = S;
+        int64_t counter = _retry_loop;
 
         const auto min_sequence = buildMinSequenceFunction(cursor,dependents);
 
@@ -249,14 +287,13 @@ public:
         return available_sequence;
     }
 
-    template<typename Rep,typename Period>
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
                     const std::atomic<bool>& alerted,
-                    const std::chrono::duration<Rep,Period>& timeout) {
+                    const std::chrono::microseconds& timeout) override {
         int64_t available_sequence = kInitialCursorValue;
-        int64_t counter = S;
+        int64_t counter = _retry_loop;
 
         const auto start = std::chrono::system_clock::now();
         const auto stop = start + timeout;
@@ -274,11 +311,11 @@ public:
         return available_sequence;
     }
 
-    virtual void SignalAllWhenBlocking() {}
+    virtual void SignalAllWhenBlocking() override {}
 
 private:
     inline int64_t ApplyWaitMethod(int64_t counter) {
-        if(counter > (S / 2)) {
+        if(counter > (_retry_loop / 2)) {
             --counter;
         }
         else if(counter > 0) {
@@ -286,13 +323,16 @@ private:
             std::this_thread::yield();
         }
         else {
-            std::this_thread::sleep_for(D(DV));
+            std::this_thread::sleep_for(std::chrono::microseconds(_duration_value));
         }
         return counter;
     }
+
+    int64_t _retry_loop;
+    int64_t _duration_value;
 };
 
-class BlockingStrategy
+class BlockingStrategy : public WaitStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(BlockingStrategy);
     using Lock = std::unique_lock<std::recursive_mutex>;
@@ -300,22 +340,21 @@ class BlockingStrategy
 public:
     explicit BlockingStrategy() {}
 
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
-                    const std::atomic<bool>& alerted) {
+                    const std::atomic<bool>& alerted) override {
         return WaitFor(sequence,cursor,dependents,alerted,[this](Lock& lock){
             _consumer_notify_condition.wait(lock);
             return false;
         });
     }
 
-    template<typename Rep,typename Period>
-    int64_t WaitFor(const int64_t& sequence,
+    virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,
                     const std::vector<Sequence*>& dependents,
                     const std::atomic<bool>& alerted,
-                    const std::chrono::duration<Rep,Period>& timeout) {
+                    const std::chrono::microseconds& timeout) override {
         return WaitFor(sequence,cursor,dependents,alerted,
         [this,timeout](Lock& lock) {
             return std::cv_status::timeout == 
@@ -323,7 +362,7 @@ public:
         });
     }
 
-    virtual void SignalAllWhenBlocking() {
+    virtual void SignalAllWhenBlocking() override {
         Lock ulock(_mutex);
         _consumer_notify_condition.notify_all();
     }
@@ -369,6 +408,27 @@ private:
     std::recursive_mutex _mutex;
     std::condition_variable_any _consumer_notify_condition;
 };
+
+static inline WaitStrategy* CreateWaitStrategy(WaitStrategyOption option) {
+    WaitStrategy* strategy = nullptr;
+    switch (option) {
+    case kBlockingStrategy:
+        strategy = new BlockingStrategy();
+        break;
+    case kSleepingStrategy:
+        strategy = new SleepingStrategy();
+        break;
+    case kYieldingStrategy:
+        strategy = new YieldingStrategy();
+        break;
+    case kBusySpinStrategy:
+        strategy = new BusySpinStrategy();
+        break;
+    default:
+        break;
+    }
+    return strategy;
+}
 
 static inline std::function<int64_t()> buildMinSequenceFunction(
     const Sequence& cursor,const std::vector<Sequence*>& dependents) {

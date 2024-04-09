@@ -39,7 +39,7 @@ public:
     
     RingBufferTest() : ring_buffer(kTestRingBufferSize) {
         for(size_t i = 0; i < kTestRingBufferSize; ++i) {
-            ring_buffer[i] = index(i);
+            *ring_buffer[i] = index(i);
         }
     }
 
@@ -54,7 +54,7 @@ TEST_F(RingBufferTest,RingBufferIndexCalculate)
 {
     // we can use the RingBufferTest's data and func
     for(size_t i = 0; i < kTestRingBufferSize * 2; ++i) {
-        EXPECT_EQ(ring_buffer[i], index(i % kTestRingBufferSize));
+        EXPECT_EQ(*ring_buffer[i], index(i % kTestRingBufferSize));
     }
 }
 
@@ -63,7 +63,7 @@ TEST_F(RingBufferTest,RingBufferOperator)
     for(size_t i = 0; i < kTestRingBufferSize * 2; ++i) {
         int index = i & (kTestRingBufferSize - 1);
         int num = index + 1;
-        EXPECT_EQ(num,ring_buffer[i]);
+        EXPECT_EQ(num,*ring_buffer[i]);
     }
 }
 

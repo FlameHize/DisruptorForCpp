@@ -58,4 +58,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "src/CMakeFiles/disruptor.dir/DependInfo.cmake"
   "test/CMakeFiles/disruptor_test.dir/DependInfo.cmake"
+  "benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/DependInfo.cmake"
   )

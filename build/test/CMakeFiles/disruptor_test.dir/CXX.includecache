@@ -82,6 +82,12 @@ gtest/gtest.h
 claim_strategy.h
 /home/zgx/project/DisruptorForCpp/test/claim_strategy.h
 
+/home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc
+gtest/gtest.h
+-
+consumer_barrier.h
+/home/zgx/project/DisruptorForCpp/test/consumer_barrier.h
+
 /home/zgx/project/DisruptorForCpp/test/main.cc
 gtest/gtest.h
 -
@@ -91,12 +97,6 @@ gtest/gtest.h
 -
 ring_buffer.h
 /home/zgx/project/DisruptorForCpp/test/ring_buffer.h
-
-/home/zgx/project/DisruptorForCpp/test/sequence_barrier_test.cc
-gtest/gtest.h
--
-consumer_barrier.h
-/home/zgx/project/DisruptorForCpp/test/consumer_barrier.h
 
 /home/zgx/project/DisruptorForCpp/test/sequence_test.cc
 gtest/gtest.h

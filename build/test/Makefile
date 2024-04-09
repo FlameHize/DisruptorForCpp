@@ -152,6 +152,33 @@ claim_strategy_test.cc.s:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.s
 .PHONY : claim_strategy_test.cc.s
 
+consumer_barrier_test.o: consumer_barrier_test.cc.o
+
+.PHONY : consumer_barrier_test.o
+
+# target to build an object file
+consumer_barrier_test.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o
+.PHONY : consumer_barrier_test.cc.o
+
+consumer_barrier_test.i: consumer_barrier_test.cc.i
+
+.PHONY : consumer_barrier_test.i
+
+# target to preprocess a source file
+consumer_barrier_test.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.i
+.PHONY : consumer_barrier_test.cc.i
+
+consumer_barrier_test.s: consumer_barrier_test.cc.s
+
+.PHONY : consumer_barrier_test.s
+
+# target to generate assembly for a file
+consumer_barrier_test.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.s
+.PHONY : consumer_barrier_test.cc.s
+
 main.o: main.cc.o
 
 .PHONY : main.o
@@ -205,33 +232,6 @@ ring_buffer_test.s: ring_buffer_test.cc.s
 ring_buffer_test.cc.s:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.s
 .PHONY : ring_buffer_test.cc.s
-
-sequence_barrier_test.o: sequence_barrier_test.cc.o
-
-.PHONY : sequence_barrier_test.o
-
-# target to build an object file
-sequence_barrier_test.cc.o:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o
-.PHONY : sequence_barrier_test.cc.o
-
-sequence_barrier_test.i: sequence_barrier_test.cc.i
-
-.PHONY : sequence_barrier_test.i
-
-# target to preprocess a source file
-sequence_barrier_test.cc.i:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.i
-.PHONY : sequence_barrier_test.cc.i
-
-sequence_barrier_test.s: sequence_barrier_test.cc.s
-
-.PHONY : sequence_barrier_test.s
-
-# target to generate assembly for a file
-sequence_barrier_test.cc.s:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.s
-.PHONY : sequence_barrier_test.cc.s
 
 sequence_test.o: sequence_test.cc.o
 
@@ -326,15 +326,15 @@ help:
 	@echo "... claim_strategy_test.o"
 	@echo "... claim_strategy_test.i"
 	@echo "... claim_strategy_test.s"
+	@echo "... consumer_barrier_test.o"
+	@echo "... consumer_barrier_test.i"
+	@echo "... consumer_barrier_test.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... ring_buffer_test.o"
 	@echo "... ring_buffer_test.i"
 	@echo "... ring_buffer_test.s"
-	@echo "... sequence_barrier_test.o"
-	@echo "... sequence_barrier_test.i"
-	@echo "... sequence_barrier_test.s"
 	@echo "... sequence_test.o"
 	@echo "... sequence_test.i"
 	@echo "... sequence_test.s"
