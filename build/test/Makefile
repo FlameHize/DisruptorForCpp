@@ -179,6 +179,33 @@ consumer_barrier_test.cc.s:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.s
 .PHONY : consumer_barrier_test.cc.s
 
+event_test.o: event_test.cc.o
+
+.PHONY : event_test.o
+
+# target to build an object file
+event_test.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/event_test.cc.o
+.PHONY : event_test.cc.o
+
+event_test.i: event_test.cc.i
+
+.PHONY : event_test.i
+
+# target to preprocess a source file
+event_test.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/event_test.cc.i
+.PHONY : event_test.cc.i
+
+event_test.s: event_test.cc.s
+
+.PHONY : event_test.s
+
+# target to generate assembly for a file
+event_test.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/event_test.cc.s
+.PHONY : event_test.cc.s
+
 main.o: main.cc.o
 
 .PHONY : main.o
@@ -329,6 +356,9 @@ help:
 	@echo "... consumer_barrier_test.o"
 	@echo "... consumer_barrier_test.i"
 	@echo "... consumer_barrier_test.s"
+	@echo "... event_test.o"
+	@echo "... event_test.i"
+	@echo "... event_test.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

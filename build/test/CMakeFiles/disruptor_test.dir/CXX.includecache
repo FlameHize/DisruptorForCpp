@@ -24,6 +24,24 @@ sequence.h
 wait_strategy.h
 ../include/wait_strategy.h
 
+../include/event/event_consumer.h
+sequencer.h
+../include/event/sequencer.h
+event/event_interface.h
+../include/event/event/event_interface.h
+
+../include/event/event_interface.h
+atomic
+-
+sequence.h
+../include/event/sequence.h
+
+../include/event/event_publisher.h
+sequencer.h
+../include/event/sequencer.h
+event/event_interface.h
+../include/event/event/event_interface.h
+
 ../include/ring_buffer.h
 array
 -
@@ -88,6 +106,20 @@ gtest/gtest.h
 consumer_barrier.h
 /home/zgx/project/DisruptorForCpp/test/consumer_barrier.h
 
+/home/zgx/project/DisruptorForCpp/test/event_test.cc
+sequencer.h
+/home/zgx/project/DisruptorForCpp/test/sequencer.h
+event/event_interface.h
+/home/zgx/project/DisruptorForCpp/test/event/event_interface.h
+event/event_publisher.h
+/home/zgx/project/DisruptorForCpp/test/event/event_publisher.h
+event/event_consumer.h
+/home/zgx/project/DisruptorForCpp/test/event/event_consumer.h
+support/stub_event.h
+/home/zgx/project/DisruptorForCpp/test/support/stub_event.h
+gtest/gtest.h
+-
+
 /home/zgx/project/DisruptorForCpp/test/main.cc
 gtest/gtest.h
 -
@@ -109,6 +141,10 @@ gtest/gtest.h
 -
 sequencer.h
 /home/zgx/project/DisruptorForCpp/test/sequencer.h
+
+/home/zgx/project/DisruptorForCpp/test/support/stub_event.h
+event/event_interface.h
+/home/zgx/project/DisruptorForCpp/test/support/event/event_interface.h
 
 /home/zgx/project/DisruptorForCpp/test/wait_strategy_test.cc
 thread

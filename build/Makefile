@@ -137,17 +137,30 @@ disruptor_test/fast:
 .PHONY : disruptor_test/fast
 
 #=============================================================================
-# Target rules for targets named one_publisher_to_one_consumer
+# Target rules for targets named unicast_1P-1C
 
 # Build rule for target.
-one_publisher_to_one_consumer: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 one_publisher_to_one_consumer
-.PHONY : one_publisher_to_one_consumer
+unicast_1P-1C: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 unicast_1P-1C
+.PHONY : unicast_1P-1C
 
 # fast build rule for target.
-one_publisher_to_one_consumer/fast:
-	$(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build
-.PHONY : one_publisher_to_one_consumer/fast
+unicast_1P-1C/fast:
+	$(MAKE) -f benchmark/CMakeFiles/unicast_1P-1C.dir/build.make benchmark/CMakeFiles/unicast_1P-1C.dir/build
+.PHONY : unicast_1P-1C/fast
+
+#=============================================================================
+# Target rules for targets named three_step_pipeline_1P-3C
+
+# Build rule for target.
+three_step_pipeline_1P-3C: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 three_step_pipeline_1P-3C
+.PHONY : three_step_pipeline_1P-3C
+
+# fast build rule for target.
+three_step_pipeline_1P-3C/fast:
+	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
+.PHONY : three_step_pipeline_1P-3C/fast
 
 # Help Target
 help:
@@ -159,7 +172,8 @@ help:
 	@echo "... edit_cache"
 	@echo "... disruptor"
 	@echo "... disruptor_test"
-	@echo "... one_publisher_to_one_consumer"
+	@echo "... unicast_1P-1C"
+	@echo "... three_step_pipeline_1P-3C"
 .PHONY : help
 
 

@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/zgx/project/DisruptorForCpp/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,46 +111,88 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule
-.PHONY : benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule
+benchmark/CMakeFiles/unicast_1P-1C.dir/rule:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/unicast_1P-1C.dir/rule
+.PHONY : benchmark/CMakeFiles/unicast_1P-1C.dir/rule
 
 # Convenience name for target.
-one_publisher_to_one_consumer: benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/rule
+unicast_1P-1C: benchmark/CMakeFiles/unicast_1P-1C.dir/rule
 
-.PHONY : one_publisher_to_one_consumer
+.PHONY : unicast_1P-1C
 
 # fast build rule for target.
-one_publisher_to_one_consumer/fast:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build
-.PHONY : one_publisher_to_one_consumer/fast
+unicast_1P-1C/fast:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/unicast_1P-1C.dir/build.make benchmark/CMakeFiles/unicast_1P-1C.dir/build
+.PHONY : unicast_1P-1C/fast
 
-one_publisher_to_one_consumer.o: one_publisher_to_one_consumer.cc.o
+# Convenience name for target.
+benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
 
-.PHONY : one_publisher_to_one_consumer.o
+# Convenience name for target.
+three_step_pipeline_1P-3C: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+
+.PHONY : three_step_pipeline_1P-3C
+
+# fast build rule for target.
+three_step_pipeline_1P-3C/fast:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
+.PHONY : three_step_pipeline_1P-3C/fast
+
+three_step_pipeline_1P_3C.o: three_step_pipeline_1P_3C.cc.o
+
+.PHONY : three_step_pipeline_1P_3C.o
 
 # target to build an object file
-one_publisher_to_one_consumer.cc.o:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o
-.PHONY : one_publisher_to_one_consumer.cc.o
+three_step_pipeline_1P_3C.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.o
+.PHONY : three_step_pipeline_1P_3C.cc.o
 
-one_publisher_to_one_consumer.i: one_publisher_to_one_consumer.cc.i
+three_step_pipeline_1P_3C.i: three_step_pipeline_1P_3C.cc.i
 
-.PHONY : one_publisher_to_one_consumer.i
+.PHONY : three_step_pipeline_1P_3C.i
 
 # target to preprocess a source file
-one_publisher_to_one_consumer.cc.i:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.i
-.PHONY : one_publisher_to_one_consumer.cc.i
+three_step_pipeline_1P_3C.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.i
+.PHONY : three_step_pipeline_1P_3C.cc.i
 
-one_publisher_to_one_consumer.s: one_publisher_to_one_consumer.cc.s
+three_step_pipeline_1P_3C.s: three_step_pipeline_1P_3C.cc.s
 
-.PHONY : one_publisher_to_one_consumer.s
+.PHONY : three_step_pipeline_1P_3C.s
 
 # target to generate assembly for a file
-one_publisher_to_one_consumer.cc.s:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/build.make benchmark/CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.s
-.PHONY : one_publisher_to_one_consumer.cc.s
+three_step_pipeline_1P_3C.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.s
+.PHONY : three_step_pipeline_1P_3C.cc.s
+
+unicast_1P_1C.o: unicast_1P_1C.cc.o
+
+.PHONY : unicast_1P_1C.o
+
+# target to build an object file
+unicast_1P_1C.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/unicast_1P-1C.dir/build.make benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o
+.PHONY : unicast_1P_1C.cc.o
+
+unicast_1P_1C.i: unicast_1P_1C.cc.i
+
+.PHONY : unicast_1P_1C.i
+
+# target to preprocess a source file
+unicast_1P_1C.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/unicast_1P-1C.dir/build.make benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.i
+.PHONY : unicast_1P_1C.cc.i
+
+unicast_1P_1C.s: unicast_1P_1C.cc.s
+
+.PHONY : unicast_1P_1C.s
+
+# target to generate assembly for a file
+unicast_1P_1C.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/unicast_1P-1C.dir/build.make benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.s
+.PHONY : unicast_1P_1C.cc.s
 
 # Help Target
 help:
@@ -158,12 +200,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... one_publisher_to_one_consumer"
 	@echo "... edit_cache"
-	@echo "... one_publisher_to_one_consumer.o"
-	@echo "... one_publisher_to_one_consumer.i"
-	@echo "... one_publisher_to_one_consumer.s"
+	@echo "... rebuild_cache"
+	@echo "... unicast_1P-1C"
+	@echo "... three_step_pipeline_1P-3C"
+	@echo "... three_step_pipeline_1P_3C.o"
+	@echo "... three_step_pipeline_1P_3C.i"
+	@echo "... three_step_pipeline_1P_3C.s"
+	@echo "... unicast_1P_1C.o"
+	@echo "... unicast_1P_1C.i"
+	@echo "... unicast_1P_1C.s"
 .PHONY : help
 
 

@@ -31,13 +31,6 @@
 
 namespace disruptor {
 template<typename T>
-class EventFactory
-{
-public:
-    virtual T* NewInstance(const int64_t& size) const = 0;
-};
-
-template<typename T>
 class EventHandler
 {
 public:

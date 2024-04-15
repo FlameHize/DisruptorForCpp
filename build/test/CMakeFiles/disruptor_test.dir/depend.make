@@ -13,6 +13,19 @@ test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../include/utils.
 test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../include/wait_strategy.h
 test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../test/consumer_barrier_test.cc
 
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/claim_strategy.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/consumer_barrier.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_consumer.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_interface.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_publisher.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/ring_buffer.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/sequence.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/sequencer.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/utils.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/wait_strategy.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../test/event_test.cc
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../test/support/stub_event.h
+
 test/CMakeFiles/disruptor_test.dir/main.cc.o: ../test/main.cc
 
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../include/ring_buffer.h

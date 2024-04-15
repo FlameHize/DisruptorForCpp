@@ -23,37 +23,29 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef DISRUPTOR_EVENT_PUBLISHER_H_
-#define DISRUPTOR_EVENT_PUBLISHER_H_
+#ifndef DISRUPTOR_EVENT_TEST_H_
+#define DISRUPTOR_EVENT_TEST_H_
 
 #include "sequencer.h"
 #include "event/event_interface.h"
+#include "event/event_publisher.h"
+#include "event/event_consumer.h"
+#include "support/stub_event.h"
+#include <gtest/gtest.h>
 
 namespace disruptor {
-template<typename T>
-class EventPublisher
+namespace test {
+
+class EventTest : public testing::Test
 {
-    DISALLOW_COPY_MOVE_AND_ASSIGN(EventPublisher);
 public:
-    explicit EventPublisher(Sequencer<T>* sequencer)
-        : _sequencer(sequencer) {}
-
-    // Three statage
-    // Call Next() get a sequence,then translator data into ringbuffer
-    // and finally publish the event
-    void PublishEvent(EventTranslator<T>* translator,int64_t batch_size = 1) {
-        int64_t last_available_sequence = _sequencer->Next(batch_size);
-        int64_t first_available_sequence = last_available_sequence - batch_size + 1L;
-        for(int64_t sequence = first_available_sequence; sequence <= last_available_sequence; ++sequence) {
-            T* event = (*_sequencer)[sequence];
-            translator->TranslateTo(sequence,event);
-        }
-        _sequencer->Publish(last_available_sequence,batch_size);
-    }
-
-private:
-    Sequencer<T>* _sequencer;
+    Sequencer<StubEvent>* sequencer;
+    EventPublisher<StubEvent>* publisher;
+    EventConsumer<StubEvent>* consumer;
 };
+
+} // end namespace test
+
 } // end namespace disruptor
 
 #endif

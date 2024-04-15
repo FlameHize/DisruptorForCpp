@@ -34,9 +34,10 @@ int main(int argc,char** argv)
 
     test::StubEventTranslator event_translator;
     EventPublisher<test::StubEvent> publisher(sequencer);
-    int64_t iterations = 10000000;
+    int64_t iterations = 50000000;
+    int64_t batch_size = 1;
     for(int64_t i = 0; i < iterations; ++i) {
-        publisher.PublishEvent(&event_translator);
+        publisher.PublishEvent(&event_translator,batch_size);
     }
 
     int64_t expect_sequence = sequencer->GetCursor();
@@ -49,7 +50,7 @@ int main(int argc,char** argv)
     double end = end_time.tv_sec + ((double) end_time.tv_usec / 1000000);
 
     std::cout.precision(15);
-    std::cout << "1P-1EP-UNICAST performance: ";
+    std::cout << "Unicast 1P-1C performance: ";
     std::cout << (iterations * 1.0) / (end - start)
               << " ops/secs" << std::endl;
     // std::cout << iterations * 64.0 / ((end - start) * 1000000)

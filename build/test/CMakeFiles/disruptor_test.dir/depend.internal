@@ -13,6 +13,19 @@ test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o
  ../include/utils.h
  ../include/wait_strategy.h
  /home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o
+ ../include/claim_strategy.h
+ ../include/consumer_barrier.h
+ ../include/event/event_consumer.h
+ ../include/event/event_interface.h
+ ../include/event/event_publisher.h
+ ../include/ring_buffer.h
+ ../include/sequence.h
+ ../include/sequencer.h
+ ../include/utils.h
+ ../include/wait_strategy.h
+ /home/zgx/project/DisruptorForCpp/test/event_test.cc
+ /home/zgx/project/DisruptorForCpp/test/support/stub_event.h
 test/CMakeFiles/disruptor_test.dir/main.cc.o
  /home/zgx/project/DisruptorForCpp/test/main.cc
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o

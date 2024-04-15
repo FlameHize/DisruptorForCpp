@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/zgx/project/DisruptorForCpp/test/claim_strategy_test.cc" "/home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o"
   "/home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc" "/home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o"
+  "/home/zgx/project/DisruptorForCpp/test/event_test.cc" "/home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir/event_test.cc.o"
   "/home/zgx/project/DisruptorForCpp/test/main.cc" "/home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir/main.cc.o"
   "/home/zgx/project/DisruptorForCpp/test/ring_buffer_test.cc" "/home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o"
   "/home/zgx/project/DisruptorForCpp/test/sequence_test.cc" "/home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o"
