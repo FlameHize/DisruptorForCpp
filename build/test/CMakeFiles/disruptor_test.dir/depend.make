@@ -7,19 +7,13 @@ test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o: ../include/sequence
 test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o: ../test/claim_strategy_test.cc
 
-test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../include/consumer_barrier.h
-test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../include/sequence.h
-test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../include/utils.h
-test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../include/wait_strategy.h
-test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o: ../test/consumer_barrier_test.cc
-
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/claim_strategy.h
-test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/consumer_barrier.h
-test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_consumer.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_interface.h
-test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_publisher.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_processor.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_producer.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/ring_buffer.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/sequence.h
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/sequence_barrier.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/sequencer.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/wait_strategy.h
@@ -32,14 +26,20 @@ test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../include/ring_buffer
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../test/ring_buffer_test.cc
 
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/sequence.h
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/sequence_barrier.h
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/utils.h
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/wait_strategy.h
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../test/sequence_barrier_test.cc
+
 test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o: ../include/sequence.h
 test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o: ../test/sequence_test.cc
 
 test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/claim_strategy.h
-test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/consumer_barrier.h
 test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/ring_buffer.h
 test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/sequence.h
+test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/sequence_barrier.h
 test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/sequencer.h
 test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o: ../include/wait_strategy.h

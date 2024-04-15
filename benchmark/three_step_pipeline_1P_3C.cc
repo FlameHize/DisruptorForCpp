@@ -1,6 +1,6 @@
 #include "sequencer.h"
-#include "event/event_publisher.h"
-#include "event/event_consumer.h"
+#include "event/event_producer.h"
+#include "event/event_processor.h"
 #include "support/stub_event.h"
 
 #include <iostream>
@@ -23,28 +23,28 @@ int main(int argc,char** argv)
     test::StubEventHandler event_handler;
 
     // first pipeline's barrier
-    ConsumerBarrier* first_barrier = sequencer->NewBarrier(dependents);
-    EventConsumer<test::StubEvent> first_event_consumer(sequencer,first_barrier,&event_handler);
-    std::thread first_consumer([&first_event_consumer](){
-        first_event_consumer.Run();
+    SequenceBarrier* first_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> first_event_processor(sequencer,first_barrier,&event_handler);
+    std::thread first_consumer([&first_event_processor](){
+        first_event_processor.Run();
     });
 
     // second pipeline's barrier
     dependents.clear();
-    dependents.push_back(first_event_consumer.GetSequence());
-    ConsumerBarrier* second_barrier = sequencer->NewBarrier(dependents);
-    EventConsumer<test::StubEvent> second_event_consumer(sequencer,second_barrier,&event_handler);
-    std::thread second_consumer([&second_event_consumer](){
-        second_event_consumer.Run();
+    dependents.push_back(first_event_processor.GetSequence());
+    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> second_event_processor(sequencer,second_barrier,&event_handler);
+    std::thread second_consumer([&second_event_processor](){
+        second_event_processor.Run();
     });
 
     // third pipeline's barrier
     dependents.clear();
-    dependents.push_back(second_event_consumer.GetSequence());
-    ConsumerBarrier* third_barrier = sequencer->NewBarrier(dependents);
-    EventConsumer<test::StubEvent> third_event_consumer(sequencer,third_barrier,&event_handler);
-    std::thread third_consumer([&third_event_consumer](){
-        third_event_consumer.Run();
+    dependents.push_back(second_event_processor.GetSequence());
+    SequenceBarrier* third_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> third_event_processor(sequencer,third_barrier,&event_handler);
+    std::thread third_consumer([&third_event_processor](){
+        third_event_processor.Run();
     });
 
     // construct event publisher
@@ -53,15 +53,15 @@ int main(int argc,char** argv)
     gettimeofday(&start_time,NULL);
 
     test::StubEventTranslator event_translator;
-    EventPublisher<test::StubEvent> publisher(sequencer);
-    int64_t iterations = 50000000;
+    EventProducer<test::StubEvent> publisher(sequencer);
+    int64_t iterations = 10000000;
     int64_t batch_size = 1;
     for(int64_t i = 0; i < iterations; ++i) {
         publisher.PublishEvent(&event_translator,batch_size);
     }
 
     int64_t expect_sequence = sequencer->GetCursor();
-    while(third_event_consumer.GetSequence()->GetSequence() < expect_sequence) {
+    while(third_event_processor.GetSequence()->GetSequence() < expect_sequence) {
         // wait
     }
     gettimeofday(&end_time,NULL);
@@ -78,9 +78,9 @@ int main(int argc,char** argv)
     std::cout << (end - start) * 1000000000.0 / iterations
               << " latency/ns" << std::endl;
 
-    first_event_consumer.Stop();
-    second_event_consumer.Stop();
-    third_event_consumer.Stop();
+    first_event_processor.Stop();
+    second_event_processor.Stop();
+    third_event_processor.Stop();
     first_consumer.join();
     second_consumer.join();
     third_consumer.join();

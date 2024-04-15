@@ -51,19 +51,6 @@ public:
     // Translate a data representation into fields set in given event
     virtual T* TranslateTo(const int64_t& sequence, T* event) = 0;
 };
-
-template<typename T>
-class EventProcessor
-{
-public:
-    virtual Sequence* GetSequence() = 0;
-
-    virtual void Run() = 0;
-
-    virtual void Stop() = 0;
-};
-
-
 } // end namespace disruptor
 
 

@@ -23,72 +23,37 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef DISRUPTOR_EVENT_CONSUMER_H_
-#define DISRUPTOR_EVENT_CONSUMER_H_
+#ifndef DISRUPTOR_EVENT_PRODUCER_H_
+#define DISRUPTOR_EVENT_PRODUCER_H_
 
 #include "sequencer.h"
 #include "event/event_interface.h"
 
 namespace disruptor {
-
 template<typename T>
-class EventConsumer : public EventProcessor<T>
+class EventProducer
 {
-    DISALLOW_COPY_MOVE_AND_ASSIGN(EventConsumer);
+    DISALLOW_COPY_MOVE_AND_ASSIGN(EventProducer);
 public:
-    explicit EventConsumer(Sequencer<T>* sequencer,
-                           ConsumerBarrier* consumer_barrier,
-                           EventHandler<T>* event_handler)
-        : _running(false),
-          _sequencer(sequencer),
-          _consumer_barrier(consumer_barrier),
-          _event_handler(event_handler) {}
+    explicit EventProducer(Sequencer<T>* sequencer)
+        : _sequencer(sequencer) {}
 
-    virtual Sequence* GetSequence() override {
-        return &_sequence;
-    }
-
-    virtual void Run() override {
-        if(_running.load()) {
-            return;
+    // Three statage
+    // Call Next() get a sequence,then translator data into ringbuffer
+    // and finally publish the event
+    void PublishEvent(EventTranslator<T>* translator,int64_t batch_size = 1) {
+        int64_t last_available_sequence = _sequencer->Next(batch_size);
+        int64_t first_available_sequence = last_available_sequence - batch_size + 1L;
+        for(int64_t sequence = first_available_sequence; sequence <= last_available_sequence; ++sequence) {
+            T* event = (*_sequencer)[sequence];
+            translator->TranslateTo(sequence,event);
         }
-        _running.store(true);
-        _consumer_barrier->SetAlerted(false);
-        _event_handler->OnStart();
-        
-        int64_t next_sequence = _sequence.IncrementAndGet(1L);
-        while(true) {
-            int64_t available_sequence = _consumer_barrier->WaitFor(next_sequence);
-            while(next_sequence <= available_sequence) {
-                T* event = (*_sequencer)[next_sequence];
-                _event_handler->OnEvent(next_sequence,event);
-                ++next_sequence;
-            }
-            _sequence.SetSequence(next_sequence - 1L);
-            if(!_running.load()) {
-                break;
-            }
-        }
-        _event_handler->OnShutdown();
-        _running.store(false);
-    }
-
-    virtual void Stop() override {
-        if(!_running.load()) {
-            return;
-        }
-        _running.store(false);
-        _consumer_barrier->SetAlerted(true);
+        _sequencer->Publish(last_available_sequence,batch_size);
     }
 
 private:
-    std::atomic<bool> _running;
-    Sequence _sequence;
     Sequencer<T>* _sequencer;
-    ConsumerBarrier* _consumer_barrier;
-    EventHandler<T>* _event_handler;
 };
-
 } // end namespace disruptor
 
 #endif

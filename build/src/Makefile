@@ -152,60 +152,6 @@ claim_strategy.cc.s:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/claim_strategy.cc.s
 .PHONY : claim_strategy.cc.s
 
-consumer_barrier.o: consumer_barrier.cc.o
-
-.PHONY : consumer_barrier.o
-
-# target to build an object file
-consumer_barrier.cc.o:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o
-.PHONY : consumer_barrier.cc.o
-
-consumer_barrier.i: consumer_barrier.cc.i
-
-.PHONY : consumer_barrier.i
-
-# target to preprocess a source file
-consumer_barrier.cc.i:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/consumer_barrier.cc.i
-.PHONY : consumer_barrier.cc.i
-
-consumer_barrier.s: consumer_barrier.cc.s
-
-.PHONY : consumer_barrier.s
-
-# target to generate assembly for a file
-consumer_barrier.cc.s:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/consumer_barrier.cc.s
-.PHONY : consumer_barrier.cc.s
-
-event/event_consumer.o: event/event_consumer.cc.o
-
-.PHONY : event/event_consumer.o
-
-# target to build an object file
-event/event_consumer.cc.o:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o
-.PHONY : event/event_consumer.cc.o
-
-event/event_consumer.i: event/event_consumer.cc.i
-
-.PHONY : event/event_consumer.i
-
-# target to preprocess a source file
-event/event_consumer.cc.i:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_consumer.cc.i
-.PHONY : event/event_consumer.cc.i
-
-event/event_consumer.s: event/event_consumer.cc.s
-
-.PHONY : event/event_consumer.s
-
-# target to generate assembly for a file
-event/event_consumer.cc.s:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_consumer.cc.s
-.PHONY : event/event_consumer.cc.s
-
 event/event_interface.o: event/event_interface.cc.o
 
 .PHONY : event/event_interface.o
@@ -233,32 +179,59 @@ event/event_interface.cc.s:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_interface.cc.s
 .PHONY : event/event_interface.cc.s
 
-event/event_publisher.o: event/event_publisher.cc.o
+event/event_processor.o: event/event_processor.cc.o
 
-.PHONY : event/event_publisher.o
+.PHONY : event/event_processor.o
 
 # target to build an object file
-event/event_publisher.cc.o:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o
-.PHONY : event/event_publisher.cc.o
+event/event_processor.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_processor.cc.o
+.PHONY : event/event_processor.cc.o
 
-event/event_publisher.i: event/event_publisher.cc.i
+event/event_processor.i: event/event_processor.cc.i
 
-.PHONY : event/event_publisher.i
+.PHONY : event/event_processor.i
 
 # target to preprocess a source file
-event/event_publisher.cc.i:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_publisher.cc.i
-.PHONY : event/event_publisher.cc.i
+event/event_processor.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_processor.cc.i
+.PHONY : event/event_processor.cc.i
 
-event/event_publisher.s: event/event_publisher.cc.s
+event/event_processor.s: event/event_processor.cc.s
 
-.PHONY : event/event_publisher.s
+.PHONY : event/event_processor.s
 
 # target to generate assembly for a file
-event/event_publisher.cc.s:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_publisher.cc.s
-.PHONY : event/event_publisher.cc.s
+event/event_processor.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_processor.cc.s
+.PHONY : event/event_processor.cc.s
+
+event/event_producer.o: event/event_producer.cc.o
+
+.PHONY : event/event_producer.o
+
+# target to build an object file
+event/event_producer.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_producer.cc.o
+.PHONY : event/event_producer.cc.o
+
+event/event_producer.i: event/event_producer.cc.i
+
+.PHONY : event/event_producer.i
+
+# target to preprocess a source file
+event/event_producer.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_producer.cc.i
+.PHONY : event/event_producer.cc.i
+
+event/event_producer.s: event/event_producer.cc.s
+
+.PHONY : event/event_producer.s
+
+# target to generate assembly for a file
+event/event_producer.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_producer.cc.s
+.PHONY : event/event_producer.cc.s
 
 ring_buffer.o: ring_buffer.cc.o
 
@@ -313,6 +286,33 @@ sequence.s: sequence.cc.s
 sequence.cc.s:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/sequence.cc.s
 .PHONY : sequence.cc.s
+
+sequence_barrier.o: sequence_barrier.cc.o
+
+.PHONY : sequence_barrier.o
+
+# target to build an object file
+sequence_barrier.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o
+.PHONY : sequence_barrier.cc.o
+
+sequence_barrier.i: sequence_barrier.cc.i
+
+.PHONY : sequence_barrier.i
+
+# target to preprocess a source file
+sequence_barrier.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/sequence_barrier.cc.i
+.PHONY : sequence_barrier.cc.i
+
+sequence_barrier.s: sequence_barrier.cc.s
+
+.PHONY : sequence_barrier.s
+
+# target to generate assembly for a file
+sequence_barrier.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/sequence_barrier.cc.s
+.PHONY : sequence_barrier.cc.s
 
 sequencer.o: sequencer.cc.o
 
@@ -380,24 +380,24 @@ help:
 	@echo "... claim_strategy.o"
 	@echo "... claim_strategy.i"
 	@echo "... claim_strategy.s"
-	@echo "... consumer_barrier.o"
-	@echo "... consumer_barrier.i"
-	@echo "... consumer_barrier.s"
-	@echo "... event/event_consumer.o"
-	@echo "... event/event_consumer.i"
-	@echo "... event/event_consumer.s"
 	@echo "... event/event_interface.o"
 	@echo "... event/event_interface.i"
 	@echo "... event/event_interface.s"
-	@echo "... event/event_publisher.o"
-	@echo "... event/event_publisher.i"
-	@echo "... event/event_publisher.s"
+	@echo "... event/event_processor.o"
+	@echo "... event/event_processor.i"
+	@echo "... event/event_processor.s"
+	@echo "... event/event_producer.o"
+	@echo "... event/event_producer.i"
+	@echo "... event/event_producer.s"
 	@echo "... ring_buffer.o"
 	@echo "... ring_buffer.i"
 	@echo "... ring_buffer.s"
 	@echo "... sequence.o"
 	@echo "... sequence.i"
 	@echo "... sequence.s"
+	@echo "... sequence_barrier.o"
+	@echo "... sequence_barrier.i"
+	@echo "... sequence_barrier.s"
 	@echo "... sequencer.o"
 	@echo "... sequencer.i"
 	@echo "... sequencer.s"

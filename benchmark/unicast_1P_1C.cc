@@ -1,6 +1,6 @@
 #include "sequencer.h"
-#include "event/event_publisher.h"
-#include "event/event_consumer.h"
+#include "event/event_producer.h"
+#include "event/event_processor.h"
 #include "support/stub_event.h"
 
 #include <iostream>
@@ -18,13 +18,13 @@ int main(int argc,char** argv)
 
     // get consumer barrier without dependents
     std::vector<Sequence*> dependents;
-    ConsumerBarrier* barrier = sequencer->NewBarrier(dependents);
+    SequenceBarrier* barrier = sequencer->NewBarrier(dependents);
 
     // construct event consumer with event_handler and above
     test::StubEventHandler event_handler;
-    EventConsumer<test::StubEvent> event_consumer(sequencer,barrier,&event_handler);
-    std::thread consumer([&event_consumer](){
-        event_consumer.Run();
+    EventProcessor<test::StubEvent> event_processor(sequencer,barrier,&event_handler);
+    std::thread consumer([&event_processor](){
+        event_processor.Run();
     });
 
     // construct event publisher
@@ -33,15 +33,15 @@ int main(int argc,char** argv)
     gettimeofday(&start_time,NULL);
 
     test::StubEventTranslator event_translator;
-    EventPublisher<test::StubEvent> publisher(sequencer);
-    int64_t iterations = 50000000;
+    EventProducer<test::StubEvent> event_producer(sequencer);
+    int64_t iterations = 10000000;
     int64_t batch_size = 1;
     for(int64_t i = 0; i < iterations; ++i) {
-        publisher.PublishEvent(&event_translator,batch_size);
+        event_producer.PublishEvent(&event_translator,batch_size);
     }
 
     int64_t expect_sequence = sequencer->GetCursor();
-    while(event_consumer.GetSequence()->GetSequence() < expect_sequence) {
+    while(event_processor.GetSequence()->GetSequence() < expect_sequence) {
         // wait
     }
     gettimeofday(&end_time,NULL);
@@ -57,7 +57,7 @@ int main(int argc,char** argv)
     //           << " Mb/secs" << std::endl; 
     std::cout << (end - start) * 1000000000.0 / iterations
               << " latency/ns" << std::endl;
-    event_consumer.Stop();
+    event_processor.Stop();
     consumer.join();
     return 0;
 }

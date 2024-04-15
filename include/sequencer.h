@@ -30,7 +30,7 @@
 #include "sequence.h"
 #include "claim_strategy.h"
 #include "wait_strategy.h"
-#include "consumer_barrier.h"
+#include "sequence_barrier.h"
 
 namespace disruptor {
 /**
@@ -64,8 +64,8 @@ public:
     }
 
     // Create a barrier that gates on the cursor and a list of Sequences
-    ConsumerBarrier* NewBarrier(const std::vector<Sequence*>& dependents) {
-        return new ConsumerBarrier(_cursor,dependents,_wait_strategy);
+    SequenceBarrier* NewBarrier(const std::vector<Sequence*>& dependents) {
+        return new SequenceBarrier(_cursor,dependents,_wait_strategy);
     }
 
     bool HasAvailableCapacity() {

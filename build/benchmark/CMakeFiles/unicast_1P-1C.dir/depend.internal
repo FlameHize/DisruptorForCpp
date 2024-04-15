@@ -3,12 +3,12 @@
 
 benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o
  ../include/claim_strategy.h
- ../include/consumer_barrier.h
- ../include/event/event_consumer.h
  ../include/event/event_interface.h
- ../include/event/event_publisher.h
+ ../include/event/event_processor.h
+ ../include/event/event_producer.h
  ../include/ring_buffer.h
  ../include/sequence.h
+ ../include/sequence_barrier.h
  ../include/sequencer.h
  ../include/utils.h
  ../include/wait_strategy.h

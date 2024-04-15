@@ -7,38 +7,32 @@ src/CMakeFiles/disruptor.dir/claim_strategy.cc.o: ../include/sequence.h
 src/CMakeFiles/disruptor.dir/claim_strategy.cc.o: ../include/utils.h
 src/CMakeFiles/disruptor.dir/claim_strategy.cc.o: ../src/claim_strategy.cc
 
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o: ../include/consumer_barrier.h
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o: ../include/sequence.h
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o: ../include/utils.h
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o: ../include/wait_strategy.h
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o: ../src/consumer_barrier.cc
-
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/claim_strategy.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/consumer_barrier.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/event/event_consumer.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/event/event_interface.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/ring_buffer.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/sequence.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/sequencer.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/utils.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../include/wait_strategy.h
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../src/event/event_consumer.cc
-
 src/CMakeFiles/disruptor.dir/event/event_interface.cc.o: ../include/event/event_interface.h
 src/CMakeFiles/disruptor.dir/event/event_interface.cc.o: ../include/sequence.h
 src/CMakeFiles/disruptor.dir/event/event_interface.cc.o: ../include/utils.h
 src/CMakeFiles/disruptor.dir/event/event_interface.cc.o: ../src/event/event_interface.cc
 
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/claim_strategy.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/consumer_barrier.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/event/event_interface.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/event/event_publisher.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/ring_buffer.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/sequence.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/sequencer.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/utils.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../include/wait_strategy.h
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../src/event/event_publisher.cc
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/claim_strategy.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/event/event_interface.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/event/event_processor.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/ring_buffer.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/sequence.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/sequence_barrier.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/sequencer.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/utils.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../include/wait_strategy.h
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../src/event/event_processor.cc
+
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/claim_strategy.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/event/event_interface.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/event/event_producer.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/ring_buffer.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/sequence.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/sequence_barrier.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/sequencer.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/utils.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../include/wait_strategy.h
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../src/event/event_producer.cc
 
 src/CMakeFiles/disruptor.dir/ring_buffer.cc.o: ../include/ring_buffer.h
 src/CMakeFiles/disruptor.dir/ring_buffer.cc.o: ../include/utils.h
@@ -48,10 +42,16 @@ src/CMakeFiles/disruptor.dir/sequence.cc.o: ../include/sequence.h
 src/CMakeFiles/disruptor.dir/sequence.cc.o: ../include/utils.h
 src/CMakeFiles/disruptor.dir/sequence.cc.o: ../src/sequence.cc
 
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/sequence.h
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/sequence_barrier.h
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/utils.h
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/wait_strategy.h
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../src/sequence_barrier.cc
+
 src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/claim_strategy.h
-src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/consumer_barrier.h
 src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/ring_buffer.h
 src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/sequence.h
+src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/sequence_barrier.h
 src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/sequencer.h
 src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/utils.h
 src/CMakeFiles/disruptor.dir/sequencer.cc.o: ../include/wait_strategy.h

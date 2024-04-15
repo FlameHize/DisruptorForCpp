@@ -96,7 +96,7 @@ TEST_F(SequencerTest,PublishSequenceBatch)
 TEST_F(SequencerTest,WaitOnSequence)
 {
     std::vector<Sequence*> dependents;
-    ConsumerBarrier* barrier = sequencer.NewBarrier(dependents);
+    SequenceBarrier* barrier = sequencer.NewBarrier(dependents);
     const int64_t sequence = sequencer.Next();
     sequencer.Publish(sequence);
     EXPECT_EQ(barrier->WaitFor(sequence),sequence);
@@ -106,7 +106,7 @@ TEST_F(SequencerTest,WaitOnBatchSequence)
 {
     // Batch read
     std::vector<Sequence*> dependents;
-    ConsumerBarrier* barrier = sequencer.NewBarrier(dependents);
+    SequenceBarrier* barrier = sequencer.NewBarrier(dependents);
     sequencer.Publish(sequencer.Next());
     sequencer.Publish(sequencer.Next());
     const int64_t sequence = sequencer.Next();
@@ -117,7 +117,7 @@ TEST_F(SequencerTest,WaitOnBatchSequence)
 TEST_F(SequencerTest,SignalWaitingSequencesWhenPublish)
 {
     std::vector<Sequence*> dependents;
-    ConsumerBarrier* barrier = sequencer.NewBarrier(dependents);
+    SequenceBarrier* barrier = sequencer.NewBarrier(dependents);
 
     std::atomic<bool> waiting(true);
     std::atomic<bool> completed(false);

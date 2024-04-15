@@ -23,26 +23,26 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef DISRUPTOR_CONSUMER_BARRIER_TEST_H_
-#define DISRUPTOR_CONSUMER_BARRIER_TEST_H_
+#ifndef DISRUPTOR_SEQUENCE_BARRIER_TEST_H_
+#define DISRUPTOR_SEQUENCE_BARRIER_TEST_H_
 
 #include <gtest/gtest.h>
-#include "consumer_barrier.h"
+#include "sequence_barrier.h"
 
 namespace disruptor {
 namespace test {
 
-class ConsumerBarrierTest : public testing::Test
+class SequenceBarrierTest : public testing::Test
 {
 public:
-    ConsumerBarrierTest() : barrier(new ConsumerBarrier(cursor,dependents,CreateWaitStrategy(kBusySpinStrategy))) {}
+    SequenceBarrierTest() : barrier(new SequenceBarrier(cursor,dependents,CreateWaitStrategy(kBusySpinStrategy))) {}
 
     Sequence cursor;
     Sequence sequence_1;
     Sequence sequence_2;
     Sequence sequence_3;
     std::vector<Sequence*> dependents;
-    ConsumerBarrier* barrier;
+    SequenceBarrier* barrier;
 
     std::vector<Sequence*> AllDependents() {
         std::vector<Sequence*> result;
@@ -53,14 +53,14 @@ public:
     }
 };
 
-TEST_F(ConsumerBarrierTest,BasicSetAndGet) 
+TEST_F(SequenceBarrierTest,BasicSetAndGet) 
 {
     EXPECT_EQ(barrier->Alerted(),false);
     barrier->SetAlerted(true);
     EXPECT_EQ(barrier->Alerted(),true);
 }
 
-TEST_F(ConsumerBarrierTest,WaitForCursor)
+TEST_F(SequenceBarrierTest,WaitForCursor)
 {
     // set a value to save result
     std::atomic<int64_t> return_value(kInitialCursorValue);

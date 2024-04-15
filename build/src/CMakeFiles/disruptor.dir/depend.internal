@@ -7,39 +7,33 @@ src/CMakeFiles/disruptor.dir/claim_strategy.cc.o
  ../include/sequence.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/src/claim_strategy.cc
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o
- ../include/consumer_barrier.h
- ../include/sequence.h
- ../include/utils.h
- ../include/wait_strategy.h
- /home/zgx/project/DisruptorForCpp/src/consumer_barrier.cc
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o
- ../include/claim_strategy.h
- ../include/consumer_barrier.h
- ../include/event/event_consumer.h
- ../include/event/event_interface.h
- ../include/ring_buffer.h
- ../include/sequence.h
- ../include/sequencer.h
- ../include/utils.h
- ../include/wait_strategy.h
- /home/zgx/project/DisruptorForCpp/src/event/event_consumer.cc
 src/CMakeFiles/disruptor.dir/event/event_interface.cc.o
  ../include/event/event_interface.h
  ../include/sequence.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/src/event/event_interface.cc
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o
  ../include/claim_strategy.h
- ../include/consumer_barrier.h
  ../include/event/event_interface.h
- ../include/event/event_publisher.h
+ ../include/event/event_processor.h
  ../include/ring_buffer.h
  ../include/sequence.h
+ ../include/sequence_barrier.h
  ../include/sequencer.h
  ../include/utils.h
  ../include/wait_strategy.h
- /home/zgx/project/DisruptorForCpp/src/event/event_publisher.cc
+ /home/zgx/project/DisruptorForCpp/src/event/event_processor.cc
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o
+ ../include/claim_strategy.h
+ ../include/event/event_interface.h
+ ../include/event/event_producer.h
+ ../include/ring_buffer.h
+ ../include/sequence.h
+ ../include/sequence_barrier.h
+ ../include/sequencer.h
+ ../include/utils.h
+ ../include/wait_strategy.h
+ /home/zgx/project/DisruptorForCpp/src/event/event_producer.cc
 src/CMakeFiles/disruptor.dir/ring_buffer.cc.o
  ../include/ring_buffer.h
  ../include/utils.h
@@ -48,11 +42,17 @@ src/CMakeFiles/disruptor.dir/sequence.cc.o
  ../include/sequence.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/src/sequence.cc
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o
+ ../include/sequence.h
+ ../include/sequence_barrier.h
+ ../include/utils.h
+ ../include/wait_strategy.h
+ /home/zgx/project/DisruptorForCpp/src/sequence_barrier.cc
 src/CMakeFiles/disruptor.dir/sequencer.cc.o
  ../include/claim_strategy.h
- ../include/consumer_barrier.h
  ../include/ring_buffer.h
  ../include/sequence.h
+ ../include/sequence_barrier.h
  ../include/sequencer.h
  ../include/utils.h
  ../include/wait_strategy.h

@@ -5,12 +5,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/zgx/project/DisruptorForCpp/src/claim_strategy.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/claim_strategy.cc.o"
-  "/home/zgx/project/DisruptorForCpp/src/consumer_barrier.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o"
-  "/home/zgx/project/DisruptorForCpp/src/event/event_consumer.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o"
   "/home/zgx/project/DisruptorForCpp/src/event/event_interface.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/event/event_interface.cc.o"
-  "/home/zgx/project/DisruptorForCpp/src/event/event_publisher.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o"
+  "/home/zgx/project/DisruptorForCpp/src/event/event_processor.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/event/event_processor.cc.o"
+  "/home/zgx/project/DisruptorForCpp/src/event/event_producer.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/event/event_producer.cc.o"
   "/home/zgx/project/DisruptorForCpp/src/ring_buffer.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/ring_buffer.cc.o"
   "/home/zgx/project/DisruptorForCpp/src/sequence.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/sequence.cc.o"
+  "/home/zgx/project/DisruptorForCpp/src/sequence_barrier.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o"
   "/home/zgx/project/DisruptorForCpp/src/sequencer.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/sequencer.cc.o"
   "/home/zgx/project/DisruptorForCpp/src/wait_strategy.cc" "/home/zgx/project/DisruptorForCpp/build/src/CMakeFiles/disruptor.dir/wait_strategy.cc.o"
   )

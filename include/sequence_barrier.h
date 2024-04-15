@@ -23,8 +23,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef DISRUPTOR_CONSUMER_BARRIER_H_
-#define DISRUPTOR_CONSUMER_BARRIER_H_
+#ifndef DISRUPTOR_SEQUENCE_BARRIER_H_
+#define DISRUPTOR_SEQUENCE_BARRIER_H_
 
 #include <memory>
 #include <vector>
@@ -36,12 +36,12 @@ namespace disruptor {
 
 /**
  * @brief Used for consumer to wait for the target sequence
- * @example int64_t available_sequence = ConsumerBarrier.WaitFor(next_sequence);
+ * @example int64_t available_sequence = SequenceBarrier.WaitFor(next_sequence);
 */
-class ConsumerBarrier
+class SequenceBarrier
 {
 public:
-    explicit ConsumerBarrier(const Sequence& cursor,
+    explicit SequenceBarrier(const Sequence& cursor,
                              const std::vector<Sequence*>& dependents,
                              WaitStrategy* wait_strategy)
         : _cursor(cursor),

@@ -129,28 +129,28 @@ src/CMakeFiles/disruptor.dir/wait_strategy.cc.o.provides: src/CMakeFiles/disrupt
 src/CMakeFiles/disruptor.dir/wait_strategy.cc.o.provides.build: src/CMakeFiles/disruptor.dir/wait_strategy.cc.o
 
 
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o: src/CMakeFiles/disruptor.dir/flags.make
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o: ../src/consumer_barrier.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor.dir/consumer_barrier.cc.o -c /home/zgx/project/DisruptorForCpp/src/consumer_barrier.cc
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: src/CMakeFiles/disruptor.dir/flags.make
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../src/sequence_barrier.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor.dir/sequence_barrier.cc.o -c /home/zgx/project/DisruptorForCpp/src/sequence_barrier.cc
 
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor.dir/consumer_barrier.cc.i"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/src/consumer_barrier.cc > CMakeFiles/disruptor.dir/consumer_barrier.cc.i
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor.dir/sequence_barrier.cc.i"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/src/sequence_barrier.cc > CMakeFiles/disruptor.dir/sequence_barrier.cc.i
 
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor.dir/consumer_barrier.cc.s"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/src/consumer_barrier.cc -o CMakeFiles/disruptor.dir/consumer_barrier.cc.s
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor.dir/sequence_barrier.cc.s"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/src/sequence_barrier.cc -o CMakeFiles/disruptor.dir/sequence_barrier.cc.s
 
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.requires:
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.requires:
 
-.PHONY : src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.requires
+.PHONY : src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.requires
 
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.provides: src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.requires
-	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.provides.build
-.PHONY : src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.provides
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.provides: src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.provides.build
+.PHONY : src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.provides
 
-src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.provides.build: src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.provides.build: src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o
 
 
 src/CMakeFiles/disruptor.dir/claim_strategy.cc.o: src/CMakeFiles/disruptor.dir/flags.make
@@ -225,52 +225,52 @@ src/CMakeFiles/disruptor.dir/event/event_interface.cc.o.provides: src/CMakeFiles
 src/CMakeFiles/disruptor.dir/event/event_interface.cc.o.provides.build: src/CMakeFiles/disruptor.dir/event/event_interface.cc.o
 
 
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: src/CMakeFiles/disruptor.dir/flags.make
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o: ../src/event/event_publisher.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor.dir/event/event_publisher.cc.o -c /home/zgx/project/DisruptorForCpp/src/event/event_publisher.cc
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: src/CMakeFiles/disruptor.dir/flags.make
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o: ../src/event/event_producer.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/disruptor.dir/event/event_producer.cc.o"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor.dir/event/event_producer.cc.o -c /home/zgx/project/DisruptorForCpp/src/event/event_producer.cc
 
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor.dir/event/event_publisher.cc.i"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/src/event/event_publisher.cc > CMakeFiles/disruptor.dir/event/event_publisher.cc.i
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor.dir/event/event_producer.cc.i"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/src/event/event_producer.cc > CMakeFiles/disruptor.dir/event/event_producer.cc.i
 
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor.dir/event/event_publisher.cc.s"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/src/event/event_publisher.cc -o CMakeFiles/disruptor.dir/event/event_publisher.cc.s
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor.dir/event/event_producer.cc.s"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/src/event/event_producer.cc -o CMakeFiles/disruptor.dir/event/event_producer.cc.s
 
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.requires:
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.requires:
 
-.PHONY : src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.requires
+.PHONY : src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.requires
 
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.provides: src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.requires
-	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.provides.build
-.PHONY : src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.provides
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.provides: src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.provides.build
+.PHONY : src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.provides
 
-src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.provides.build: src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o
+src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.provides.build: src/CMakeFiles/disruptor.dir/event/event_producer.cc.o
 
 
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: src/CMakeFiles/disruptor.dir/flags.make
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o: ../src/event/event_consumer.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor.dir/event/event_consumer.cc.o -c /home/zgx/project/DisruptorForCpp/src/event/event_consumer.cc
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: src/CMakeFiles/disruptor.dir/flags.make
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o: ../src/event/event_processor.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/disruptor.dir/event/event_processor.cc.o"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/disruptor.dir/event/event_processor.cc.o -c /home/zgx/project/DisruptorForCpp/src/event/event_processor.cc
 
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor.dir/event/event_consumer.cc.i"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/src/event/event_consumer.cc > CMakeFiles/disruptor.dir/event/event_consumer.cc.i
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/disruptor.dir/event/event_processor.cc.i"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zgx/project/DisruptorForCpp/src/event/event_processor.cc > CMakeFiles/disruptor.dir/event/event_processor.cc.i
 
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor.dir/event/event_consumer.cc.s"
-	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/src/event/event_consumer.cc -o CMakeFiles/disruptor.dir/event/event_consumer.cc.s
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/disruptor.dir/event/event_processor.cc.s"
+	cd /home/zgx/project/DisruptorForCpp/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zgx/project/DisruptorForCpp/src/event/event_processor.cc -o CMakeFiles/disruptor.dir/event/event_processor.cc.s
 
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.requires:
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.requires:
 
-.PHONY : src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.requires
+.PHONY : src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.requires
 
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.provides: src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.requires
-	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.provides.build
-.PHONY : src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.provides
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.provides: src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.requires
+	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.provides.build
+.PHONY : src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.provides
 
-src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.provides.build: src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o
+src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.provides.build: src/CMakeFiles/disruptor.dir/event/event_processor.cc.o
 
 
 # Object files for target disruptor
@@ -278,12 +278,12 @@ disruptor_OBJECTS = \
 "CMakeFiles/disruptor.dir/ring_buffer.cc.o" \
 "CMakeFiles/disruptor.dir/sequence.cc.o" \
 "CMakeFiles/disruptor.dir/wait_strategy.cc.o" \
-"CMakeFiles/disruptor.dir/consumer_barrier.cc.o" \
+"CMakeFiles/disruptor.dir/sequence_barrier.cc.o" \
 "CMakeFiles/disruptor.dir/claim_strategy.cc.o" \
 "CMakeFiles/disruptor.dir/sequencer.cc.o" \
 "CMakeFiles/disruptor.dir/event/event_interface.cc.o" \
-"CMakeFiles/disruptor.dir/event/event_publisher.cc.o" \
-"CMakeFiles/disruptor.dir/event/event_consumer.cc.o"
+"CMakeFiles/disruptor.dir/event/event_producer.cc.o" \
+"CMakeFiles/disruptor.dir/event/event_processor.cc.o"
 
 # External object files for target disruptor
 disruptor_EXTERNAL_OBJECTS =
@@ -291,12 +291,12 @@ disruptor_EXTERNAL_OBJECTS =
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/ring_buffer.cc.o
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/sequence.cc.o
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/wait_strategy.cc.o
-../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o
+../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/claim_strategy.cc.o
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/sequencer.cc.o
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/event/event_interface.cc.o
-../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o
-../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o
+../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/event/event_producer.cc.o
+../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/event/event_processor.cc.o
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/build.make
 ../lib/libdisruptor.so: src/CMakeFiles/disruptor.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX shared library ../../lib/libdisruptor.so"
@@ -310,12 +310,12 @@ src/CMakeFiles/disruptor.dir/build: ../lib/libdisruptor.so
 src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/ring_buffer.cc.o.requires
 src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/sequence.cc.o.requires
 src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/wait_strategy.cc.o.requires
-src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/consumer_barrier.cc.o.requires
+src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o.requires
 src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/claim_strategy.cc.o.requires
 src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/sequencer.cc.o.requires
 src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/event/event_interface.cc.o.requires
-src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/event/event_publisher.cc.o.requires
-src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/event/event_consumer.cc.o.requires
+src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/event/event_producer.cc.o.requires
+src/CMakeFiles/disruptor.dir/requires: src/CMakeFiles/disruptor.dir/event/event_processor.cc.o.requires
 
 .PHONY : src/CMakeFiles/disruptor.dir/requires
 

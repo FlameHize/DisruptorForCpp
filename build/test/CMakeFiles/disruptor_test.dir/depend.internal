@@ -7,20 +7,14 @@ test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o
  ../include/sequence.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/test/claim_strategy_test.cc
-test/CMakeFiles/disruptor_test.dir/consumer_barrier_test.cc.o
- ../include/consumer_barrier.h
- ../include/sequence.h
- ../include/utils.h
- ../include/wait_strategy.h
- /home/zgx/project/DisruptorForCpp/test/consumer_barrier_test.cc
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o
  ../include/claim_strategy.h
- ../include/consumer_barrier.h
- ../include/event/event_consumer.h
  ../include/event/event_interface.h
- ../include/event/event_publisher.h
+ ../include/event/event_processor.h
+ ../include/event/event_producer.h
  ../include/ring_buffer.h
  ../include/sequence.h
+ ../include/sequence_barrier.h
  ../include/sequencer.h
  ../include/utils.h
  ../include/wait_strategy.h
@@ -32,15 +26,21 @@ test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o
  ../include/ring_buffer.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/test/ring_buffer_test.cc
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o
+ ../include/sequence.h
+ ../include/sequence_barrier.h
+ ../include/utils.h
+ ../include/wait_strategy.h
+ /home/zgx/project/DisruptorForCpp/test/sequence_barrier_test.cc
 test/CMakeFiles/disruptor_test.dir/sequence_test.cc.o
  ../include/sequence.h
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/test/sequence_test.cc
 test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o
  ../include/claim_strategy.h
- ../include/consumer_barrier.h
  ../include/ring_buffer.h
  ../include/sequence.h
+ ../include/sequence_barrier.h
  ../include/sequencer.h
  ../include/utils.h
  ../include/wait_strategy.h

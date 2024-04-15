@@ -28,8 +28,8 @@
 
 #include "sequencer.h"
 #include "event/event_interface.h"
-#include "event/event_publisher.h"
-#include "event/event_consumer.h"
+#include "event/event_producer.h"
+#include "event/event_processor.h"
 #include "support/stub_event.h"
 #include <gtest/gtest.h>
 
@@ -40,8 +40,8 @@ class EventTest : public testing::Test
 {
 public:
     Sequencer<StubEvent>* sequencer;
-    EventPublisher<StubEvent>* publisher;
-    EventConsumer<StubEvent>* consumer;
+    EventProducer<StubEvent>* producer;
+    EventProcessor<StubEvent>* processor;
 };
 
 } // end namespace test
