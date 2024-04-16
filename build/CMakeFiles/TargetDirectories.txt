@@ -6,7 +6,10 @@
 /home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/rebuild_cache.dir
 /home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/disruptor_test.dir
 /home/zgx/project/DisruptorForCpp/build/test/CMakeFiles/edit_cache.dir
-/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/edit_cache.dir
 /home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/rebuild_cache.dir
-/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/unicast_1P-1C.dir
 /home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir
+/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/sequencer_3P-1C.dir
+/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/diamond_1P-3C.dir
+/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/unicast_1P-1C.dir
+/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/multicast_1P-3C.dir
+/home/zgx/project/DisruptorForCpp/build/benchmark/CMakeFiles/edit_cache.dir

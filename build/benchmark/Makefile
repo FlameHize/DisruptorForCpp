@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/zgx/project/DisruptorForCpp/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -77,6 +66,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,6 +111,51 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+
+# Convenience name for target.
+three_step_pipeline_1P-3C: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+
+.PHONY : three_step_pipeline_1P-3C
+
+# fast build rule for target.
+three_step_pipeline_1P-3C/fast:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
+.PHONY : three_step_pipeline_1P-3C/fast
+
+# Convenience name for target.
+benchmark/CMakeFiles/sequencer_3P-1C.dir/rule:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/sequencer_3P-1C.dir/rule
+.PHONY : benchmark/CMakeFiles/sequencer_3P-1C.dir/rule
+
+# Convenience name for target.
+sequencer_3P-1C: benchmark/CMakeFiles/sequencer_3P-1C.dir/rule
+
+.PHONY : sequencer_3P-1C
+
+# fast build rule for target.
+sequencer_3P-1C/fast:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/build
+.PHONY : sequencer_3P-1C/fast
+
+# Convenience name for target.
+benchmark/CMakeFiles/diamond_1P-3C.dir/rule:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/diamond_1P-3C.dir/rule
+.PHONY : benchmark/CMakeFiles/diamond_1P-3C.dir/rule
+
+# Convenience name for target.
+diamond_1P-3C: benchmark/CMakeFiles/diamond_1P-3C.dir/rule
+
+.PHONY : diamond_1P-3C
+
+# fast build rule for target.
+diamond_1P-3C/fast:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/build
+.PHONY : diamond_1P-3C/fast
+
+# Convenience name for target.
 benchmark/CMakeFiles/unicast_1P-1C.dir/rule:
 	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/unicast_1P-1C.dir/rule
 .PHONY : benchmark/CMakeFiles/unicast_1P-1C.dir/rule
@@ -126,19 +171,100 @@ unicast_1P-1C/fast:
 .PHONY : unicast_1P-1C/fast
 
 # Convenience name for target.
-benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
-.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+benchmark/CMakeFiles/multicast_1P-3C.dir/rule:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/multicast_1P-3C.dir/rule
+.PHONY : benchmark/CMakeFiles/multicast_1P-3C.dir/rule
 
 # Convenience name for target.
-three_step_pipeline_1P-3C: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+multicast_1P-3C: benchmark/CMakeFiles/multicast_1P-3C.dir/rule
 
-.PHONY : three_step_pipeline_1P-3C
+.PHONY : multicast_1P-3C
 
 # fast build rule for target.
-three_step_pipeline_1P-3C/fast:
-	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
-.PHONY : three_step_pipeline_1P-3C/fast
+multicast_1P-3C/fast:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/build
+.PHONY : multicast_1P-3C/fast
+
+diamond_1P_3C.o: diamond_1P_3C.cc.o
+
+.PHONY : diamond_1P_3C.o
+
+# target to build an object file
+diamond_1P_3C.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o
+.PHONY : diamond_1P_3C.cc.o
+
+diamond_1P_3C.i: diamond_1P_3C.cc.i
+
+.PHONY : diamond_1P_3C.i
+
+# target to preprocess a source file
+diamond_1P_3C.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.i
+.PHONY : diamond_1P_3C.cc.i
+
+diamond_1P_3C.s: diamond_1P_3C.cc.s
+
+.PHONY : diamond_1P_3C.s
+
+# target to generate assembly for a file
+diamond_1P_3C.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.s
+.PHONY : diamond_1P_3C.cc.s
+
+multicast_1P_3C.o: multicast_1P_3C.cc.o
+
+.PHONY : multicast_1P_3C.o
+
+# target to build an object file
+multicast_1P_3C.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o
+.PHONY : multicast_1P_3C.cc.o
+
+multicast_1P_3C.i: multicast_1P_3C.cc.i
+
+.PHONY : multicast_1P_3C.i
+
+# target to preprocess a source file
+multicast_1P_3C.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.i
+.PHONY : multicast_1P_3C.cc.i
+
+multicast_1P_3C.s: multicast_1P_3C.cc.s
+
+.PHONY : multicast_1P_3C.s
+
+# target to generate assembly for a file
+multicast_1P_3C.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.s
+.PHONY : multicast_1P_3C.cc.s
+
+sequencer_3P_1C.o: sequencer_3P_1C.cc.o
+
+.PHONY : sequencer_3P_1C.o
+
+# target to build an object file
+sequencer_3P_1C.cc.o:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o
+.PHONY : sequencer_3P_1C.cc.o
+
+sequencer_3P_1C.i: sequencer_3P_1C.cc.i
+
+.PHONY : sequencer_3P_1C.i
+
+# target to preprocess a source file
+sequencer_3P_1C.cc.i:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.i
+.PHONY : sequencer_3P_1C.cc.i
+
+sequencer_3P_1C.s: sequencer_3P_1C.cc.s
+
+.PHONY : sequencer_3P_1C.s
+
+# target to generate assembly for a file
+sequencer_3P_1C.cc.s:
+	cd /home/zgx/project/DisruptorForCpp/build && $(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.s
+.PHONY : sequencer_3P_1C.cc.s
 
 three_step_pipeline_1P_3C.o: three_step_pipeline_1P_3C.cc.o
 
@@ -200,10 +326,22 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... unicast_1P-1C"
 	@echo "... three_step_pipeline_1P-3C"
+	@echo "... sequencer_3P-1C"
+	@echo "... diamond_1P-3C"
+	@echo "... unicast_1P-1C"
+	@echo "... multicast_1P-3C"
+	@echo "... edit_cache"
+	@echo "... diamond_1P_3C.o"
+	@echo "... diamond_1P_3C.i"
+	@echo "... diamond_1P_3C.s"
+	@echo "... multicast_1P_3C.o"
+	@echo "... multicast_1P_3C.i"
+	@echo "... multicast_1P_3C.s"
+	@echo "... sequencer_3P_1C.o"
+	@echo "... sequencer_3P_1C.i"
+	@echo "... sequencer_3P_1C.s"
 	@echo "... three_step_pipeline_1P_3C.o"
 	@echo "... three_step_pipeline_1P_3C.i"
 	@echo "... three_step_pipeline_1P_3C.s"

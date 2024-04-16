@@ -84,7 +84,7 @@ src/preinstall:
 src/CMakeFiles/disruptor.dir/all:
 	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/depend
 	$(MAKE) -f src/CMakeFiles/disruptor.dir/build.make src/CMakeFiles/disruptor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target disruptor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12 "Built target disruptor"
 .PHONY : src/CMakeFiles/disruptor.dir/all
 
 # Include target in all.
@@ -139,7 +139,7 @@ test/preinstall:
 test/CMakeFiles/disruptor_test.dir/all: src/CMakeFiles/disruptor.dir/all
 	$(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/depend
 	$(MAKE) -f test/CMakeFiles/disruptor_test.dir/build.make test/CMakeFiles/disruptor_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=11,12,13,14,15,16,17,18,19 "Built target disruptor_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=13,14,15,16,17,18,19,20,21 "Built target disruptor_test"
 .PHONY : test/CMakeFiles/disruptor_test.dir/all
 
 # Include target in all.
@@ -173,14 +173,20 @@ clean: test/CMakeFiles/disruptor_test.dir/clean
 # Directory level rules for directory benchmark
 
 # Convenience name for "all" pass in the directory.
-benchmark/all: benchmark/CMakeFiles/unicast_1P-1C.dir/all
 benchmark/all: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all
+benchmark/all: benchmark/CMakeFiles/sequencer_3P-1C.dir/all
+benchmark/all: benchmark/CMakeFiles/diamond_1P-3C.dir/all
+benchmark/all: benchmark/CMakeFiles/unicast_1P-1C.dir/all
+benchmark/all: benchmark/CMakeFiles/multicast_1P-3C.dir/all
 
 .PHONY : benchmark/all
 
 # Convenience name for "clean" pass in the directory.
-benchmark/clean: benchmark/CMakeFiles/unicast_1P-1C.dir/clean
 benchmark/clean: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean
+benchmark/clean: benchmark/CMakeFiles/sequencer_3P-1C.dir/clean
+benchmark/clean: benchmark/CMakeFiles/diamond_1P-3C.dir/clean
+benchmark/clean: benchmark/CMakeFiles/unicast_1P-1C.dir/clean
+benchmark/clean: benchmark/CMakeFiles/multicast_1P-3C.dir/clean
 
 .PHONY : benchmark/clean
 
@@ -190,13 +196,124 @@ benchmark/preinstall:
 .PHONY : benchmark/preinstall
 
 #=============================================================================
+# Target rules for target benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir
+
+# All Build rule for target.
+benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all: src/CMakeFiles/disruptor.dir/all
+	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/depend
+	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=26,27 "Built target three_step_pipeline_1P-3C"
+.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all
+
+# Include target in all.
+all: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 12
+	$(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 0
+.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+
+# Convenience name for target.
+three_step_pipeline_1P-3C: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+
+.PHONY : three_step_pipeline_1P-3C
+
+# clean rule for target.
+benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean:
+	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean
+.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean
+
+# clean rule for target.
+clean: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target benchmark/CMakeFiles/sequencer_3P-1C.dir
+
+# All Build rule for target.
+benchmark/CMakeFiles/sequencer_3P-1C.dir/all: src/CMakeFiles/disruptor.dir/all
+	$(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/depend
+	$(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=24,25 "Built target sequencer_3P-1C"
+.PHONY : benchmark/CMakeFiles/sequencer_3P-1C.dir/all
+
+# Include target in all.
+all: benchmark/CMakeFiles/sequencer_3P-1C.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+benchmark/CMakeFiles/sequencer_3P-1C.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 12
+	$(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/sequencer_3P-1C.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 0
+.PHONY : benchmark/CMakeFiles/sequencer_3P-1C.dir/rule
+
+# Convenience name for target.
+sequencer_3P-1C: benchmark/CMakeFiles/sequencer_3P-1C.dir/rule
+
+.PHONY : sequencer_3P-1C
+
+# clean rule for target.
+benchmark/CMakeFiles/sequencer_3P-1C.dir/clean:
+	$(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/clean
+.PHONY : benchmark/CMakeFiles/sequencer_3P-1C.dir/clean
+
+# clean rule for target.
+clean: benchmark/CMakeFiles/sequencer_3P-1C.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target benchmark/CMakeFiles/diamond_1P-3C.dir
+
+# All Build rule for target.
+benchmark/CMakeFiles/diamond_1P-3C.dir/all: src/CMakeFiles/disruptor.dir/all
+	$(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/depend
+	$(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=1,2 "Built target diamond_1P-3C"
+.PHONY : benchmark/CMakeFiles/diamond_1P-3C.dir/all
+
+# Include target in all.
+all: benchmark/CMakeFiles/diamond_1P-3C.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+benchmark/CMakeFiles/diamond_1P-3C.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 12
+	$(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/diamond_1P-3C.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 0
+.PHONY : benchmark/CMakeFiles/diamond_1P-3C.dir/rule
+
+# Convenience name for target.
+diamond_1P-3C: benchmark/CMakeFiles/diamond_1P-3C.dir/rule
+
+.PHONY : diamond_1P-3C
+
+# clean rule for target.
+benchmark/CMakeFiles/diamond_1P-3C.dir/clean:
+	$(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/clean
+.PHONY : benchmark/CMakeFiles/diamond_1P-3C.dir/clean
+
+# clean rule for target.
+clean: benchmark/CMakeFiles/diamond_1P-3C.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target benchmark/CMakeFiles/unicast_1P-1C.dir
 
 # All Build rule for target.
 benchmark/CMakeFiles/unicast_1P-1C.dir/all: src/CMakeFiles/disruptor.dir/all
 	$(MAKE) -f benchmark/CMakeFiles/unicast_1P-1C.dir/build.make benchmark/CMakeFiles/unicast_1P-1C.dir/depend
 	$(MAKE) -f benchmark/CMakeFiles/unicast_1P-1C.dir/build.make benchmark/CMakeFiles/unicast_1P-1C.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=22,23 "Built target unicast_1P-1C"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=28,29 "Built target unicast_1P-1C"
 .PHONY : benchmark/CMakeFiles/unicast_1P-1C.dir/all
 
 # Include target in all.
@@ -227,39 +344,39 @@ clean: benchmark/CMakeFiles/unicast_1P-1C.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir
+# Target rules for target benchmark/CMakeFiles/multicast_1P-3C.dir
 
 # All Build rule for target.
-benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all: src/CMakeFiles/disruptor.dir/all
-	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/depend
-	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=20,21 "Built target three_step_pipeline_1P-3C"
-.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all
+benchmark/CMakeFiles/multicast_1P-3C.dir/all: src/CMakeFiles/disruptor.dir/all
+	$(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/depend
+	$(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=22,23 "Built target multicast_1P-3C"
+.PHONY : benchmark/CMakeFiles/multicast_1P-3C.dir/all
 
 # Include target in all.
-all: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all
+all: benchmark/CMakeFiles/multicast_1P-3C.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule: cmake_check_build_system
+benchmark/CMakeFiles/multicast_1P-3C.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 12
-	$(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 benchmark/CMakeFiles/multicast_1P-3C.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zgx/project/DisruptorForCpp/build/CMakeFiles 0
-.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+.PHONY : benchmark/CMakeFiles/multicast_1P-3C.dir/rule
 
 # Convenience name for target.
-three_step_pipeline_1P-3C: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/rule
+multicast_1P-3C: benchmark/CMakeFiles/multicast_1P-3C.dir/rule
 
-.PHONY : three_step_pipeline_1P-3C
-
-# clean rule for target.
-benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean:
-	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean
-.PHONY : benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean
+.PHONY : multicast_1P-3C
 
 # clean rule for target.
-clean: benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/clean
+benchmark/CMakeFiles/multicast_1P-3C.dir/clean:
+	$(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/clean
+.PHONY : benchmark/CMakeFiles/multicast_1P-3C.dir/clean
+
+# clean rule for target.
+clean: benchmark/CMakeFiles/multicast_1P-3C.dir/clean
 
 .PHONY : clean
 

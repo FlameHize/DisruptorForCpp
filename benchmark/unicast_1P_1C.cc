@@ -16,18 +16,18 @@ int main(int argc,char** argv)
     Sequencer<test::StubEvent>* sequencer = new Sequencer<test::StubEvent>(ring_buffer_size,
                     kSingleThreadClaimStrategy,kBusySpinStrategy);
 
-    // get consumer barrier without dependents
+    // get processor barrier without dependents
     std::vector<Sequence*> dependents;
     SequenceBarrier* barrier = sequencer->NewBarrier(dependents);
 
-    // construct event consumer with event_handler and above
+    // construct event processor with event_handler and above
     test::StubEventHandler event_handler;
     EventProcessor<test::StubEvent> event_processor(sequencer,barrier,&event_handler);
     std::thread consumer([&event_processor](){
         event_processor.Run();
     });
 
-    // construct event publisher
+    // construct event producer
     struct timeval start_time;
     struct timeval end_time;
     gettimeofday(&start_time,NULL);

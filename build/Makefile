@@ -137,6 +137,45 @@ disruptor_test/fast:
 .PHONY : disruptor_test/fast
 
 #=============================================================================
+# Target rules for targets named three_step_pipeline_1P-3C
+
+# Build rule for target.
+three_step_pipeline_1P-3C: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 three_step_pipeline_1P-3C
+.PHONY : three_step_pipeline_1P-3C
+
+# fast build rule for target.
+three_step_pipeline_1P-3C/fast:
+	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
+.PHONY : three_step_pipeline_1P-3C/fast
+
+#=============================================================================
+# Target rules for targets named sequencer_3P-1C
+
+# Build rule for target.
+sequencer_3P-1C: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sequencer_3P-1C
+.PHONY : sequencer_3P-1C
+
+# fast build rule for target.
+sequencer_3P-1C/fast:
+	$(MAKE) -f benchmark/CMakeFiles/sequencer_3P-1C.dir/build.make benchmark/CMakeFiles/sequencer_3P-1C.dir/build
+.PHONY : sequencer_3P-1C/fast
+
+#=============================================================================
+# Target rules for targets named diamond_1P-3C
+
+# Build rule for target.
+diamond_1P-3C: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 diamond_1P-3C
+.PHONY : diamond_1P-3C
+
+# fast build rule for target.
+diamond_1P-3C/fast:
+	$(MAKE) -f benchmark/CMakeFiles/diamond_1P-3C.dir/build.make benchmark/CMakeFiles/diamond_1P-3C.dir/build
+.PHONY : diamond_1P-3C/fast
+
+#=============================================================================
 # Target rules for targets named unicast_1P-1C
 
 # Build rule for target.
@@ -150,17 +189,17 @@ unicast_1P-1C/fast:
 .PHONY : unicast_1P-1C/fast
 
 #=============================================================================
-# Target rules for targets named three_step_pipeline_1P-3C
+# Target rules for targets named multicast_1P-3C
 
 # Build rule for target.
-three_step_pipeline_1P-3C: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 three_step_pipeline_1P-3C
-.PHONY : three_step_pipeline_1P-3C
+multicast_1P-3C: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 multicast_1P-3C
+.PHONY : multicast_1P-3C
 
 # fast build rule for target.
-three_step_pipeline_1P-3C/fast:
-	$(MAKE) -f benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build.make benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/build
-.PHONY : three_step_pipeline_1P-3C/fast
+multicast_1P-3C/fast:
+	$(MAKE) -f benchmark/CMakeFiles/multicast_1P-3C.dir/build.make benchmark/CMakeFiles/multicast_1P-3C.dir/build
+.PHONY : multicast_1P-3C/fast
 
 # Help Target
 help:
@@ -172,8 +211,11 @@ help:
 	@echo "... edit_cache"
 	@echo "... disruptor"
 	@echo "... disruptor_test"
-	@echo "... unicast_1P-1C"
 	@echo "... three_step_pipeline_1P-3C"
+	@echo "... sequencer_3P-1C"
+	@echo "... diamond_1P-3C"
+	@echo "... unicast_1P-1C"
+	@echo "... multicast_1P-3C"
 .PHONY : help
 
 

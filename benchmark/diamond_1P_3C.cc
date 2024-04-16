@@ -11,38 +11,30 @@ using namespace disruptor;
 
 int main(int argc,char** argv)
 {
-    // construct sequencer
     const int64_t ring_buffer_size = 1024 * 1024 * 64;
     Sequencer<test::StubEvent>* sequencer = new Sequencer<test::StubEvent>(ring_buffer_size,
-                    kSingleThreadClaimStrategy,kBusySpinStrategy);
+                kSingleThreadClaimStrategy,kBusySpinStrategy);
     
-    // get consumer barrier with dependents
+    // get processor barrier with dependents
     std::vector<Sequence*> dependents;
-
-    // event handler
-    test::StubEventHandler event_handler;
-
-    // first pipeline's barrier
     SequenceBarrier* first_barrier = sequencer->NewBarrier(dependents);
+
+    // first and second processor without dependents
+    test::StubEventHandler event_handler;
     EventProcessor<test::StubEvent> first_event_processor(sequencer,first_barrier,&event_handler);
     std::thread first_consumer([&first_event_processor](){
         first_event_processor.Run();
     });
-
-    // second pipeline's barrier
-    dependents.clear();
-    dependents.push_back(first_event_processor.GetSequence());
-    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
-    EventProcessor<test::StubEvent> second_event_processor(sequencer,second_barrier,&event_handler);
+    EventProcessor<test::StubEvent> second_event_processor(sequencer,first_barrier,&event_handler);
     std::thread second_consumer([&second_event_processor](){
         second_event_processor.Run();
     });
 
-    // third pipeline's barrier
-    dependents.clear();
+    // third processor depends on first and second processor
+    dependents.push_back(first_event_processor.GetSequence());
     dependents.push_back(second_event_processor.GetSequence());
-    SequenceBarrier* third_barrier = sequencer->NewBarrier(dependents);
-    EventProcessor<test::StubEvent> third_event_processor(sequencer,third_barrier,&event_handler);
+    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> third_event_processor(sequencer,second_barrier,&event_handler);
     std::thread third_consumer([&third_event_processor](){
         third_event_processor.Run();
     });
@@ -70,18 +62,18 @@ int main(int argc,char** argv)
     double end = end_time.tv_sec + ((double) end_time.tv_usec / 1000000);
 
     std::cout.precision(15);
-    std::cout << "Three_step_pipeline 1P-3C performance: ";
+    std::cout << "Diamond 1P-3C performance: ";
     std::cout << (iterations * 1.0) / (end - start)
               << " ops/secs" << std::endl;
     // std::cout << iterations * 64.0 / ((end - start) * 1000000)
     //           << " Mb/secs" << std::endl; 
     std::cout << (end - start) * 1000000000.0 / iterations
               << " latency/ns" << std::endl;
-
     first_event_processor.Stop();
     second_event_processor.Stop();
     third_event_processor.Stop();
     first_consumer.join();
     second_consumer.join();
     third_consumer.join();
+    return 0;
 }

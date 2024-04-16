@@ -26,6 +26,7 @@
 #ifndef DISRUPTOR_STUB_EVENT_H_
 #define DISRUPTOR_STUB_EVENT_H_
 
+// #include <iostream>
 #include "event/event_interface.h"
 
 namespace disruptor {
@@ -51,6 +52,7 @@ class StubEventHandler : public EventHandler<StubEvent> {
 public:
     virtual void OnEvent(const int64_t& sequence,StubEvent* event) override {
         int64_t seq = event->GetValue();
+        // std::cout << seq << std::endl;
     }
     virtual void OnStart() override {
         // empty temp
