@@ -52,7 +52,7 @@ public:
           _claim_strategy(CreateClaimStrategy(claim_option,buffer_size)),
           _wait_strategy(CreateWaitStrategy(wait_option)) {}
 
-    // Set the sequences(consumers) that will gate publishers to prevent
+    // Set the sequences(consumers) that will gate producers to prevent
     // the ring buffer wrapping
     void SetGatingSequences(const std::vector<Sequence*>& sequences) {
         _gating_sequences = sequences;

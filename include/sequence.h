@@ -74,8 +74,8 @@ private:
     int64_t _padding0[ATOMIC_SEQUENCE_PADDING_LENGTH];
     // member
     std::atomic<int64_t> _sequence;
-    // padding
-    int64_t _padding1[ATOMIC_SEQUENCE_PADDING_LENGTH];
+    // // padding
+    // int64_t _padding1[ATOMIC_SEQUENCE_PADDING_LENGTH];
 };
 
 inline int64_t GetMinimumSequence(const std::vector<Sequence*>& sequences) 

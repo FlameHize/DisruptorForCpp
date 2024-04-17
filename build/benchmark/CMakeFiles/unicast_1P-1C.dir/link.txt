@@ -1,1 +1,1 @@
-/usr/bin/c++  -std=c++11 -g -Wall -g  -rdynamic CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o  -o ../../bin/unicast_1P-1C -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -lpthread 
+/usr/bin/c++  -std=c++11 -g -Wall -Ofast -g  -rdynamic CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o  -o ../../bin/unicast_1P-1C -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -lpthread 

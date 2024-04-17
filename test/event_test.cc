@@ -36,13 +36,184 @@
 namespace disruptor {
 namespace test {
 
+///@todo 五种测试模块 分别测试对应的wait strategy以及claim strategy
 class EventTest : public testing::Test
 {
 public:
+    int64_t ring_buffer_size = 8;
+
     Sequencer<StubEvent>* sequencer;
-    EventProducer<StubEvent>* producer;
-    EventProcessor<StubEvent>* processor;
+    SequenceBarrier* barrier;
+    std::vector<Sequence*> dependents;
+    
+    StubEventTranslator event_translator;
+    StubEventHandler event_handler;
+
+    EventProcessor<StubEvent>* first_event_processor;
+    EventProcessor<StubEvent>* second_event_processor;
+    EventProcessor<StubEvent>* third_event_processor;
+
+    EventProducer<StubEvent>* first_event_producer;
+    EventProducer<StubEvent>* second_event_producer;
+    EventProducer<StubEvent>* third_event_producer;
 };
+
+TEST_F(EventTest,Unicast1P1CWithWaitBusyStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kBusySpinStrategy);
+    barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,barrier,&event_handler);
+    std::thread consumer([&](){
+        first_event_processor->Run();
+    });
+    Sequence* processor_sequence = first_event_processor->GetSequence();
+
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    
+    // full
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    consumer.join();
+}
+
+TEST_F(EventTest,Unicast1P1CWithWaitSleepingStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kSleepingStrategy);
+    barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,barrier,&event_handler);
+    std::thread consumer([&](){
+        first_event_processor->Run();
+    });
+    Sequence* processor_sequence = first_event_processor->GetSequence();
+
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    
+    // full
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    consumer.join();
+}
+
+TEST_F(EventTest,Unicast1P1CWithWaitYieldingStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kYieldingStrategy);
+    barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,barrier,&event_handler);
+    std::thread consumer([&](){
+        first_event_processor->Run();
+    });
+    Sequence* processor_sequence = first_event_processor->GetSequence();
+
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    
+    // full
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    consumer.join();
+}
+
+///@bug can not return
+TEST_F(EventTest,Unicast1P1CWithWaitBlockingStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kBlockingStrategy);
+    barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,barrier,&event_handler);
+    std::thread consumer([&](){
+        first_event_processor->Run();
+    });
+    Sequence* processor_sequence = first_event_processor->GetSequence();
+
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    
+    // full
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    consumer.join();
+}
 
 } // end namespace test
 

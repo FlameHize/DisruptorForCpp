@@ -27,7 +27,7 @@ int main(int argc,char** argv)
     gettimeofday(&start_time,NULL);
 
     test::StubEventTranslator event_translator;
-    int64_t iterations = 1000;
+    int64_t iterations = 1000000;
     int64_t batch_size = 1;
 
     // first event producer

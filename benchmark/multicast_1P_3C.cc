@@ -46,7 +46,7 @@ int main(int argc,char** argv)
 
     test::StubEventTranslator event_translator;
     EventProducer<test::StubEvent> event_producer(sequencer);
-    int64_t iterations = 10000000;
+    int64_t iterations = 500000000;
     int64_t batch_size = 1;
     for(int64_t i = 0; i < iterations; ++i) {
         event_producer.PublishEvent(&event_translator,batch_size);
