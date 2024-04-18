@@ -175,7 +175,11 @@ TEST_F(EventTest,Unicast1P1CWithWaitYieldingStrategy)
     consumer.join();
 }
 
-///@bug can not return
+///@bug can not return 概率性事件
+// event_processor::Run()中 consumer线程处理事件 且此时run设置为false时
+// BlockingStrategy才会停止
+// 也就是说 虽然Stop()设置了alert,BlockingStrategy::WaitFor()阻塞在
+// condition.wait()方法中 需要进行唤醒
 TEST_F(EventTest,Unicast1P1CWithWaitBlockingStrategy)
 {
     sequencer = new Sequencer<StubEvent>(ring_buffer_size,
@@ -212,6 +216,11 @@ TEST_F(EventTest,Unicast1P1CWithWaitBlockingStrategy)
     EXPECT_EQ(processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
 
     first_event_processor->Stop();
+
+    // 进行一次wait_strategy.signal()通知 唤醒condition.wait() 判断alerted 
+    // 结束循环
+    first_event_producer->PublishEvent(&event_translator,0);
+
     consumer.join();
 }
 

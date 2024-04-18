@@ -1,1 +1,1 @@
-/usr/bin/c++  -std=c++11 -g -Wall -Ofast -g  -rdynamic CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o  -o ../../bin/diamond_1P-3C -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -lpthread 
+/usr/bin/c++  -std=c++11 -g -Wall -g  -rdynamic CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o  -o ../../bin/diamond_1P-3C -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -lpthread 
