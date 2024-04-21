@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+../benchmark/support/stub_event.h
+event/event_interface.h
+../benchmark/support/event/event_interface.h
+
 ../include/claim_strategy.h
 thread
 -
@@ -141,10 +145,6 @@ gtest/gtest.h
 -
 sequencer.h
 /home/zgx/project/DisruptorForCpp/test/sequencer.h
-
-/home/zgx/project/DisruptorForCpp/test/support/stub_event.h
-event/event_interface.h
-/home/zgx/project/DisruptorForCpp/test/support/event/event_interface.h
 
 /home/zgx/project/DisruptorForCpp/test/wait_strategy_test.cc
 thread

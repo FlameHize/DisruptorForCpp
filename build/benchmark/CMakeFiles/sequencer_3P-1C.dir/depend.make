@@ -11,6 +11,6 @@ benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o: ../include/sequen
 benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o: ../include/sequencer.h
 benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o: ../include/utils.h
 benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o: ../include/wait_strategy.h
-benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o: ../test/support/stub_event.h
 benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o: ../benchmark/sequencer_3P_1C.cc
+benchmark/CMakeFiles/sequencer_3P-1C.dir/sequencer_3P_1C.cc.o: ../benchmark/support/stub_event.h
 

@@ -11,6 +11,6 @@ benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o: ../include/sequen
 benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o: ../include/sequencer.h
 benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o: ../include/utils.h
 benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o: ../include/wait_strategy.h
-benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o: ../test/support/stub_event.h
 benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o: ../benchmark/multicast_1P_3C.cc
+benchmark/CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o: ../benchmark/support/stub_event.h
 

@@ -6,5 +6,5 @@ CXX_FLAGS = -std=c++11 -g -Wall -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/zgx/project/DisruptorForCpp/include -I/home/zgx/project/DisruptorForCpp/src -I/home/zgx/project/DisruptorForCpp/test 
+CXX_INCLUDES = -I/home/zgx/project/DisruptorForCpp/include -I/home/zgx/project/DisruptorForCpp/src -I/home/zgx/project/DisruptorForCpp/test -I/home/zgx/project/DisruptorForCpp/benchmark 
 

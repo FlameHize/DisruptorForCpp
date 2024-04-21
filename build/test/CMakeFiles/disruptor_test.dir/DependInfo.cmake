@@ -20,6 +20,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
   "../src"
   "../test"
+  "../benchmark"
   )
 
 # Targets to which this target links.

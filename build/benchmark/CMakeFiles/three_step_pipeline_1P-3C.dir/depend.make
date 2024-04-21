@@ -11,6 +11,6 @@ benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.
 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.o: ../include/sequencer.h
 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.o: ../include/utils.h
 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.o: ../include/wait_strategy.h
-benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.o: ../test/support/stub_event.h
+benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.o: ../benchmark/support/stub_event.h
 benchmark/CMakeFiles/three_step_pipeline_1P-3C.dir/three_step_pipeline_1P_3C.cc.o: ../benchmark/three_step_pipeline_1P_3C.cc
 

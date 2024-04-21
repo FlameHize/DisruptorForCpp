@@ -7,6 +7,7 @@ test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o: ../include/sequence
 test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/claim_strategy_test.cc.o: ../test/claim_strategy_test.cc
 
+test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../benchmark/support/stub_event.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/claim_strategy.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_interface.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/event/event_processor.h
@@ -18,7 +19,6 @@ test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/sequencer.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../include/wait_strategy.h
 test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../test/event_test.cc
-test/CMakeFiles/disruptor_test.dir/event_test.cc.o: ../test/support/stub_event.h
 
 test/CMakeFiles/disruptor_test.dir/main.cc.o: ../test/main.cc
 

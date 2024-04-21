@@ -11,6 +11,6 @@ benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o: ../include/sequence_b
 benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o: ../include/sequencer.h
 benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o: ../include/utils.h
 benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o: ../include/wait_strategy.h
-benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o: ../test/support/stub_event.h
+benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o: ../benchmark/support/stub_event.h
 benchmark/CMakeFiles/unicast_1P-1C.dir/unicast_1P_1C.cc.o: ../benchmark/unicast_1P_1C.cc
 

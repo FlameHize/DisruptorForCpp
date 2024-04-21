@@ -11,6 +11,6 @@ benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o: ../include/sequence_b
 benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o: ../include/sequencer.h
 benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o: ../include/utils.h
 benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o: ../include/wait_strategy.h
-benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o: ../test/support/stub_event.h
 benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o: ../benchmark/diamond_1P_3C.cc
+benchmark/CMakeFiles/diamond_1P-3C.dir/diamond_1P_3C.cc.o: ../benchmark/support/stub_event.h
 

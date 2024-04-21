@@ -10,6 +10,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/test)
+include_directories(${PROJECT_SOURCE_DIR}/benchmark)
 
 add_subdirectory(src)
 add_subdirectory(test)

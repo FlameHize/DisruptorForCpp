@@ -272,8 +272,8 @@ disruptor_test_EXTERNAL_OBJECTS =
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/sequencer_test.cc.o
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/wait_strategy_test.cc.o
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/build.make
-../bin/disruptor_test: ../lib/libdisruptor.so
 ../bin/disruptor_test: /usr/lib/libgtest.a
+../bin/disruptor_test: ../lib/libdisruptor.so
 ../bin/disruptor_test: test/CMakeFiles/disruptor_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/zgx/project/DisruptorForCpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable ../../bin/disruptor_test"
 	cd /home/zgx/project/DisruptorForCpp/build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/disruptor_test.dir/link.txt --verbose=$(VERBOSE)

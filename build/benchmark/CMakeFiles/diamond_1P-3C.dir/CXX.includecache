@@ -92,10 +92,6 @@ sequence.h
 utils.h
 ../include/utils.h
 
-../test/support/stub_event.h
-event/event_interface.h
-../test/support/event/event_interface.h
-
 /home/zgx/project/DisruptorForCpp/benchmark/diamond_1P_3C.cc
 sequencer.h
 /home/zgx/project/DisruptorForCpp/benchmark/sequencer.h
@@ -111,4 +107,8 @@ thread
 -
 sys/time.h
 /home/zgx/project/DisruptorForCpp/benchmark/sys/time.h
+
+/home/zgx/project/DisruptorForCpp/benchmark/support/stub_event.h
+event/event_interface.h
+/home/zgx/project/DisruptorForCpp/benchmark/support/event/event_interface.h
 
