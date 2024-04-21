@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 project(DisruptorForCpp)
-set(CMAKE_BUILD_TYPE DEBUG)
-# set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall -Ofast")
-set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
+
+option(FAST "Whether to set build type release and open -Ofast" OFF)
+if(FAST)
+    set(CMAKE_BUILD_TYPE RELEASE)
+    set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall -Ofast")
+else()
+    set(CMAKE_BUILD_TYPE DEBUG)
+    set(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
+endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

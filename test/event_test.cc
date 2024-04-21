@@ -217,9 +217,10 @@ TEST_F(EventTest,Unicast1P1CWithWaitBlockingStrategy)
 
     first_event_processor->Stop();
 
-    // 进行一次wait_strategy.signal()通知 唤醒condition.wait() 判断alerted 
-    // 结束循环
-    first_event_producer->PublishEvent(&event_translator,0);
+    // // 进行一次wait_strategy.signal()通知 唤醒condition.wait() 判断alerted 
+    // // 结束循环
+    // // add SequencerBarrier::SignalAllWhenBlocking function to signal
+    // first_event_producer->PublishEvent(&event_translator,0);
 
     consumer.join();
 }

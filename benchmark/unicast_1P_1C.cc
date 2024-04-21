@@ -53,8 +53,8 @@ int main(int argc,char** argv)
     std::cout << "Unicast 1P-1C performance: ";
     std::cout << (iterations * 1.0) / (end - start)
               << " ops/secs" << std::endl;
-    // std::cout << iterations * 64.0 / ((end - start) * 1000000)
-    //           << " Mb/secs" << std::endl; 
+    std::cout << iterations * 64.0 / ((end - start) * 1000000)
+              << " Mb/secs" << std::endl; 
     std::cout << (end - start) * 1000000000.0 / iterations
               << " latency/ns" << std::endl;
     event_processor.Stop();

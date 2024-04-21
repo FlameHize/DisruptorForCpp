@@ -72,6 +72,13 @@ public:
     inline void SetAlerted(bool alert) {
         _alerted.store(alert,std::memory_order::memory_order_release);
     }
+
+    /**
+     * @brief special used for wake up blocking wait_strategy
+    */
+    inline void SignalAllWhenBlocking() {
+        _wait_strategy->SignalAllWhenBlocking();
+    }
 private:
     // producer
     const Sequence& _cursor;

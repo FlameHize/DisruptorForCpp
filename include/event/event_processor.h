@@ -79,6 +79,7 @@ public:
         }
         _running.store(false);
         _sequence_barrier->SetAlerted(true);
+        _sequence_barrier->SignalAllWhenBlocking();
     }
 
 private:

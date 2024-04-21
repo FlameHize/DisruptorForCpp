@@ -187,6 +187,9 @@ DisruptorForCpp_BINARY_DIR:STATIC=/home/zgx/project/DisruptorForCpp/build
 //Value Computed by CMake
 DisruptorForCpp_SOURCE_DIR:STATIC=/home/zgx/project/DisruptorForCpp
 
+//Whether to set build type release and open -Ofast
+FAST:BOOL=ON
+
 //Path to a file.
 GTEST_INCLUDE_DIR:PATH=/usr/include
 
