@@ -49,6 +49,10 @@ public:
     StubEventTranslator event_translator;
     StubEventHandler event_handler;
 
+    SequenceBarrier* first_barrier;
+    SequenceBarrier* second_barrier;
+    SequenceBarrier* third_barrier;
+
     EventProcessor<StubEvent>* first_event_processor;
     EventProcessor<StubEvent>* second_event_processor;
     EventProcessor<StubEvent>* third_event_processor;
@@ -223,6 +227,287 @@ TEST_F(EventTest,Unicast1P1CWithWaitBlockingStrategy)
     // first_event_producer->PublishEvent(&event_translator,0);
 
     consumer.join();
+}
+
+
+TEST_F(EventTest,Pipeline1P3CWithWaitBusyStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kBusySpinStrategy);
+    first_barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,first_barrier,&event_handler);
+    std::thread first_consumer([&](){
+        first_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(first_event_processor->GetSequence());
+    second_barrier = sequencer->NewBarrier(dependents);
+    second_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,second_barrier,&event_handler);
+    std::thread second_consumer([&](){
+        second_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(second_event_processor->GetSequence());
+    third_barrier = sequencer->NewBarrier(dependents);
+    third_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,third_barrier,&event_handler);
+    std::thread third_consumer([&](){
+        third_event_processor->Run();
+    });
+
+    Sequence* first_processor_sequence = first_event_processor->GetSequence();
+    Sequence* second_processor_sequence = second_event_processor->GetSequence();
+    Sequence* third_processor_sequence = third_event_processor->GetSequence();
+
+    // first pipeline
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(first_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    // second pipeline
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(second_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+
+    // third pipeline
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(third_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    second_event_processor->Stop();
+    third_event_processor->Stop();
+    first_consumer.join();
+    second_consumer.join();
+    third_consumer.join();
+}
+
+TEST_F(EventTest,Pipeline1P3CWithWaitSleepingStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kSleepingStrategy);
+    first_barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,first_barrier,&event_handler);
+    std::thread first_consumer([&](){
+        first_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(first_event_processor->GetSequence());
+    second_barrier = sequencer->NewBarrier(dependents);
+    second_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,second_barrier,&event_handler);
+    std::thread second_consumer([&](){
+        second_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(second_event_processor->GetSequence());
+    third_barrier = sequencer->NewBarrier(dependents);
+    third_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,third_barrier,&event_handler);
+    std::thread third_consumer([&](){
+        third_event_processor->Run();
+    });
+
+    Sequence* first_processor_sequence = first_event_processor->GetSequence();
+    Sequence* second_processor_sequence = second_event_processor->GetSequence();
+    Sequence* third_processor_sequence = third_event_processor->GetSequence();
+
+    // first pipeline
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(first_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    // second pipeline
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(second_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+
+    // third pipeline
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(third_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    second_event_processor->Stop();
+    third_event_processor->Stop();
+    first_consumer.join();
+    second_consumer.join();
+    third_consumer.join();
+}
+
+TEST_F(EventTest,Pipeline1P3CWithWaitYieldingStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kYieldingStrategy);
+    first_barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,first_barrier,&event_handler);
+    std::thread first_consumer([&](){
+        first_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(first_event_processor->GetSequence());
+    second_barrier = sequencer->NewBarrier(dependents);
+    second_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,second_barrier,&event_handler);
+    std::thread second_consumer([&](){
+        second_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(second_event_processor->GetSequence());
+    third_barrier = sequencer->NewBarrier(dependents);
+    third_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,third_barrier,&event_handler);
+    std::thread third_consumer([&](){
+        third_event_processor->Run();
+    });
+
+    Sequence* first_processor_sequence = first_event_processor->GetSequence();
+    Sequence* second_processor_sequence = second_event_processor->GetSequence();
+    Sequence* third_processor_sequence = third_event_processor->GetSequence();
+
+    // first pipeline
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(first_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    // second pipeline
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(second_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+
+    // third pipeline
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(third_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    second_event_processor->Stop();
+    third_event_processor->Stop();
+    first_consumer.join();
+    second_consumer.join();
+    third_consumer.join();
+}
+
+TEST_F(EventTest,Pipeline1P3CWithWaitBlockingStrategy)
+{
+    sequencer = new Sequencer<StubEvent>(ring_buffer_size,
+                    kSingleThreadClaimStrategy,kBlockingStrategy);
+    first_barrier = sequencer->NewBarrier(dependents);
+    first_event_producer = new EventProducer<StubEvent>(sequencer);
+    
+    first_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,first_barrier,&event_handler);
+    std::thread first_consumer([&](){
+        first_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(first_event_processor->GetSequence());
+    second_barrier = sequencer->NewBarrier(dependents);
+    second_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,second_barrier,&event_handler);
+    std::thread second_consumer([&](){
+        second_event_processor->Run();
+    });
+
+    dependents.clear();
+    dependents.push_back(second_event_processor->GetSequence());
+    third_barrier = sequencer->NewBarrier(dependents);
+    third_event_processor = new EventProcessor<StubEvent>
+                    (sequencer,third_barrier,&event_handler);
+    std::thread third_consumer([&](){
+        third_event_processor->Run();
+    });
+
+    Sequence* first_processor_sequence = first_event_processor->GetSequence();
+    Sequence* second_processor_sequence = second_event_processor->GetSequence();
+    Sequence* third_processor_sequence = third_event_processor->GetSequence();
+
+    // first pipeline
+    first_event_producer->PublishEvent(&event_translator,1);
+    int64_t expect_sequence = sequencer->GetCursor();
+    while(first_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
+
+    // second pipeline
+    first_event_producer->PublishEvent(&event_translator,3);
+    expect_sequence = sequencer->GetCursor();
+    while(second_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + 3L);
+
+    // third pipeline
+    first_event_producer->PublishEvent(&event_translator,5);
+    expect_sequence = sequencer->GetCursor();
+    while(third_processor_sequence->GetSequence() < expect_sequence) {
+        // wait
+    }
+    EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+    EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue + ring_buffer_size);
+
+    first_event_processor->Stop();
+    second_event_processor->Stop();
+    third_event_processor->Stop();
+    first_consumer.join();
+    second_consumer.join();
+    third_consumer.join();
 }
 
 } // end namespace test
