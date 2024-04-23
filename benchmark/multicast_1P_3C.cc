@@ -18,23 +18,25 @@ int main(int argc,char** argv)
     
     // get processor barrier without dependents
     std::vector<Sequence*> dependents;
-    SequenceBarrier* barrier = sequencer->NewBarrier(dependents);
+    test::StubEventHandler event_handler;
 
     // first processor
-    test::StubEventHandler event_handler;
-    EventProcessor<test::StubEvent> first_event_processor(sequencer,barrier,&event_handler);
+    SequenceBarrier* first_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> first_event_processor(sequencer,first_barrier,&event_handler);
     std::thread first_consumer([&first_event_processor](){
         first_event_processor.Run();
     });
 
     // second processor
-    EventProcessor<test::StubEvent> second_event_processor(sequencer,barrier,&event_handler);
+    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> second_event_processor(sequencer,second_barrier,&event_handler);
     std::thread second_consumer([&second_event_processor](){
         second_event_processor.Run();
     });
 
     // third processor
-    EventProcessor<test::StubEvent> third_event_processor(sequencer,barrier,&event_handler);
+    SequenceBarrier* third_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> third_event_processor(sequencer,third_barrier,&event_handler);
     std::thread third_consumer([&third_event_processor](){
         third_event_processor.Run();
     });
@@ -53,9 +55,9 @@ int main(int argc,char** argv)
     }
 
     int64_t expect_sequence = sequencer->GetCursor();
-    while(first_event_processor.GetSequence()->GetSequence() < expect_sequence
-            || second_event_processor.GetSequence()->GetSequence() < expect_sequence
-            || third_event_processor.GetSequence()->GetSequence() < expect_sequence) {
+    while(first_event_processor.GetSequence()->GetSequence() < expect_sequence || 
+            second_event_processor.GetSequence()->GetSequence() < expect_sequence || 
+                third_event_processor.GetSequence()->GetSequence() < expect_sequence) {
         // wait
     }
     gettimeofday(&end_time,NULL);

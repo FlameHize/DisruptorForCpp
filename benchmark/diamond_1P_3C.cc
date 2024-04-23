@@ -18,6 +18,7 @@ int main(int argc,char** argv)
     // get processor barrier with dependents
     std::vector<Sequence*> dependents;
     SequenceBarrier* first_barrier = sequencer->NewBarrier(dependents);
+    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
 
     // first and second processor without dependents
     test::StubEventHandler event_handler;
@@ -25,7 +26,7 @@ int main(int argc,char** argv)
     std::thread first_consumer([&first_event_processor](){
         first_event_processor.Run();
     });
-    EventProcessor<test::StubEvent> second_event_processor(sequencer,first_barrier,&event_handler);
+    EventProcessor<test::StubEvent> second_event_processor(sequencer,second_barrier,&event_handler);
     std::thread second_consumer([&second_event_processor](){
         second_event_processor.Run();
     });
@@ -33,8 +34,8 @@ int main(int argc,char** argv)
     // third processor depends on first and second processor
     dependents.push_back(first_event_processor.GetSequence());
     dependents.push_back(second_event_processor.GetSequence());
-    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
-    EventProcessor<test::StubEvent> third_event_processor(sequencer,second_barrier,&event_handler);
+    SequenceBarrier* third_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> third_event_processor(sequencer,third_barrier,&event_handler);
     std::thread third_consumer([&third_event_processor](){
         third_event_processor.Run();
     });
@@ -57,6 +58,11 @@ int main(int argc,char** argv)
         // wait
     }
     gettimeofday(&end_time,NULL);
+
+    // for test
+    std::cout << first_event_processor.GetSequence()->GetSequence() << std::endl;
+    std::cout << second_event_processor.GetSequence()->GetSequence() << std::endl;
+    std::cout << third_event_processor.GetSequence()->GetSequence() << std::endl;
 
     double start = start_time.tv_sec + ((double) start_time.tv_usec / 1000000);
     double end = end_time.tv_sec + ((double) end_time.tv_usec / 1000000);
