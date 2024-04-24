@@ -56,7 +56,9 @@ public:
         _sequence_barrier->SetAlerted(false);
         _event_handler->OnStart();
         
-        int64_t next_sequence = _sequence.IncrementAndGet(1L);
+        // if there use _sequence.IncrementAndGet(1L)
+        // will create a bug: _sequence change before process event
+        int64_t next_sequence = _sequence.GetSequence() + 1L;
         while(true) {
             int64_t available_sequence = _sequence_barrier->WaitFor(next_sequence);
             while(next_sequence <= available_sequence) {

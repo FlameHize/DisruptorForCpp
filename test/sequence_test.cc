@@ -41,7 +41,10 @@ namespace test {
         EXPECT_EQ(seq.GetSequence(),2L);
 
         EXPECT_EQ(seq.IncrementAndGet(1L),3L);
+        EXPECT_EQ(seq.GetSequence(),3L);
+
         EXPECT_EQ(seq.IncrementAndGet(3L),6L);
+        EXPECT_EQ(seq.GetSequence(),6L);
     }
 
     TEST(SequenceTest,SequenceAtLeastOneCacheLine)

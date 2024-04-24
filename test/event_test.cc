@@ -899,9 +899,9 @@ TEST_F(EventTest,Diamond1P3CWithWaitBusySpinStrategy)
 //     while(third_processor_sequence->GetSequence() < expect_sequence) {
 //         // wait
 //     }
-//     EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
-//     EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue);
-//     EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue);
 
 //     first_event_producer->PublishEvent(&event_translator,3);
 //     expect_sequence = sequencer->GetCursor();
@@ -967,10 +967,10 @@ TEST_F(EventTest,Diamond1P3CWithWaitBusySpinStrategy)
 //     while(third_processor_sequence->GetSequence() < expect_sequence) {
 //         // wait
 //     }
-//     ///@bug
-//     EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
-//     EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue);
-//     EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // ///@bug
+//     // EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue);
 
 //     first_event_producer->PublishEvent(&event_translator,3);
 //     expect_sequence = sequencer->GetCursor();
@@ -1036,10 +1036,10 @@ TEST_F(EventTest,Diamond1P3CWithWaitBusySpinStrategy)
 //     while(third_processor_sequence->GetSequence() < expect_sequence) {
 //         // wait
 //     }
-//     ///@bug
-//     EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
-//     EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue);
-//     EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // ///@bug
+//     // EXPECT_EQ(first_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // EXPECT_EQ(second_processor_sequence->GetSequence(),kFirstSequenceValue);
+//     // EXPECT_EQ(third_processor_sequence->GetSequence(),kFirstSequenceValue);
 
 //     first_event_producer->PublishEvent(&event_translator,3);
 //     expect_sequence = sequencer->GetCursor();
