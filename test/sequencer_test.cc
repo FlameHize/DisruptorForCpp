@@ -84,6 +84,33 @@ TEST_F(SequencerTest,IndicateAvailableCapacity)
     EXPECT_EQ(sequencer.HasAvailableCapacity(),false);
 }
 
+TEST_F(SequencerTest,GattingSequences)
+{
+    // The order in which SequencerBarrier is used to protect consumers
+    // GattingSequences are used to prevent producers from breaking consumer data
+    std::vector<Sequence*> dependents;
+    SequenceBarrier* barrier = sequencer.NewBarrier(dependents);
+    FillBuffer();
+    EXPECT_EQ(sequencer.GetCursor(),kInitialCursorValue + RING_BUFFER_SIZE);
+    gating_sequence.SetSequence(kInitialCursorValue);
+    std::atomic<bool> complete(true);
+    std::thread producer([&](){
+        complete.store(false);
+        sequencer.Publish(sequencer.Next());
+        complete.store(true);
+    });
+    std::this_thread::sleep_for(std::chrono::milliseconds(1L));
+    EXPECT_EQ(complete.load(),false);
+    EXPECT_EQ(sequencer.GetCursor(),kInitialCursorValue + RING_BUFFER_SIZE);
+    
+    // it means proceesor complete process first event
+    gating_sequence.SetSequence(kFirstSequenceValue);
+    while(!complete.load()) {
+    }
+    EXPECT_EQ(sequencer.GetCursor(),kInitialCursorValue + RING_BUFFER_SIZE + 1L);
+    producer.join();
+}
+
 TEST_F(SequencerTest,PublishSequenceBatch)
 {
     const int64_t batch_size = 3;

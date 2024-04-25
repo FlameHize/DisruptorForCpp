@@ -90,7 +90,7 @@ public:
         // Waiting for consumers to complete their consumption until circle diff
         const int64_t wrap_point = _last_claimed_sequence - _buffer_size;
         if(_last_consumer_sequence < wrap_point) {
-            // The dependents in this place means consumers? 
+            // The dependents in this place means processor
             while(GetMinimumSequence(dependents) < wrap_point) {
                 std::this_thread::yield();
             }

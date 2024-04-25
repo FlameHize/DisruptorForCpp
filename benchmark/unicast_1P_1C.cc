@@ -27,6 +27,15 @@ int main(int argc,char** argv)
         event_processor.Run();
     });
 
+    // test add consumer gatting prevent producer wrap
+    std::vector<Sequence*> gatting_sequences;
+    // Sequence s;
+    // s.SetSequence(500);
+    // gatting_sequences.push_back(&s);
+
+    gatting_sequences.push_back(event_processor.GetSequence());
+    sequencer->SetGatingSequences(gatting_sequences);
+
     // construct event producer
     struct timeval start_time;
     struct timeval end_time;
