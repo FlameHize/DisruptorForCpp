@@ -83,17 +83,25 @@ public:
         _last_claimed_sequence(kInitialCursorValue),
         _last_consumer_sequence(kInitialCursorValue) {}
     
+    // producer batch processing
     virtual int64_t IncrementAndGet(const std::vector<Sequence*>& dependents,
                                     size_t delta) override {
+        // Get producer cursor and calcualte next available sequence
         _last_claimed_sequence += delta;
-        // Prevent ring buffer wrap
-        // Waiting for consumers to complete their consumption until circle diff
+        
+        // Calculate overlap point to prevent ring buffer wrapping
         const int64_t wrap_point = _last_claimed_sequence - _buffer_size;
-        if(_last_consumer_sequence < wrap_point) {
-            // The dependents in this place means processor
-            while(GetMinimumSequence(dependents) < wrap_point) {
+
+        // If the wrap_point is greater than the cached _last_consumer_sequence, 
+        // it indicates that some consumers have not completed the processing and need to wait
+        if(wrap_point > _last_consumer_sequence) {
+            int64_t min_sequence;
+            // Waiting for non overlapping
+            while(wrap_point > (min_sequence = GetMinimumSequence(dependents))) {
                 std::this_thread::yield();
             }
+            // Cache the minimum serial number of consumers
+            _last_consumer_sequence = min_sequence;
         }
         return _last_claimed_sequence;
     }

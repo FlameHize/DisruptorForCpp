@@ -47,6 +47,11 @@ int main(int argc,char** argv)
         third_event_processor.Run();
     });
 
+    // add gating sequences for finally consumers
+    std::vector<Sequence*> gating_sequences;
+    gating_sequences.push_back(third_event_processor.GetSequence());
+    sequencer->SetGatingSequences(gating_sequences);
+
     // construct event producer
     struct timeval start_time;
     struct timeval end_time;

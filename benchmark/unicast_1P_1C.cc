@@ -32,7 +32,6 @@ int main(int argc,char** argv)
     // Sequence s;
     // s.SetSequence(500);
     // gatting_sequences.push_back(&s);
-
     gatting_sequences.push_back(event_processor.GetSequence());
     sequencer->SetGatingSequences(gatting_sequences);
 

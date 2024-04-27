@@ -54,6 +54,7 @@ public:
 
     // Set the sequences(consumers) that will gate producers to prevent
     // the ring buffer wrapping
+    // sequences are the last level consumers in the processing
     void SetGatingSequences(const std::vector<Sequence*>& sequences) {
         _gating_sequences = sequences;
     }
