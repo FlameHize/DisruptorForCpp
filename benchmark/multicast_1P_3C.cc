@@ -19,27 +19,33 @@ int main(int argc,char** argv)
     // get processor barrier without dependents
     std::vector<Sequence*> dependents;
     test::StubEventHandler event_handler;
+    SequenceBarrier* barrier = sequencer->NewBarrier(dependents); 
 
     // first processor
-    SequenceBarrier* first_barrier = sequencer->NewBarrier(dependents);
-    EventProcessor<test::StubEvent> first_event_processor(sequencer,first_barrier,&event_handler);
+    EventProcessor<test::StubEvent> first_event_processor(sequencer,barrier,&event_handler);
     std::thread first_consumer([&first_event_processor](){
         first_event_processor.Run();
     });
 
     // second processor
-    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
-    EventProcessor<test::StubEvent> second_event_processor(sequencer,second_barrier,&event_handler);
+    EventProcessor<test::StubEvent> second_event_processor(sequencer,barrier,&event_handler);
     std::thread second_consumer([&second_event_processor](){
         second_event_processor.Run();
     });
 
     // third processor
-    SequenceBarrier* third_barrier = sequencer->NewBarrier(dependents);
-    EventProcessor<test::StubEvent> third_event_processor(sequencer,third_barrier,&event_handler);
+    EventProcessor<test::StubEvent> third_event_processor(sequencer,barrier,&event_handler);
     std::thread third_consumer([&third_event_processor](){
         third_event_processor.Run();
     });
+
+    // set gatting sequences for finally consumers 
+    // to prevent ring buffer wrap
+    std::vector<Sequence*> gating_sequences;
+    gating_sequences.push_back(first_event_processor.GetSequence());
+    gating_sequences.push_back(second_event_processor.GetSequence());
+    gating_sequences.push_back(third_event_processor.GetSequence());
+    sequencer->SetGatingSequences(gating_sequences);
 
     // construct event producer
     struct timeval start_time;
@@ -48,7 +54,7 @@ int main(int argc,char** argv)
 
     test::StubEventTranslator event_translator;
     EventProducer<test::StubEvent> event_producer(sequencer);
-    int64_t iterations = 500000000;
+    int64_t iterations = 50000000;
     int64_t batch_size = 1;
     for(int64_t i = 0; i < iterations; ++i) {
         event_producer.PublishEvent(&event_translator,batch_size);
@@ -65,14 +71,17 @@ int main(int argc,char** argv)
     double start = start_time.tv_sec + ((double) start_time.tv_usec / 1000000);
     double end = end_time.tv_sec + ((double) end_time.tv_usec / 1000000);
 
-    std::cout.precision(15);
-    std::cout << "Multicast 1P-3C performance: ";
-    std::cout << (iterations * 1.0) / (end - start)
-              << " ops/secs" << std::endl;
-    std::cout << iterations * 64.0 / ((end - start) * 1000000)
-              << " Mb/secs" << std::endl; 
-    std::cout << (end - start) * 1000000000.0 / iterations
-              << " latency/ns" << std::endl;
+    std::cout.precision(12);
+    std::cout << "Multicast 1P-3C performance: " << std::endl;
+    std::cout << "  Ops/secs: " 
+              << (iterations * 1.0) / (end - start)
+              << std::endl;
+    std::cout << "  Mb/secs: " 
+              << iterations * 64.0 / ((end - start) * 1000000)
+              << std::endl; 
+    std::cout << "  Latency/ns: "
+              << (end - start) * 1000000000.0 / iterations
+              << std::endl;
 
     first_event_processor.Stop();
     second_event_processor.Stop();

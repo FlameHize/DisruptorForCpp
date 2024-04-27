@@ -58,14 +58,18 @@ int main(int argc,char** argv)
     double start = start_time.tv_sec + ((double) start_time.tv_usec / 1000000);
     double end = end_time.tv_sec + ((double) end_time.tv_usec / 1000000);
 
-    std::cout.precision(15);
-    std::cout << "Unicast 1P-1C performance: ";
-    std::cout << (iterations * 1.0) / (end - start)
-              << " ops/secs" << std::endl;
-    std::cout << iterations * 64.0 / ((end - start) * 1000000)
-              << " Mb/secs" << std::endl; 
-    std::cout << (end - start) * 1000000000.0 / iterations
-              << " latency/ns" << std::endl;
+    std::cout.precision(12);
+    std::cout << "Unicast 1P-1C performance: " << std::endl;
+    std::cout << "  Ops/secs: " 
+              << (iterations * 1.0) / (end - start)
+              << std::endl;
+    std::cout << "  Mb/secs: " 
+              << iterations * 64.0 / ((end - start) * 1000000)
+              << std::endl; 
+    std::cout << "  Latency/ns: "
+              << (end - start) * 1000000000.0 / iterations
+              << std::endl;
+
     event_processor.Stop();
     consumer.join();
     return 0;

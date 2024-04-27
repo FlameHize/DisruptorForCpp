@@ -21,6 +21,17 @@ int main(int argc,char** argv)
     std::vector<Sequence*> dependents;
     SequenceBarrier* barrier = sequencer->NewBarrier(dependents);
 
+    // construct event processor with event handler
+    test::StubEventHandler event_handler;
+    EventProcessor<test::StubEvent> event_processor(sequencer,barrier,&event_handler);
+    std::thread consumer([&event_processor](){
+        event_processor.Run();
+    });
+    Sequence* proceesor_sequence = event_processor.GetSequence();
+    std::vector<Sequence*> gating_sequences;
+    gating_sequences.push_back(proceesor_sequence);
+    sequencer->SetGatingSequences(gating_sequences);
+
     // construct event translator
     struct timeval start_time;
     struct timeval end_time;
@@ -54,15 +65,9 @@ int main(int argc,char** argv)
         }
     });
 
-    // construct event processor with event handler
-    test::StubEventHandler event_handler;
-    EventProcessor<test::StubEvent> event_processor(sequencer,barrier,&event_handler);
-    std::thread consumer([&event_processor](){
-        event_processor.Run();
-    });
 
     int64_t expect_sequence = sequencer->GetCursor();
-    while(event_processor.GetSequence()->GetSequence() < iterations * 3 - 1) {
+    while(proceesor_sequence->GetSequence() < iterations * 3 - 1) {
         // wait
     }
     gettimeofday(&end_time,NULL);
@@ -70,14 +75,17 @@ int main(int argc,char** argv)
     double start = start_time.tv_sec + ((double) start_time.tv_usec / 1000000);
     double end = end_time.tv_sec + ((double) end_time.tv_usec / 1000000);
 
-    std::cout.precision(15);
-    std::cout << "Sequencer 3P-1C performance: ";
-    std::cout << (iterations * 3.0) / (end - start)
-              << " ops/secs" << std::endl;
-    std::cout << iterations * 64.0 / ((end - start) * 1000000)
-              << " Mb/secs" << std::endl; 
-    std::cout << (end - start) * 1000000000.0 / iterations
-              << " latency/ns" << std::endl;
+    std::cout.precision(12);
+    std::cout << "Sequencer 3P-1C performance: " << std::endl;
+    std::cout << "  Ops/secs: " 
+              << (iterations * 1.0) / (end - start)
+              << std::endl;
+    std::cout << "  Mb/secs: " 
+              << iterations * 64.0 / ((end - start) * 1000000)
+              << std::endl; 
+    std::cout << "  Latency/ns: "
+              << (end - start) * 1000000000.0 / iterations
+              << std::endl;
 
     event_processor.Stop();
     consumer.join();

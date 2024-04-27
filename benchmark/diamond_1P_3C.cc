@@ -18,7 +18,6 @@ int main(int argc,char** argv)
     // get processor barrier with dependents
     std::vector<Sequence*> dependents;
     SequenceBarrier* first_barrier = sequencer->NewBarrier(dependents);
-    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
 
     // first and second processor without dependents
     test::StubEventHandler event_handler;
@@ -26,19 +25,25 @@ int main(int argc,char** argv)
     std::thread first_consumer([&first_event_processor](){
         first_event_processor.Run();
     });
-    EventProcessor<test::StubEvent> second_event_processor(sequencer,second_barrier,&event_handler);
+    EventProcessor<test::StubEvent> second_event_processor(sequencer,first_barrier,&event_handler);
     std::thread second_consumer([&second_event_processor](){
         second_event_processor.Run();
     });
 
     // third processor depends on first and second processor
+    dependents.clear();
     dependents.push_back(first_event_processor.GetSequence());
     dependents.push_back(second_event_processor.GetSequence());
-    SequenceBarrier* third_barrier = sequencer->NewBarrier(dependents);
-    EventProcessor<test::StubEvent> third_event_processor(sequencer,third_barrier,&event_handler);
+    SequenceBarrier* second_barrier = sequencer->NewBarrier(dependents);
+    EventProcessor<test::StubEvent> third_event_processor(sequencer,second_barrier,&event_handler);
     std::thread third_consumer([&third_event_processor](){
         third_event_processor.Run();
     });
+
+    // add gating sequences for finally consumers
+    std::vector<Sequence*> gating_sequences;
+    gating_sequences.push_back(third_event_processor.GetSequence());
+    sequencer->SetGatingSequences(gating_sequences);
 
     // construct event producer
     struct timeval start_time;
@@ -59,22 +64,21 @@ int main(int argc,char** argv)
     }
     gettimeofday(&end_time,NULL);
 
-    // for test
-    std::cout << first_event_processor.GetSequence()->GetSequence() << std::endl;
-    std::cout << second_event_processor.GetSequence()->GetSequence() << std::endl;
-    std::cout << third_event_processor.GetSequence()->GetSequence() << std::endl;
-
     double start = start_time.tv_sec + ((double) start_time.tv_usec / 1000000);
     double end = end_time.tv_sec + ((double) end_time.tv_usec / 1000000);
 
-    std::cout.precision(15);
-    std::cout << "Diamond 1P-3C performance: ";
-    std::cout << (iterations * 1.0) / (end - start)
-              << " ops/secs" << std::endl;
-    std::cout << iterations * 64.0 / ((end - start) * 1000000)
-              << " Mb/secs" << std::endl; 
-    std::cout << (end - start) * 1000000000.0 / iterations
-              << " latency/ns" << std::endl;
+    std::cout.precision(12);
+    std::cout << "Diamond 1P-3C performance: " << std::endl;
+    std::cout << "  Ops/secs: " 
+              << (iterations * 1.0) / (end - start)
+              << std::endl;
+    std::cout << "  Mb/secs: " 
+              << iterations * 64.0 / ((end - start) * 1000000)
+              << std::endl; 
+    std::cout << "  Latency/ns: "
+              << (end - start) * 1000000000.0 / iterations
+              << std::endl;
+
     first_event_processor.Stop();
     second_event_processor.Stop();
     third_event_processor.Stop();
