@@ -142,17 +142,53 @@ public:
         : _buffer_size(buffer_size) {}
 
     // May be used for mulit producers at the same time 
+    ///@todo set available buffer to sync publish sequence
     virtual int64_t IncrementAndGet(const std::vector<Sequence*>& dependents,
                                     size_t delta) override {
-        // CAS operation race condition
-        const int64_t next_sequence = _last_claimed_sequence.IncrementAndGet(delta);
-        const int64_t wrap_point = next_sequence - _buffer_size;
-        if(_last_consumer_sequence.GetSequence() < wrap_point) {
-            while(GetMinimumSequence(dependents) < wrap_point) {
-                std::this_thread::yield();
+        // Try get next sequence
+        int64_t current_sequence;
+        int64_t next_sequence;
+        while(true) {
+            // Get cursor and expect value
+            current_sequence = _last_claimed_sequence.GetSequence();
+            next_sequence = current_sequence + delta;
+            
+            // Calculate overlap point to prevent ring buffer wrapping
+            int64_t wrap_point = next_sequence - _buffer_size;
+
+            // Get cached minimum consumer sequence
+            int64_t cached_gating_sequence = _last_consumer_sequence.GetSequence();
+
+            // If the wrap_point is greater than the cached _last_consumer_sequence, 
+            // it indicates that some consumers have not completed the processing and need to wait
+            if(wrap_point > cached_gating_sequence) {
+                // Get the last consumers sequence
+                int64_t min_sequence = GetMinimumSequence(dependents);
+
+                // Still overlap
+                if(wrap_point > min_sequence) {
+                    std::this_thread::yield();
+                    continue;
+                }
+                // If is not overlap,update cached_gating_sequence(last_consumer_sequence)
+                _last_consumer_sequence.SetSequence(min_sequence);
+            }
+            // No overlap,directly set the _last_claimed_sequence to next_sequence
+            else if(_last_claimed_sequence.CompareAndSet(current_sequence,next_sequence)) {
+                break;
             }
         }
         return next_sequence;
+
+        // // CAS operation race condition
+        // const int64_t next_sequence = _last_claimed_sequence.IncrementAndGet(delta);
+        // const int64_t wrap_point = next_sequence - _buffer_size;
+        // if(_last_consumer_sequence.GetSequence() < wrap_point) {
+        //     while(GetMinimumSequence(dependents) < wrap_point) {
+        //         std::this_thread::yield();
+        //     }
+        // }
+        // return next_sequence;
     }
 
     virtual bool HasAvailableCapacity(const std::vector<Sequence*>& dependents) override {

@@ -69,6 +69,14 @@ public:
     int64_t IncrementAndGet(const int64_t& increment) {
         return _sequence.fetch_add(increment,std::memory_order::memory_order_release) + increment;
     }
+
+    // Compare _sequence with expected value,if equeal,
+    // set the _sequence value to expected and return true,
+    // otherwise return false and do not change the _sequence value
+    // memory_order_relaxed: the execution relationship between different threads is arbitrary
+    bool CompareAndSet(int64_t& expected,int64_t& next) {
+        return _sequence.compare_exchange_strong(expected,next,std::memory_order::memory_order_relaxed);
+    }
 private:
     // padding make sure the _sequece won't appear with other param
     int64_t _padding0[ATOMIC_SEQUENCE_PADDING_LENGTH];
