@@ -48,7 +48,7 @@ public:
             T* event = (*_sequencer)[sequence];
             translator->TranslateTo(sequence,event);
         }
-        _sequencer->Publish(last_available_sequence,batch_size);
+        _sequencer->Publish(last_available_sequence);
     }
 
 private:

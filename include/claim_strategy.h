@@ -58,19 +58,31 @@ public:
     virtual bool HasAvailableCapacity(const std::vector<Sequence*>& dependents) = 0;
 
     /**
-     * @brief Guard for mutli producer race condition
-     * @param sequence Producer's get maximum available number
-     * @param cursor Point to the next writable position in the circular buffer
-     * @param delta Num of events to be published
-     * @cite sequence-delta: sequence of the first event to be published 
+     * @brief Published event
+     * @param sequence Used for MultiThreadStrategy to update available buffer
+     * @param delta Used for SingleThreadStrategy to update cursor
     */
-    virtual void SynchronizePublishing(const int64_t& sequence,const Sequence& cursor,
-                               const size_t& delta) = 0;
+    virtual void Publish(const int64_t& sequence) = 0;
+
+    /**
+     * Get the highest sequence number that can be safely read from the ring buffer.  
+     * The scan will range from nextSequence to availableSequence.  
+     * If there are no available values > nextSequence the return value will be nextSequence - 1.
+     * To work correctly a consumer should pass a value that it 1 higher than the last sequence that was successfully processed.
+     *
+     * @param lowerBound The sequence to start scanning from.
+     * @param availableSequence The sequence to scan to.
+     * @returns The highest value that can be safely read, will be at least nextSequence - 1
+    */
+    virtual int64_t GetHighesetPublishedSequence(int64_t low_bound,
+                            int64_t available_sequence) = 0;
 };
 
 // used internally
 // inline function allow multi define in file
-static inline ClaimStrategy* CreateClaimStrategy(ClaimStrategyOption option,int64_t buffer_size);
+static inline ClaimStrategy* CreateClaimStrategy(ClaimStrategyOption option,
+                                                 int64_t buffer_size,
+                                                 Sequence& cursor);
 
 // Apply to a single publisher thread
 // Optimised strategy can be used when there is a single publisher thread.
@@ -78,58 +90,64 @@ class SingleThreadStrategy : public ClaimStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(SingleThreadStrategy);
 public:
-    SingleThreadStrategy(int64_t buffer_size = kDefaultRingBufferSize) :
+    SingleThreadStrategy(int64_t buffer_size,Sequence& cursor) :
+        _cursor(cursor),
         _buffer_size(buffer_size),
-        _last_claimed_sequence(kInitialCursorValue),
-        _last_consumer_sequence(kInitialCursorValue) {}
+        _cursor_sequence_cache(kInitialCursorValue),
+        _gating_sequence_cache(kInitialCursorValue) {}
     
     // producer batch processing
     virtual int64_t IncrementAndGet(const std::vector<Sequence*>& dependents,
                                     size_t delta) override {
         // Get producer cursor and calcualte next available sequence
-        _last_claimed_sequence += delta;
+        // _cursor_sequence_cache is used to cached replace for cursor's sequence
+        _cursor_sequence_cache += delta;
         
         // Calculate overlap point to prevent ring buffer wrapping
-        const int64_t wrap_point = _last_claimed_sequence - _buffer_size;
+        const int64_t wrap_point = _cursor_sequence_cache - _buffer_size;
 
-        // If the wrap_point is greater than the cached _last_consumer_sequence, 
+        // If the wrap_point is greater than the cached _gating_sequence_cache, 
         // it indicates that some consumers have not completed the processing and need to wait
-        if(wrap_point > _last_consumer_sequence) {
+        if(wrap_point > _gating_sequence_cache) {
             int64_t min_sequence;
             // Waiting for non overlapping
             while(wrap_point > (min_sequence = GetMinimumSequence(dependents))) {
                 std::this_thread::yield();
             }
             // Cache the minimum serial number of consumers
-            _last_consumer_sequence = min_sequence;
+            _gating_sequence_cache = min_sequence;
         }
-        return _last_claimed_sequence;
+        return _cursor_sequence_cache;
     }
 
     virtual bool HasAvailableCapacity(const std::vector<Sequence*>& dependents) override {
-        const int64_t wrap_point = _last_claimed_sequence - _buffer_size + 1L;
-        if(_last_consumer_sequence < wrap_point) {
+        const int64_t wrap_point = _cursor_sequence_cache - _buffer_size + 1L;
+        if(_gating_sequence_cache < wrap_point) {
             // Update once comsumer's sequence if the consumer's 
             // sequence is already lower than wrap_point,it means
             // there is no avail space currently
-            _last_consumer_sequence = GetMinimumSequence(dependents);
-            if(_last_consumer_sequence < wrap_point) {
+            _gating_sequence_cache = GetMinimumSequence(dependents);
+            if(_gating_sequence_cache < wrap_point) {
                 return false;
             }
         }
         return true;
     }
 
-    virtual void SynchronizePublishing(const int64_t& sequence,const Sequence& cursor,
-                                       const size_t& delta) override {
-        // empty temp
+    virtual void Publish(const int64_t& sequence) override {
+        _cursor.SetSequence(sequence);
     }
+
+    virtual int64_t GetHighesetPublishedSequence(int64_t low_bound,
+                                                 int64_t available_sequence) override {
+        return available_sequence;
+    }
+
 private:
-    // we do not need to use atomic values since this function is called
-    // by a single publisher thread
+    Sequence& _cursor;
     int64_t _buffer_size;
-    int64_t _last_claimed_sequence;
-    int64_t _last_consumer_sequence;
+    int64_t _cursor_sequence_cache;
+    int64_t _gating_sequence_cache;
 };
 
 // Apply to multi publisher thread
@@ -138,8 +156,14 @@ class MultiThreadStrategy : public ClaimStrategy
 {
     DISALLOW_COPY_MOVE_AND_ASSIGN(MultiThreadStrategy);
 public:
-    MultiThreadStrategy(int64_t buffer_size = kDefaultRingBufferSize) 
-        : _buffer_size(buffer_size) {}
+    MultiThreadStrategy(int64_t buffer_size,Sequence& cursor) :
+        _cursor(cursor), 
+        _buffer_size(buffer_size),
+        _available_buffer(new int64_t[buffer_size]) {
+        _index_mask = buffer_size - 1;
+        _index_shift = util::Log2(buffer_size);
+        InitialAvailableBuffer();
+    }
 
     // May be used for mulit producers at the same time 
     ///@todo set available buffer to sync publish sequence
@@ -150,16 +174,16 @@ public:
         int64_t next_sequence;
         while(true) {
             // Get cursor and expect value
-            current_sequence = _last_claimed_sequence.GetSequence();
+            current_sequence = _cursor.GetSequence();
             next_sequence = current_sequence + delta;
             
             // Calculate overlap point to prevent ring buffer wrapping
             int64_t wrap_point = next_sequence - _buffer_size;
 
-            // Get cached minimum consumer sequence
-            int64_t cached_gating_sequence = _last_consumer_sequence.GetSequence();
+            // Get cached minimum gating sequence
+            int64_t cached_gating_sequence = _gating_sequence_cache.GetSequence();
 
-            // If the wrap_point is greater than the cached _last_consumer_sequence, 
+            // If the wrap_point is greater than the cached _gating_sequence_cache, 
             // it indicates that some consumers have not completed the processing and need to wait
             if(wrap_point > cached_gating_sequence) {
                 // Get the last consumers sequence
@@ -171,31 +195,21 @@ public:
                     continue;
                 }
                 // If is not overlap,update cached_gating_sequence(last_consumer_sequence)
-                _last_consumer_sequence.SetSequence(min_sequence);
+                _gating_sequence_cache.SetSequence(min_sequence);
             }
-            // No overlap,directly set the _last_claimed_sequence to next_sequence
-            else if(_last_claimed_sequence.CompareAndSet(current_sequence,next_sequence)) {
+            // No overlap,directly set the _cursor to next_sequence
+            else if(_cursor.CompareAndSet(current_sequence,next_sequence)) {
                 break;
             }
         }
         return next_sequence;
-
-        // // CAS operation race condition
-        // const int64_t next_sequence = _last_claimed_sequence.IncrementAndGet(delta);
-        // const int64_t wrap_point = next_sequence - _buffer_size;
-        // if(_last_consumer_sequence.GetSequence() < wrap_point) {
-        //     while(GetMinimumSequence(dependents) < wrap_point) {
-        //         std::this_thread::yield();
-        //     }
-        // }
-        // return next_sequence;
     }
 
     virtual bool HasAvailableCapacity(const std::vector<Sequence*>& dependents) override {
-        const int64_t wrap_point = _last_claimed_sequence.GetSequence() - _buffer_size + 1L;
-        if(_last_consumer_sequence.GetSequence() < wrap_point) {
+        const int64_t wrap_point = _cursor.GetSequence() - _buffer_size + 1L;
+        if(_gating_sequence_cache.GetSequence() < wrap_point) {
             const int64_t min_sequence = GetMinimumSequence(dependents);
-            _last_consumer_sequence.SetSequence(min_sequence);
+            _gating_sequence_cache.SetSequence(min_sequence);
             if(min_sequence < wrap_point) {
                 return false;
             }
@@ -203,31 +217,67 @@ public:
         return true;
     }
 
-    // Guard for mutli producer
-    virtual void SynchronizePublishing(const int64_t& sequence,const Sequence& cursor,
-                                       const size_t& delta) override {
-        // sequence: producer's get maximum available number
-        // delta: num of events to be published
-        // sequence - delta : sequence of the first event to be published 
-        int64_t first_sequence = sequence - delta;
-        while(cursor.GetSequence() < first_sequence) {
-            std::this_thread::yield();
+    virtual void Publish(const int64_t& sequence) override {
+        SetAvailable(sequence);
+    }
+
+    virtual int64_t GetHighesetPublishedSequence(int64_t low_bound,
+                                                 int64_t available_sequence) override {
+        for(int64_t sequence = low_bound; sequence <= available_sequence; ++sequence) {
+            if(!IsAvailable(sequence)) {
+                return sequence - 1;
+            }
+        }
+        return available_sequence;
+    }
+
+    bool IsAvailable(int64_t sequence) {
+        int64_t index = CalculateIndex(sequence);
+        int64_t flag = CalculateAvailableFlag(sequence);
+        return _available_buffer[index] == flag;
+    }
+
+private:
+    void InitialAvailableBuffer() {
+        for(int64_t sequence = 0; sequence < _buffer_size; ++sequence) {
+            SetAvailableBufferFlag(sequence,-1);
         }
     }
+
+    void SetAvailableBufferFlag(int64_t index,int64_t flag) {
+        _available_buffer[index] = flag;
+    }
+
+    void SetAvailable(int64_t sequence) {
+        SetAvailableBufferFlag(CalculateIndex(sequence),CalculateAvailableFlag(sequence));
+    }
+
+    int64_t CalculateIndex(int64_t sequence) {
+        return sequence & _index_mask;
+    }
+
+    int64_t CalculateAvailableFlag(int64_t sequence) {
+        return static_cast<int64_t>(static_cast<uint64_t>(sequence) >> _index_shift);
+    }
+
 private:
+    Sequence& _cursor;
     int64_t _buffer_size;
-    Sequence _last_claimed_sequence;
-    Sequence _last_consumer_sequence;
+    Sequence _gating_sequence_cache;
+
+    int64_t* _available_buffer;
+    int64_t _index_mask;
+    int64_t _index_shift;
 };
 
-static inline ClaimStrategy* CreateClaimStrategy(ClaimStrategyOption option,int64_t buffer_size) {
+static inline ClaimStrategy* CreateClaimStrategy(ClaimStrategyOption option,int64_t buffer_size,Sequence& cursor) {
     ClaimStrategy* strategy = nullptr;
     switch (option) {
     case kSingleThreadClaimStrategy:
-        strategy = new SingleThreadStrategy(buffer_size);
+        strategy = new SingleThreadStrategy(buffer_size,cursor);
         break;
     case kMultiThreadClaimStrategy:
-        strategy = new MultiThreadStrategy(buffer_size);
+        strategy = new MultiThreadStrategy(buffer_size,cursor);
         break;
     default:
         break;

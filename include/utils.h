@@ -32,4 +32,16 @@
     void operator=(const Typename&) = delete;   \
     void operator=(Typename&&) = delete
 
+namespace disruptor {
+namespace util {
+    inline int64_t Log2(int64_t n) {
+        int64_t r = 0;
+        while((n >> 1) != 0) {
+            ++r;
+        }
+        return r;
+    }
+}
+}
+
 #endif

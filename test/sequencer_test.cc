@@ -116,7 +116,7 @@ TEST_F(SequencerTest,PublishSequenceBatch)
     const int64_t batch_size = 3;
     sequencer.Next(batch_size);
     EXPECT_EQ(sequencer.GetCursor(),kInitialCursorValue);
-    sequencer.Publish(kInitialCursorValue + batch_size,batch_size);
+    sequencer.Publish(kInitialCursorValue + batch_size);
     EXPECT_EQ(sequencer.GetCursor(),kInitialCursorValue + batch_size);
 }
 

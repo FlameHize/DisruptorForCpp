@@ -49,7 +49,7 @@ public:
                        ClaimStrategyOption claim_option = kSingleThreadClaimStrategy,
                        WaitStrategyOption wait_option = kBusySpinStrategy) 
         : _ring_buffer(buffer_size),
-          _claim_strategy(CreateClaimStrategy(claim_option,buffer_size)),
+          _claim_strategy(CreateClaimStrategy(claim_option,buffer_size,_cursor)),
           _wait_strategy(CreateWaitStrategy(wait_option)) {}
 
     // Set the sequences(consumers) that will gate producers to prevent
@@ -81,12 +81,9 @@ public:
 
     /// @brief Used for producer to publish events
     /// @param sequence maximum sequence of events to be published
-    /// @param delta num of events to be published
-    void Publish(const int64_t& sequence,size_t delta = 1) {
-        // guard for mutli producer publish at the same time
-        _claim_strategy->SynchronizePublishing(sequence,_cursor,delta);
-        // update cursor and signal comsumers
-        _cursor.IncrementAndGet(delta);
+    void Publish(const int64_t& sequence) {
+        _claim_strategy->Publish(sequence);
+        
         // notify the consumers to obtain new event
         _wait_strategy->SignalAllWhenBlocking();
     }
@@ -103,7 +100,6 @@ private:
     WaitStrategy* _wait_strategy;
 
     /**
-     * @note
      * Each consumer will maintain their own Sequence object to 
      * record the sequence positions they have already consumed.
      * Every time a consumer is added, their Sequence reference 
