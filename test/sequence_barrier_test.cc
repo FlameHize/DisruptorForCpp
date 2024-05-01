@@ -35,7 +35,9 @@ namespace test {
 class SequenceBarrierTest : public testing::Test
 {
 public:
-    SequenceBarrierTest() : barrier(new SequenceBarrier(cursor,dependents,CreateWaitStrategy(kBusySpinStrategy))) {}
+    SequenceBarrierTest() : barrier(new SequenceBarrier(cursor,dependents,
+        CreateWaitStrategy(kBusySpinStrategy),
+        CreateClaimStrategy(kSingleThreadClaimStrategy,1024,cursor))) {}
 
     Sequence cursor;
     Sequence sequence_1;

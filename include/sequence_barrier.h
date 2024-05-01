@@ -31,6 +31,7 @@
 
 #include "sequence.h"
 #include "wait_strategy.h"
+#include "claim_strategy.h"
 
 namespace disruptor {
 
@@ -43,17 +44,25 @@ class SequenceBarrier
 public:
     explicit SequenceBarrier(const Sequence& cursor,
                              const std::vector<Sequence*>& dependents,
-                             WaitStrategy* wait_strategy)
+                             WaitStrategy* wait_strategy,
+                             ClaimStrategy* claim_strategy)
         : _cursor(cursor),
           _dependents(dependents),
           _wait_strategy(wait_strategy),
+          _claim_strategy(claim_strategy),
           _alerted(false) {}
 
     /**
      * @brief Return the maximum accessible serial number of RingBuffer
     */
     inline int64_t WaitFor(const int64_t& sequence) {
-        return _wait_strategy->WaitFor(sequence,_cursor,_dependents,_alerted);
+        int64_t available_sequence = _wait_strategy->WaitFor(sequence,_cursor,_dependents,_alerted);
+        if(available_sequence < kFirstSequenceValue) {
+            return available_sequence;
+        }
+        // Get the largest available published seq, 
+        // which is likely to be smaller than the sequence
+        return _claim_strategy->GetHighesetPublishedSequence(sequence,available_sequence);
     }
 
     inline int64_t WaitFor(const int64_t& sequence,
@@ -86,6 +95,8 @@ private:
     std::vector<Sequence*> _dependents;
     // strategy decide how it will wait for this available sequence
     WaitStrategy* _wait_strategy;
+    // strategy decide how it get published sequence
+    ClaimStrategy* _claim_strategy;
     // alerted
     std::atomic<bool> _alerted;
 };

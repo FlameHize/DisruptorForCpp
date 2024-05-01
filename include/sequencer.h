@@ -66,7 +66,7 @@ public:
 
     // Create a barrier that gates on the cursor and a list of Sequences
     SequenceBarrier* NewBarrier(const std::vector<Sequence*>& dependents) {
-        return new SequenceBarrier(_cursor,dependents,_wait_strategy);
+        return new SequenceBarrier(_cursor,dependents,_wait_strategy,_claim_strategy);
     }
 
     bool HasAvailableCapacity() {

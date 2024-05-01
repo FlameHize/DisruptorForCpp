@@ -42,6 +42,8 @@ src/CMakeFiles/disruptor.dir/sequence.cc.o: ../include/sequence.h
 src/CMakeFiles/disruptor.dir/sequence.cc.o: ../include/utils.h
 src/CMakeFiles/disruptor.dir/sequence.cc.o: ../src/sequence.cc
 
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/claim_strategy.h
+src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/ring_buffer.h
 src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/sequence.h
 src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/sequence_barrier.h
 src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o: ../include/utils.h

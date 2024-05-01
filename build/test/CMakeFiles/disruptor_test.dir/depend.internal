@@ -27,6 +27,8 @@ test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/test/ring_buffer_test.cc
 test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o
+ ../include/claim_strategy.h
+ ../include/ring_buffer.h
  ../include/sequence.h
  ../include/sequence_barrier.h
  ../include/utils.h

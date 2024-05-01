@@ -43,6 +43,8 @@ src/CMakeFiles/disruptor.dir/sequence.cc.o
  ../include/utils.h
  /home/zgx/project/DisruptorForCpp/src/sequence.cc
 src/CMakeFiles/disruptor.dir/sequence_barrier.cc.o
+ ../include/claim_strategy.h
+ ../include/ring_buffer.h
  ../include/sequence.h
  ../include/sequence_barrier.h
  ../include/utils.h

@@ -57,6 +57,8 @@ sequence.h
 ../include/sequence.h
 wait_strategy.h
 ../include/wait_strategy.h
+claim_strategy.h
+../include/claim_strategy.h
 
 ../include/sequencer.h
 ring_buffer.h

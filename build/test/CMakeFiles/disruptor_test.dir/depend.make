@@ -26,6 +26,8 @@ test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../include/ring_buffer
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../include/utils.h
 test/CMakeFiles/disruptor_test.dir/ring_buffer_test.cc.o: ../test/ring_buffer_test.cc
 
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/claim_strategy.h
+test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/ring_buffer.h
 test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/sequence.h
 test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/sequence_barrier.h
 test/CMakeFiles/disruptor_test.dir/sequence_barrier_test.cc.o: ../include/utils.h
