@@ -85,7 +85,7 @@ public:
      * @return kAltertedSignal if the barrier signaled an alert,
      * kTimeoutSignal if the the requested timeout was reached while
      * waiting, otherwise return the greatest available sequence which
-     * may be greater than requested
+     * may be higher than requested
     */
     virtual int64_t WaitFor(const int64_t& sequence,
                     const Sequence& cursor,

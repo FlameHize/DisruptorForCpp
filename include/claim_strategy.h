@@ -166,7 +166,6 @@ public:
     }
 
     // May be used for mulit producers at the same time 
-    ///@todo set available buffer to sync publish sequence
     virtual int64_t IncrementAndGet(const std::vector<Sequence*>& dependents,
                                     size_t delta) override {
         // Try get next sequence

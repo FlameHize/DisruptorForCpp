@@ -101,43 +101,44 @@ TEST_F(SingleClaimStrategyTest,SingleHasAvailableCapacity)
                 sequence_1.IncrementAndGet(RING_BUFFER_SIZE));
 }
 
-// class MultiClaimStrategyTest : public ClaimStrategyTest
-// {
-//     virtual void SetUp() override {
-//         strategy = CreateClaimStrategy(kMultiThreadClaimStrategy,RING_BUFFER_SIZE,cursor);
-//     }
-// };
+class MultiClaimStrategyTest : public ClaimStrategyTest
+{
+    virtual void SetUp() override {
+        strategy = CreateClaimStrategy(kMultiThreadClaimStrategy,RING_BUFFER_SIZE,cursor);
+    }
+};
 
-// TEST_F(MultiClaimStrategyTest,MultiIncrementAndGet)
-// {
-//     std::atomic<int64_t> return_value_1 = {kInitialCursorValue};
-//     std::atomic<int64_t> return_value_2 = {kInitialCursorValue};
-//     std::atomic<bool> wait_1 = {true};
-//     std::atomic<bool> wait_2 = {true};
+TEST_F(MultiClaimStrategyTest,MultiIncrementAndGet)
+{
+    std::atomic<int64_t> return_value_1 = {kInitialCursorValue};
+    std::atomic<int64_t> return_value_2 = {kInitialCursorValue};
+    std::atomic<bool> wait_1 = {true};
+    std::atomic<bool> wait_2 = {true};
 
-//     std::thread publisher_1([this,&return_value_1,&wait_1](){
-//         while(wait_1) {
-//         };
-//         return_value_1 = strategy->IncrementAndGet(empty_dependents);
-//     });
+    // std::thread publisher_1([this,&return_value_1,&wait_1](){
+    //     while(wait_1) {
+    //     };
+    //     return_value_1 = strategy->IncrementAndGet(empty_dependents);
+    // });
 
-//     std::thread publisher_2([this,&return_value_2,&wait_2](){
-//         while(wait_2) {
-//         };
-//         return_value_2 = strategy->IncrementAndGet(empty_dependents);
-//     });
+    // std::thread publisher_2([this,&return_value_2,&wait_2](){
+    //     while(wait_2) {
+    //     };
+    //     return_value_2 = strategy->IncrementAndGet(empty_dependents);
+    // });
 
-//     // return_value_1 to be kInitialCursorValue + 1L
-//     wait_1.store(false);
-//     publisher_1.join();
+    // return_value_1 to be kInitialCursorValue + 1L
+    // wait_1.store(false);
+    // publisher_1.join();
 
-//     // return_value_2 to be kInitialCursorValue + 2L
-//     wait_2.store(false);
-//     publisher_2.join();
-
-//     EXPECT_EQ(return_value_1,kFirstSequenceValue);
-//     EXPECT_EQ(return_value_2,kFirstSequenceValue + 1L);
-// }
+    // // return_value_2 to be kInitialCursorValue + 2L
+    // wait_2.store(false);
+    // publisher_2.join();
+    
+    return_value_1 = strategy->IncrementAndGet(empty_dependents,1L);
+    EXPECT_EQ(return_value_1,kFirstSequenceValue);
+    // EXPECT_EQ(return_value_2,kFirstSequenceValue + 1L);
+}
 
 // TEST_F(MultiClaimStrategyTest,MultiHasAvailableCapacity)
 // {

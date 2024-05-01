@@ -1,1 +1,1 @@
-/usr/bin/c++  -std=c++11 -g -Wall -Ofast -O3 -DNDEBUG  -rdynamic CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o  -o ../../bin/multicast_1P-3C -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -lpthread 
+/usr/bin/c++  -std=c++11 -g -Wall -g  -rdynamic CMakeFiles/multicast_1P-3C.dir/multicast_1P_3C.cc.o  -o ../../bin/multicast_1P-3C -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -lpthread 

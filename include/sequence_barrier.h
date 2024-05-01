@@ -67,7 +67,11 @@ public:
 
     inline int64_t WaitFor(const int64_t& sequence,
                            const std::chrono::microseconds& timeout) {
-        return _wait_strategy->WaitFor(sequence,_cursor,_dependents,_alerted,timeout);
+        int64_t available_sequence = _wait_strategy->WaitFor(sequence,_cursor,_dependents,_alerted,timeout);
+        if(available_sequence < kFirstSequenceValue) {
+            return available_sequence;
+        }
+        return _claim_strategy->GetHighesetPublishedSequence(sequence,available_sequence);
     }
 
     inline int64_t GetSequence() {
