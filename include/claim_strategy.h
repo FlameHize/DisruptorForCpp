@@ -65,6 +65,11 @@ public:
     virtual void Publish(const int64_t& sequence) = 0;
 
     /**
+     * @brief Judge whether the sequence is available
+    */
+    virtual bool IsAvailable(const int64_t& sequence) = 0;
+
+    /**
      * Get the highest sequence number that can be safely read from the ring buffer.  
      * The scan will range from nextSequence to availableSequence.  
      * If there are no available values > nextSequence the return value will be nextSequence - 1.
@@ -136,6 +141,10 @@ public:
 
     virtual void Publish(const int64_t& sequence) override {
         _cursor.SetSequence(sequence);
+    }
+
+    virtual bool IsAvailable(const int64_t& sequence) override {
+        return sequence <= _cursor.GetSequence();
     }
 
     virtual int64_t GetHighesetPublishedSequence(int64_t low_bound,
@@ -230,7 +239,7 @@ public:
         return available_sequence;
     }
 
-    bool IsAvailable(int64_t sequence) {
+    virtual bool IsAvailable(const int64_t& sequence) override {
         int64_t index = CalculateIndex(sequence);
         int64_t flag = CalculateAvailableFlag(sequence);
         return _available_buffer[index] == flag;
