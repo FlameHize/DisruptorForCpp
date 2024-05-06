@@ -154,18 +154,13 @@ TEST_F(MultiClaimStrategyTest,MultiHasAvailableCapacity)
 TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
 {
     std::atomic<bool> wait(true);
-    std::atomic<bool> running_1(false);
-    std::atomic<bool> running_2(false);
-    std::atomic<bool> running_3(false);
-
     int64_t published;
-
     Sequence cursor;
     Sequence sequence_1;
     Sequence sequence_2;
     Sequence sequence_3;
 
-    std::thread publisher_1([this,&wait,&cursor,&sequence_1,&running_1](){
+    std::thread publisher_1([this,&wait,&cursor,&sequence_1](){
         while(wait) {
         }
         sequence_1.SetSequence(strategy->IncrementAndGet(empty_dependents));
@@ -173,10 +168,9 @@ TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
         while(!wait.load()) {
         };
         strategy->Publish(sequence_1.GetSequence());
-        running_1.store(true);
     });
 
-    std::thread publisher_2([this,&wait,&cursor,&sequence_2,&running_2](){
+    std::thread publisher_2([this,&wait,&cursor,&sequence_2](){
         while(wait) {
         }
         sequence_2.SetSequence(strategy->IncrementAndGet(empty_dependents));
@@ -184,10 +178,9 @@ TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
         while(!wait.load()) {
         };
         strategy->Publish(sequence_2.GetSequence());
-        running_2.store(true);
     });
 
-    std::thread publisher_3([this,&wait,&cursor,&sequence_3,&running_3](){
+    std::thread publisher_3([this,&wait,&cursor,&sequence_3](){
         while(wait) {
         }
         sequence_3.SetSequence(strategy->IncrementAndGet(empty_dependents));
@@ -195,7 +188,6 @@ TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
         while(!wait.load()) {
         };
         strategy->Publish(sequence_3.GetSequence());
-        running_3.store(true);
     });
 
     wait.store(false);
@@ -206,13 +198,10 @@ TEST_F(MultiClaimStrategyTest,SynchronizePublishingShouldBlockEagerThreads)
     EXPECT_EQ(strategy->GetHighesetPublishedSequence(kFirstSequenceValue,RING_BUFFER_SIZE - 1),kInitialCursorValue);
 
     wait.store(true);
-    // while(running_1.load() && running_2.load() && running_3.load()) {
-    //     // wait
-    // }
     publisher_1.join();
     publisher_2.join();
     publisher_3.join();
-    ///@bug 需要等待一段时间才会返回正确结果 否则始终返回-1
+    // Need wait a lot of time to get correct result,otherwise return -1
     // std::this_thread::sleep_for(std::chrono::milliseconds(1));
     EXPECT_EQ(strategy->IsAvailable(kFirstSequenceValue),true);
     EXPECT_EQ(strategy->IsAvailable(kFirstSequenceValue + 1L),true);

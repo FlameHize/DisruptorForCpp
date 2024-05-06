@@ -47,8 +47,10 @@ public:
         for(int64_t sequence = first_available_sequence; sequence <= last_available_sequence; ++sequence) {
             T* event = (*_sequencer)[sequence];
             translator->TranslateTo(sequence,event);
+            _sequencer->Publish(sequence);
         }
-        _sequencer->Publish(last_available_sequence);
+        // ///@bug only publish last_sequence in multiProducer
+        // _sequencer->Publish(last_available_sequence);
     }
 
 private:

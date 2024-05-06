@@ -66,7 +66,8 @@ public:
                 _event_handler->OnEvent(next_sequence,event);
                 ++next_sequence;
             }
-            _sequence.SetSequence(next_sequence - 1L);
+            // _sequence.SetSequence(next_sequence - 1L);
+            _sequence.SetSequence(available_sequence);
             if(!_running.load()) {
                 break;
             }
