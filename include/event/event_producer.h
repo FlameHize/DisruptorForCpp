@@ -29,6 +29,8 @@
 #include "sequencer.h"
 #include "event/event_interface.h"
 
+#include <cstring>
+
 namespace disruptor {
 template<typename T>
 class EventProducer
@@ -51,6 +53,26 @@ public:
         }
         // ///@bug only publish last_sequence in multiProducer
         // _sequencer->Publish(last_available_sequence);
+    }
+
+    void PublishEvent(T* event, int64_t batch_size = 1) {
+        int64_t last_available_sequence = _sequencer->Next(batch_size);
+        int64_t first_available_sequence = last_available_sequence - batch_size + 1L;
+        for(int64_t sequence = first_available_sequence; sequence <= last_available_sequence; ++sequence) {
+            T* slot = (*_sequencer)[sequence];
+            PublishEventImpl(event, slot, std::is_move_constructible<T>());
+            //_sequencer->Publish(sequence);
+        }
+        _sequencer->Publish(first_available_sequence, last_available_sequence);
+    }
+
+private:
+    void PublishEventImpl(T* event, T* slot, std::true_type) {
+        *slot = std::move(*event);
+    }
+
+    void PublishEventImpl(T* event, T* slot, std::false_type) {
+        memcpy((char*)&slot, (char*)event, sizeof(T));
     }
 
 private:

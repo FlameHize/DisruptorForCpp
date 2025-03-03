@@ -44,8 +44,10 @@ int main(int argc,char** argv)
     EventProducer<test::StubEvent> event_producer(sequencer);
     int64_t iterations = 500000000;
     int64_t batch_size = 1;
+    test::StubEvent event;
     for(int64_t i = 0; i < iterations; ++i) {
-        event_producer.PublishEvent(&event_translator,batch_size);
+        // event_producer.PublishEvent(&event_translator,batch_size);
+        event_producer.PublishEvent(&event, batch_size);
     }
 
     int64_t expect_sequence = sequencer->GetCursor();

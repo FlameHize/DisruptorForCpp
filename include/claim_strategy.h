@@ -39,6 +39,7 @@ enum ClaimStrategyOption
 };
 
 // Interface of ClaimStrategy
+// 可以改为CRTP模式实现
 class ClaimStrategy
 {
 public:
@@ -63,6 +64,8 @@ public:
      * @param delta Used for SingleThreadStrategy to update cursor
     */
     virtual void Publish(const int64_t& sequence) = 0;
+
+    virtual void Publish(int64_t low_bound, int64_t high_bound) = 0;
 
     /**
      * @brief Judge whether the sequence is available
@@ -126,7 +129,9 @@ public:
     }
 
     virtual bool HasAvailableCapacity(const std::vector<Sequence*>& dependents) override {
+        // The location that will be covered by the next allocation.
         const int64_t wrap_point = _cursor_sequence_cache - _buffer_size + 1L;
+        // Availability is indicated when consumer's schedule meets:minsequence >= wrappoint
         if(_gating_sequence_cache < wrap_point) {
             // Update once comsumer's sequence if the consumer's 
             // sequence is already lower than wrap_point,it means
@@ -141,6 +146,10 @@ public:
 
     virtual void Publish(const int64_t& sequence) override {
         _cursor.SetSequence(sequence);
+    }
+
+    virtual void Publish(int64_t low_bound, int64_t high_bound) override {
+        _cursor.SetSequence(high_bound);
     }
 
     virtual bool IsAvailable(const int64_t& sequence) override {
@@ -227,6 +236,12 @@ public:
 
     virtual void Publish(const int64_t& sequence) override {
         SetAvailable(sequence);
+    }
+
+    virtual void Publish(int64_t low_bound, int64_t high_bound) override {
+        for(int64_t seq = low_bound; seq <= high_bound; ++seq) {
+            SetAvailable(seq);
+        }
     }
 
     virtual int64_t GetHighesetPublishedSequence(int64_t low_bound,

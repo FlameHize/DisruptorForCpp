@@ -2,6 +2,8 @@ enable_testing()
 
 #for gtest
 find_package(GTest REQUIRED)
+message("GTest Include Dir: " ${GTEST_INCLUDE_DIRS})
+message("GTest Lib: " ${GTEST_LIBRARIES})
 
 set(PROJECT_TEST_NAME disruptor_test)
 set(PROJECT_TEST_DIR ${PROJECT_SOURCE_DIR}/test)

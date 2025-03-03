@@ -88,6 +88,11 @@ public:
         _wait_strategy->SignalAllWhenBlocking();
     }
 
+    void Publish(int64_t low_bound, int64_t high_bound) {
+        _claim_strategy->Publish(low_bound, high_bound);
+        _wait_strategy->SignalAllWhenBlocking();
+    }
+
     // Get value use operator[]
     T* operator[](const int64_t& sequence) {
         return _ring_buffer[sequence];
