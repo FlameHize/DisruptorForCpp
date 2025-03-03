@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++11 -g -Wall -g  -rdynamic CMakeFiles/one_publisher_to_one_consumer.dir/one_publisher_to_one_consumer.cc.o  -o ../../bin/one_publisher_to_one_consumer -Wl,-rpath,/home/zgx/project/DisruptorForCpp/lib ../../lib/libdisruptor.so -lpthread 
